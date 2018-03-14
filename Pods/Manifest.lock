@@ -1,0 +1,12 @@
+PODS:
+  - OAuthSwift (1.2.0)
+
+DEPENDENCIES:
+  - OAuthSwift
+
+SPEC CHECKSUMS:
+  OAuthSwift: 7fd6855b8e4d58eb5a30d156ea9bed7a8aecd1ca
+
+PODFILE CHECKSUM: a7374a21b321635a3025a3bc7f9a486f0fbb56b1
+
+COCOAPODS: 1.4.0

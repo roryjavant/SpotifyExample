@@ -1,0 +1,9 @@
+module SpotifyAudioPlayback{
+	header "SpotifyAudioPlayback.framework/Headers/SpotifyAudioPlayback.h"
+	export *
+}
+
+module SpotifyAuthentication{
+	header "SpotifyAuthentication.framework/Headers/SpotifyAuthentication.h"
+	export*
+}
