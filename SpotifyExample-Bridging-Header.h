@@ -4,3 +4,8 @@
 
 #import <SpotifyAuthentication/SpotifyAuthentication.h>
 #import <SpotifyAudioPlayback/SpotifyAudioPlayback.h>
+#import <SpotifyMetadata/SPTSearch.h>
+#import <SpotifyMetadata/SPTPlaylistList.h>
+#import <SpotifyMetadata/SPTPlaylistTrack.h>
+#import <SpotifyMetadata/SPTPartialPlaylist.h>
+#import <SpotifyMetadata/SPTPartialObject.h>

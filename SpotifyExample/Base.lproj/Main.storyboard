@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="52d-6f-pPm">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -19,9 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ux9-9m-THJ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </imageView>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YyT-jB-0bH" customClass="SpotifyView" customModule="SpotifyExample" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="478" width="375" height="189"/>
                                 <subviews>
@@ -108,26 +105,151 @@
                             <constraint firstItem="z5q-on-N9q" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="7tp-22-a5G"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="YyT-jB-0bH" secondAttribute="bottom" id="MjU-pU-RfA"/>
                             <constraint firstItem="YyT-jB-0bH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="PmB-Ug-7iL"/>
-                            <constraint firstItem="Ux9-9m-THJ" firstAttribute="trailing" secondItem="YyT-jB-0bH" secondAttribute="trailing" id="Sby-Cx-fIG"/>
                             <constraint firstItem="z5q-on-N9q" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="ZNw-Ln-2HJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="z5q-on-N9q" secondAttribute="trailing" constant="270" id="bY7-Hl-mHG"/>
-                            <constraint firstItem="Ux9-9m-THJ" firstAttribute="leading" secondItem="YyT-jB-0bH" secondAttribute="leading" id="cF2-Gq-E6k"/>
                             <constraint firstItem="z5q-on-N9q" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="dU5-QX-CLz"/>
-                            <constraint firstItem="Ux9-9m-THJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="kcD-wP-f2B"/>
-                            <constraint firstItem="Ux9-9m-THJ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="t77-sV-xHf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YyT-jB-0bH" secondAttribute="trailing" id="zyw-kz-5GW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <connections>
                             <outlet property="playButton" destination="z5q-on-N9q" id="JqU-S4-bnK"/>
                             <outlet property="spotifyView" destination="YyT-jB-0bH" id="GXm-aK-m3U"/>
-                            <outlet property="trackImageView" destination="Ux9-9m-THJ" id="H2F-tO-gLT"/>
                         </connections>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="116" y="99.400299850074973"/>
+            <point key="canvasLocation" x="-871" y="-299"/>
+        </scene>
+        <!--Home Controller-->
+        <scene sceneID="tXI-nz-H8k">
+            <objects>
+                <viewController id="tp3-fU-B3d" customClass="HomeController" customModule="SpotifyExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MUM-xZ-nnf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="headerImage" translatesAutoresizingMaskIntoConstraints="NO" id="NPI-xY-wtm">
+                                <rect key="frame" x="0.0" y="64" width="375" height="124"/>
+                            </imageView>
+                            <button autoresizesSubviews="NO" opaque="NO" tag="1" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uKf-Xt-TvX">
+                                <rect key="frame" x="132" y="206" width="112" height="112"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="112" id="SDW-gh-Lxz"/>
+                                    <constraint firstAttribute="height" constant="112" id="ak2-Mu-69u"/>
+                                </constraints>
+                                <size key="titleShadowOffset" width="2" height="2"/>
+                                <state key="normal" image="dorianImage"/>
+                                <connections>
+                                    <action selector="btnPressed:" destination="tp3-fU-B3d" eventType="touchUpInside" id="GBJ-Bo-Ghl"/>
+                                </connections>
+                            </button>
+                            <button autoresizesSubviews="NO" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DhJ-xY-vTE">
+                                <rect key="frame" x="132" y="326" width="112" height="112"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="112" id="c3s-Ub-zJv"/>
+                                    <constraint firstAttribute="width" constant="112" id="m16-tf-BXL"/>
+                                </constraints>
+                                <state key="normal" image="dorianImage.png"/>
+                                <connections>
+                                    <action selector="btnPressed:" destination="tp3-fU-B3d" eventType="touchUpInside" id="L6R-7u-p2K"/>
+                                </connections>
+                            </button>
+                            <button autoresizesSubviews="NO" opaque="NO" tag="3" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WjG-nu-pAZ">
+                                <rect key="frame" x="132" y="446" width="112" height="112"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="112" id="8g2-CH-zT9"/>
+                                    <constraint firstAttribute="width" constant="112" id="eLF-f2-tBl"/>
+                                </constraints>
+                                <state key="normal" image="dorianImage.png"/>
+                                <connections>
+                                    <action selector="btnPressed:" destination="tp3-fU-B3d" eventType="touchUpInside" id="NYn-Ht-ovw"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.10958770345914855" blue="0.4062499999989847" alpha="0.83813142123287676" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="M5y-aI-IV4" firstAttribute="bottom" secondItem="WjG-nu-pAZ" secondAttribute="bottom" constant="109" id="AqB-cK-Rnw"/>
+                            <constraint firstItem="uKf-Xt-TvX" firstAttribute="top" secondItem="NPI-xY-wtm" secondAttribute="bottom" constant="18" id="MoB-SS-KtY"/>
+                            <constraint firstItem="WjG-nu-pAZ" firstAttribute="top" secondItem="DhJ-xY-vTE" secondAttribute="bottom" constant="8" id="Mso-gS-8aG"/>
+                            <constraint firstItem="M5y-aI-IV4" firstAttribute="trailing" secondItem="DhJ-xY-vTE" secondAttribute="trailing" constant="131" id="NIp-m3-IkT"/>
+                            <constraint firstItem="M5y-aI-IV4" firstAttribute="trailing" secondItem="WjG-nu-pAZ" secondAttribute="trailing" constant="131" id="TGI-f7-rYj"/>
+                            <constraint firstItem="NPI-xY-wtm" firstAttribute="top" secondItem="M5y-aI-IV4" secondAttribute="top" id="a6f-Pp-eHg"/>
+                            <constraint firstItem="uKf-Xt-TvX" firstAttribute="leading" secondItem="M5y-aI-IV4" secondAttribute="leading" constant="132" id="aFp-bz-FYm"/>
+                            <constraint firstItem="NPI-xY-wtm" firstAttribute="centerX" secondItem="uKf-Xt-TvX" secondAttribute="centerX" id="g8E-gI-0nz"/>
+                            <constraint firstItem="DhJ-xY-vTE" firstAttribute="leading" secondItem="M5y-aI-IV4" secondAttribute="leading" constant="132" id="jVk-Qr-afy"/>
+                            <constraint firstItem="NPI-xY-wtm" firstAttribute="leading" secondItem="MUM-xZ-nnf" secondAttribute="leading" id="mcr-Qg-K7X"/>
+                            <constraint firstItem="M5y-aI-IV4" firstAttribute="trailing" secondItem="uKf-Xt-TvX" secondAttribute="trailing" constant="131" id="p5z-mT-1Yg"/>
+                            <constraint firstItem="DhJ-xY-vTE" firstAttribute="top" secondItem="uKf-Xt-TvX" secondAttribute="bottom" constant="8" id="qWz-RW-rUR"/>
+                            <constraint firstItem="WjG-nu-pAZ" firstAttribute="leading" secondItem="M5y-aI-IV4" secondAttribute="leading" constant="132" id="xzb-zL-XTJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="M5y-aI-IV4"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ivb-Br-4gY"/>
+                    <connections>
+                        <segue destination="Bsv-5z-IJq" kind="show" id="uNT-bX-HNb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0eb-b4-Js0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1141.5999999999999" y="-435.83208395802103"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="DNT-8r-ALY">
+            <objects>
+                <collectionViewController id="Bsv-5z-IJq" customClass="ViewController" customModule="SpotifyExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="lgR-Re-wU3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.054280598958333336" green="0.37101236979166669" blue="0.84024032360406098" alpha="0.90517979452054798" colorSpace="custom" customColorSpace="sRGB"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="POt-Ju-LEr">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="hGP-BG-Fnk">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="Bsv-5z-IJq" id="F9P-Nh-JC7"/>
+                            <outlet property="delegate" destination="Bsv-5z-IJq" id="buo-r8-spo"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g2E-S3-nnZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2359" y="-277"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bwA-aZ-LSn">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="52d-6f-pPm" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="acl-ns-KuQ">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="tp3-fU-B3d" kind="relationship" relationship="rootViewController" id="AGO-i8-apy"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QkP-jX-R56" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="268.80000000000001" y="-492.05397301349331"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="dorianImage" width="98" height="98"/>
+        <image name="dorianImage.png" width="197" height="197"/>
+        <image name="headerImage" width="373" height="124"/>
+    </resources>
 </document>

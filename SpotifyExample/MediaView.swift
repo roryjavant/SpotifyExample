@@ -14,7 +14,7 @@ protocol MediaDelegate{
     func mediaEnded()
 }
 
-class MediaView: UIView, MediaProtocol {
+class MediaView: UICollectionReusableView, MediaProtocol {
 
     public internal(set) var uid: String!
     public var delegate: MediaDelegate?
@@ -26,6 +26,8 @@ class MediaView: UIView, MediaProtocol {
         }
     }
 
+    override init(frame: CGRect) { super.init(frame: frame) }
+    
     public required init(frame: CGRect, uid: String) {
         super.init(frame: frame)
         self.uid = uid
