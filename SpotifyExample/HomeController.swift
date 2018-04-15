@@ -14,12 +14,10 @@ class HomeController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func btnPressed(_ sender: UIButton) {
@@ -29,25 +27,7 @@ class HomeController: UIViewController {
         case 2: viewController.intGymPartner = 2
         case 3: viewController.intGymPartner = 3
         default: print(sender.tag)
-        }
-        
+        }        
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-//
-//    @IBAction func btnNav(_ sender: UIButton) {
-//        let viewController = ViewController(collectionViewLayout: UICollectionViewFlowLayout())
-//        self.navigationController?.pushViewController(viewController, animated: true)
-//    }
-
 }

@@ -13,12 +13,22 @@ class SpotifyView: MediaView {
     var artistText: UILabel = UILabel()
     var albumText: UILabel!
     var songText : UILabel!
-    public var loggedIn = false
+    var playistImage : SPTImage!
+    var loggedIn = false
     
+    var imageView : UIImageView!
     let player = SPTAudioStreamingController.sharedInstance()
+    var selectedPlaylist : String = ""
+    var selectedPlaylistUrl = ""
+    var selectedPlaylistOwner = ""
+    var selectedPlaylistImageUrl : String = ""
+    var subViewSpotifyControls : UIView = UIView()
+    var selectedPlaylistImage : SPTImage! {
+        didSet {
+            //updateSubViews()
+        }
+    }
     
-
-
     required init(frame: CGRect, uid: String) {
         super.init(frame: frame, uid: uid)
         self.uid = uid
@@ -29,6 +39,10 @@ class SpotifyView: MediaView {
         super.init(coder: aDecoder)
         self.state = .none
     }
+    convenience init(selectedPlaylistImageUrl: String, frame: CGRect) {
+        self.init(frame: frame)
+        self.selectedPlaylistImageUrl = selectedPlaylistImageUrl
+    }
     
     override init(frame: CGRect) { super.init(frame: frame) }
     
@@ -37,23 +51,75 @@ class SpotifyView: MediaView {
     }
     
     func setupSubViews() {
-//        playButton.translatesAutoresizingMaskIntoConstraints = false
-//        playButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-//        playButton.translatesAutoresizingMaskIntoConstraints = false
-//        playButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        playBackSlider.translatesAutoresizingMaskIntoConstraints = false
-        playBackSlider.frame = CGRect(x: 0, y: 0, width: (superview?.frame.width)! - 10, height: 40)
-        playBackSlider.isHidden = false
-//        superview?.addConstraints([NSLayoutConstraint(item: playBackSlider, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)])
-//        superview?.addConstraints([NSLayoutConstraint(item: playBackSlider, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)])
-//        superview?.addConstraints([NSLayoutConstraint(item: playBackSlider, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 131)])
-        self.addSubview(playBackSlider)
         
-        artistText.translatesAutoresizingMaskIntoConstraints = false
-        artistText.frame = CGRect(x: playBackSlider.frame.origin.x, y: playBackSlider.frame.origin.y + 50, width: (superview?.frame.width)!, height: 40 )
-        artistText.text = "Some Text"
-        artistText.isHidden = false
-        self.addSubview(artistText)
+//
+//        playBackSlider.translatesAutoresizingMaskIntoConstraints = false
+//        playBackSlider = UISlider(frame: CGRect(x: 0, y: 0, width: self.frame.size.width, height: 50.0))
+//        playBackSlider.backgroundColor = UIColor.blue
+//        playBackSlider.isEnabled = true
+//
+//        self.addSubview(playBackSlider)
+//        self.addConstraints([NSLayoutConstraint(item: playBackSlider, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0.0)])
+//
+//        self.addConstraints([NSLayoutConstraint(item: playBackSlider, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0)])
+//        self.addConstraints([NSLayoutConstraint(item: playBackSlider, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0)])
+//        self.addConstraints([NSLayoutConstraint(item: playBackSlider, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0)])
+        
+//        let spotifyRect = CGRect(x: playBackSlider.frame.origin.x, y: playBackSlider.frame.origin.y + playBackSlider.frame.size.height + 5, width: self.frame.size.width, height: self.frame.height - playBackSlider.frame.size.height - 10)
+//        subViewSpotifyControls = UIView(frame: spotifyRect)
+//        subViewSpotifyControls.backgroundColor = UIColor.brown
+//        self.addSubview(subViewSpotifyControls)
+//
+//        self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .top, relatedBy: .equal, toItem: playBackSlider, attribute: .bottom, multiplier: 1.0, constant: 5.0)])
+//        self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 2.0)])
+//        self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 2.0)])
+//        self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 2.0)])
+        
+       // self.addConstraints([NSLayoutConstraint(item: playBackSlider, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 10.0)])
+        //playBackSlider.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: 40)
+        playBackSlider.isHidden = false
+        
+            let url = URL(string: selectedPlaylistImageUrl)
+        do {
+            let data = try! Data(contentsOf: url!)
+            var playlistImage = UIImage(data: data)
+            
+//            imageView = UIImageView(frame: CGRect(x: 0.0, y: playBackSlider.frame.maxY + 5 , width: self.frame.size.width, height: self.frame.size.height - playBackSlider.frame.size.height - 5))
+            
+//            imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 100.0, height: 100.0))
+//            imageView.contentMode = UIViewContentMode.scaleAspectFit
+//            imageView.image = playlistImage
+//            subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: imageView, attribute: .top, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .top, multiplier: 1.0, constant: 0.0)])
+//            subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .bottom, multiplier: 1.0, constant: 0.0)])
+//            subViewSpotifyControls.addSubview(imageView)
+        }
+        catch {
+            print(error)
+        }
+        
+//        artistText.translatesAutoresizingMaskIntoConstraints = false
+        //artistText.frame = CGRect(x: playBackSlider.frame.origin.x, y: playBackSlider.frame.origin.y + 50, width: (superview?.frame.width)!, height: 40 )
+//        artistText.text = "Some Text"
+//        artistText.isHidden = false
+//        self.addSubview(artistText)
+//        self.addConstraints([NSLayoutConstraint(item: playBackSlider, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0.0)])
+
+        
+    }
+    
+    func updateSubViews() {
+        do {
+            let data = try Data(contentsOf: selectedPlaylistImage.imageURL)
+            var playlistImage = UIImage(data: data)
+            imageView = UIImageView(frame: CGRect(x: 0.0, y: playBackSlider.frame.maxY + 5 , width: self.frame.size.width, height: self.frame.size.height - playBackSlider.frame.size.height - 5))
+           
+            imageView.image = playlistImage
+            subViewSpotifyControls.addSubview(imageView)
+            
+        }
+        catch{
+            print(error)
+        }
     }
     
     func loginPlayer() {

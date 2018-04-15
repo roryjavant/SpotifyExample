@@ -15,31 +15,74 @@ import OAuthSwift
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var auth = SPTAuth()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-//        window = UIWindow(frame: UIScreen.main.bounds)
-//        window?.makeKeyAndVisible()
-//        
-//        let homeController = HomeController()
-//        window?.rootViewController = UINavigationController(rootViewController: homeController)
-//        
+        
+        auth.redirectURL = URL(string : "spotify-example-login://callback")
+        auth.sessionUserDefaultsKey = "current session"
+
         return true
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        if(url.host == "callback") {
-            OAuthSwift.handle(url: url)
+        
+        // Check if a[[ can handle redirect URL
+        if auth.canHandle(auth.redirectURL) {
+            
+            // Handle callback in closure
+            auth.handleAuthCallback(withTriggeredAuthURL: url, callback: {
+                (error, session) in
+                
+                // Handle error
+                if error != nil {
+                    print("error")
+                }
+            
+            let userDefaults = UserDefaults.standard
+            
+            let sessionData = NSKeyedArchiver.archivedData(withRootObject: session)
+            userDefaults.set(sessionData, forKey: "SpotifySession")
+            userDefaults.synchronize()
+                
+            // Tell notification center login is succesful
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loginSuccessful"), object: nil)
+            
+            }) // end callback closure
+        
             return true
-        } else {
-            print(url)
-            OAuthSwift.handle(url: url)
-            return true
+            
         }
+        return false
     }
     
+    
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        OAuthSwift.handle(url: url)
+        if auth.canHandle(auth.redirectURL) {
+            
+            // Handle callback in closure
+            auth.handleAuthCallback(withTriggeredAuthURL: url, callback: {
+                (error, session) in
+                
+                // Handle error
+                if error != nil {
+                    print("error")
+                }
+                
+                let userDefaults = UserDefaults.standard
+                
+                let sessionData = NSKeyedArchiver.archivedData(withRootObject: session)
+                userDefaults.set(sessionData, forKey: "SpotifySession")
+                userDefaults.synchronize()
+                
+                // Tell notification center login is succesful
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loginSuccessful"), object: nil)
+                
+            }) // end callback closure
+        
+        }
         return true
     }
     
