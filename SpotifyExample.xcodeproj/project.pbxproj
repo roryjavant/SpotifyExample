@@ -14,6 +14,7 @@
 		9858DF83206AFA5E003EF103 /* Sound 2 in Resources */ = {isa = PBXBuildFile; fileRef = 9858DF82206AFA5E003EF103 /* Sound 2 */; };
 		986060E92069827700EBBACB /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986060E82069827700EBBACB /* HomeController.swift */; };
 		98613C58206C581500EB4D17 /* embedded.html in Resources */ = {isa = PBXBuildFile; fileRef = 98613C57206C581500EB4D17 /* embedded.html */; };
+		9863F67120934F1500746A5F /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9863F67020934F1500746A5F /* API.swift */; };
 		986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A03342077B45900D49273 /* PlaylistTableViewCell.swift */; };
 		986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A03362077B50200D49273 /* PlaylistTableViewController.swift */; };
 		987958952060580B0078021C /* Sound in Resources */ = {isa = PBXBuildFile; fileRef = 987956EF2060580A0078021C /* Sound */; };
@@ -45,6 +46,7 @@
 		9858DF82206AFA5E003EF103 /* Sound 2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Sound 2"; sourceTree = "<group>"; };
 		986060E82069827700EBBACB /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		98613C57206C581500EB4D17 /* embedded.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = embedded.html; sourceTree = "<group>"; };
+		9863F67020934F1500746A5F /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		986A03342077B45900D49273 /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		986A03362077B50200D49273 /* PlaylistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewController.swift; sourceTree = "<group>"; };
 		987956EF2060580A0078021C /* Sound */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Sound; path = ../Sound; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				986A03342077B45900D49273 /* PlaylistTableViewCell.swift */,
 				986A03362077B50200D49273 /* PlaylistTableViewController.swift */,
 				98E60BB720559805005F849B /* ViewController.swift */,
+				9863F67020934F1500746A5F /* API.swift */,
 				98E60BD22055A1DE005F849B /* MainView.swift */,
 				982E36F42056F55B00C85513 /* SpotifyView.swift */,
 				98E60BD020559FDD005F849B /* MediaView.swift */,
@@ -303,6 +306,7 @@
 				98E60BB820559805005F849B /* ViewController.swift in Sources */,
 				98E60BB620559805005F849B /* AppDelegate.swift in Sources */,
 				98B56C89205719A7005900F8 /* Extensions.swift in Sources */,
+				9863F67120934F1500746A5F /* API.swift in Sources */,
 				98E60BD120559FDD005F849B /* MediaView.swift in Sources */,
 				986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */,
 				986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */,

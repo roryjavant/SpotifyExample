@@ -4,16 +4,6 @@
 //
 //  Created by Rory Avant on 3/11/18.
 //  Copyright © 2018 Rory Avant. All rights reserved.
-//
-/*----------------------------------------------------------------------------
- INDEX: INITIAL SETUP .............................................. (Line 57)
-        SPOTIFY_API_SETUP .......................................... (Line 115)
-        SPOTIFY_PLAYER ............................................. (Line 127)
-        TRIGGER CLIP GYMPARTER BUTTON CLICK ........................ (Line 236)
-        COLLECTION VIEW DELEGATE CODE SECTION ...................... (Line 297)
-            - CELL/CLIP_BUTTON CODE ................................ (Line 312)
-            - HEADER/FOOTER/PLAYBUTTON/LOGINBUTTON CODE ............ (Line 378)
- ----------------------------------------------------------------------------*/
 
 import UIKit
 import OAuthSwift
@@ -29,11 +19,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let footerId = "footerId"
     var headerHeight : Float = 0.0
     var cellSectionHeight : Float = 0.0
-    
-    
+    var footerHeight : CGFloat = 0.0
+    var didSetFooterHeight = false
     
     var gridCell = GridCell()
     var reusableView : UICollectionReusableView = UICollectionReusableView()
+    var lastCellAdded : UICollectionViewCell?
     
     var playButton: UIButton!
     var loginButton: UIButton!
@@ -45,7 +36,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     var didAuthorize = false
     static var didLogin = false
-    //var spotifyPlayer = SpotifyPlayer()
     var spotifyView : SpotifyView!
     var auth = SPTAuth.defaultInstance()!
     var session:SPTSession!
@@ -55,12 +45,11 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var userPlaylists = [SPTPartialPlaylist]()
     var playlistController : PlaylistTableViewController!
     var selectedPlaylist : String = ""
-    var webView : UIWebView = UIWebView()
     var selectedPlaylistUrl = ""
     var selectedPlaylistOwner = ""
     var selectedPlaylistImage : SPTImage!
     var selectedPlaylistImageUrl : String = ""
-    
+    var selectedPlaylistTrackCount : UInt = 0
     /*----------------------------------------------------------------------------
      
                                         INITIAL SETUP
@@ -69,10 +58,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        webView = UIWebView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 100.00))
-  
-        
+
         // Add Navigation Item to navigate to user's playlist (needs implementation)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(spotify_click))
         
@@ -80,13 +66,15 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
         // Set the collectionView layout to our custom layout 'columnLayout' class.
-        flowLayout.minimumInteritemSpacing = margin + 10
-        flowLayout.minimumLineSpacing = margin + 10
-        flowLayout.sectionInset = UIEdgeInsets(top: margin + 10, left: margin, bottom: margin + 10, right: margin)
+        flowLayout.minimumInteritemSpacing = margin 
+        flowLayout.minimumLineSpacing = margin
+        flowLayout.sectionInset = UIEdgeInsets(top: margin , left: margin, bottom: margin , right: margin)
         flowLayout.accessibilityFrame.origin.x = 0.0
         flowLayout.accessibilityFrame.origin.y = 0.0
         
-        collectionView.contentInsetAdjustmentBehavior = .always
+        flowLayout.collectionViewContentSize.equalTo(self.view.frame.size)
+        
+     //   collectionView.contentInsetAdjustmentBehavior = .always
         
         // Set collectionView background color
         collectionView.backgroundColor = .white
@@ -96,14 +84,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
         collectionView.isScrollEnabled = false
-        
-        // Add Constraints
-//        
-//        self.view.addConstraints([NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)])
-//        self.view.addConstraints([NSLayoutConstraint(item: collectionView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)])
-//        self.view.addConstraints([NSLayoutConstraint(item: collectionView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)])
-//        self.view.addConstraints([NSLayoutConstraint(item: collectionView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)])
-        collectionView.contentSize = self.view.frame.size
+        collectionView.clipsToBounds = true
+        flowLayout.sectionFootersPinToVisibleBounds = true
         
         // Call Initial Spotify Setup
         setupSpotify()
@@ -114,11 +96,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Get Bundle (audio clips)
         getBundle()
     }
-    
-    override func loadViewIfNeeded() {
-        guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
-    }
-    
+
     override func viewWillLayoutSubviews() {
         guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
         let marginsAndInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + flowLayout.minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
@@ -154,8 +132,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
                 self.session = firstTimeSession
                 auth.tokenSwapURL = URL(string: "https://accounts.spotify.com/api/token")
-                ViewController.didLogin = true
-                self.collectionView?.reloadSections(IndexSet(0 ..< 1))
+                ViewController.didLogin = true                
                 initializePlayer(authSession: session)
                 
             }
@@ -180,13 +157,23 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             }
         }
     }
-    func updateSelectedPlaylist(playlist: String, playlistUrl: String, playlistOwner: String, playlistImageUrl: String) {
+    func updateSelectedPlaylist(playlist: String, playlistUrl: String, playlistOwner: String, playlistImageUrl: String, trackCount: UInt) {
         selectedPlaylist = playlist
         selectedPlaylistUrl = playlistUrl
         selectedPlaylistOwner = playlistOwner
         selectedPlaylistImageUrl = playlistImageUrl
-        print(playlistUrl)
+        selectedPlaylistTrackCount = trackCount
         
+    }
+    
+    func startStreamingAudio() {
+        if selectedPlaylist != "" {
+            
+            player?.setIsPlaying(true, callback: nil)
+            print(player?.playbackState)
+            spotifyView.startStreamingAudio(playlistUrl: userPlaylists[0].uri.absoluteString)
+            spotifyView.selectedPlaylistTotalTracks = selectedPlaylistTrackCount
+        }
     }
     
     // Navigate to AppDelegate after login button pressed
@@ -205,13 +192,14 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         playlistController.delegate = self
         self.navigationController?.pushViewController(playlistController, animated: true)
         //self.present(playlistController, animated: true, completion: nil)
+        
     }
     
     func initializePlayer(authSession: SPTSession) {
         if self.player == nil {
             self.player = SPTAudioStreamingController.sharedInstance()
-            self.player!.playbackDelegate = self as! SPTAudioStreamingPlaybackDelegate
-            self.player!.delegate = self as! SPTAudioStreamingDelegate
+            self.player!.playbackDelegate = self as SPTAudioStreamingPlaybackDelegate
+            self.player!.delegate = self as SPTAudioStreamingDelegate
             try! player!.start(withClientId: auth.clientID)
             self.player!.login(withAccessToken: authSession.accessToken)
         }
@@ -220,62 +208,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStartPlayingTrack trackUri: String!) {
     print("WE ARE STREAMING")
     }
-    
-    
-    
-    /*----------------------------------------------------------------------------
-     
-                                SPOTIFY PLAYER
-     
-     ------------------------------------------------------------------------------*/
-    
-    // MARK: Events
-    func setButton() {
-        switch spotifyView.state {
-            case .playing:
-                playButton.setTitle("Pause", for: .normal)
-                break
-            case .paused:
-                playButton.setTitle("Play", for: .normal)
-                break
-            case .ended:
-                playButton.setTitle("Ended", for: .normal)
-                break
-            case .stopped:
-                playButton.setTitle("Stopped", for: .normal)
-                break
-            default:
-                break
-        }
-    }
-    
-    @objc func playButtonPressed(sender: UIButton) {
-        switch spotifyView.state {
-            case .playing:
-                spotifyView.pause()
-                break
-            case .paused:
-                spotifyView.play()
-                break
-            case .ended:
-                spotifyView.play()
-                break
-            case .stopped:
-                spotifyView.play()
-                break
-            case .none:
-                spotifyView.play()
-                break
-            case .error:
-                break
-        }
-    }
-    
-    /*----------------------------------------------------------------------------
-     
-                    TRIGGER CLIP GYMPARTER BUTTON CLICK
-     
-     ------------------------------------------------------------------------------*/
+
     
     @objc func button_click(button: UIButton) {
         
@@ -351,7 +284,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     // Create the cell for the index passed in by the collection view and return it.
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        
+        lastCellAdded = cell
         // Round cell corners
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 8
@@ -402,11 +335,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         }
         
         // Set CollectionView heightAnchor
-        collectionView.heightAnchor.constraint(equalToConstant: collectionView.contentSize.height)
+        //collectionView.heightAnchor.constraint(equalToConstant: collectionView.contentSize.height)
         
         
         return cell
     }
+    
     
     /*----------------------------------------------------------------------------
      
@@ -437,7 +371,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             playButton.setTitle("Play", for: .normal)
             playButton.setTitleColor(.blue, for: .normal)
             playButton.contentHorizontalAlignment = .left
-            playButton.addTarget(self, action: #selector(ViewController.playButtonPressed(sender:)), for: .touchUpInside)
             playButton.isEnabled = false
             playButton.isHidden = true
             
@@ -491,59 +424,41 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         } else {
             
             // Create the footer.
-            
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath)
-            let footerHeight = footer.frame.size.height - footer.frame.minY
-            //footer.frame = CGRect(x: 0.0, y: footer.frame.minY, width: self.view.frame.width, height: self.view.frame.height - footer.frame.minY)
-            
             
             // Set footer background color.
             footer.backgroundColor = .green
        
             if ViewController.didLogin {
                 if selectedPlaylist != "" {
-//                let playbackSlider = UISlider(frame: CGRect(x: 0, y: 10.0, width: footer.frame.size.width, height: 30.9))
-//                playbackSlider.isUserInteractionEnabled = true
-//                playbackSlider.isEnabled = true
+                let playbackSlider = UISlider(frame: CGRect(x: 0, y: 0.0, width: footer.frame.size.width, height: footer.frame.size.height))
+                playbackSlider.isUserInteractionEnabled = true
+                playbackSlider.isEnabled = true
 //                footer.addSubview(playbackSlider)
-                
-                
-               footer.backgroundColor = .white
-               footer.layer.isHidden = false
-               
-//                webView = UIWebView(frame: CGRect(x: 0.0, y: 70.0, width: footer.frame.size.width, height: 90.0))
-//
-//
-//
-//                    var testStr = "<iframe src=\"https://open.spotify.com/embed?uri=spotify:user:\(selectedPlaylistOwner):playlist:\  (selectedPlaylistUrl)\" width=\"300\" height=\"80\" frameborder=\"0\" allowtransparency=\"true\" allow=\"encrypted-media\"></iframe> <style> iframe { width: 90%; height: 90%; border-style: solid; border-width: 2px; border-color: orange;} </style>"
-//
-//                    print(testStr)
-//                    webView.loadHTMLString("<iframe src=\"https://open.spotify.com/embed?uri=spotify:user:\(selectedPlaylistOwner):playlist:\(selectedPlaylistUrl)\" width=\"300\" height=\"80\" frameborder=\"0\" allowtransparency=\"true\" allow=\"encrypted-media\"></iframe> <style> iframe { width: 100%; position: absolute; top: 0; left: 0; border-style: solid; border-width: 2px; border-color: orange;} </style>", baseURL: nil)
-
-            
-//            self.view.addConstraints([NSLayoutConstraint(item: footer, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: 0.0)])
-                spotifyView = SpotifyView(selectedPlaylistImageUrl: selectedPlaylistImageUrl, frame: CGRect(x: 0.0, y: 0.0, width: footer.frame.size.width, height: 180.00))
-            spotifyView.clipsToBounds = true
-            spotifyView.translatesAutoresizingMaskIntoConstraints = false
-            spotifyView.layer.borderWidth = 2.0
-            spotifyView.layer.borderColor = UIColor.orange.cgColor
-            
-            spotifyView.selectedPlaylistImage = selectedPlaylistImage
-            footer.addSubview(spotifyView)
-//            footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .leading, relatedBy: .equal, toItem: footer, attribute: .leading, multiplier: 1.0, constant: 0.0)])
-//
-//            footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .trailing, relatedBy: .equal, toItem: footer, attribute: .trailing, multiplier: 1.0, constant: 0.0)])
-//
-//            footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .top, relatedBy: .equal, toItem: footer, attribute: .top, multiplier: 1.0, constant: 0.0)])
-//
-//            footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .bottom, relatedBy: .equal, toItem: footer, attribute: .bottom, multiplier: 1.0, constant: 0.0)])
+                footer.backgroundColor = .white
+                    if spotifyView == nil {
+                        spotifyView = SpotifyView(selectedPlaylistImageUrl: selectedPlaylistImageUrl, frame: .zero)
+                        spotifyView.clipsToBounds = true
+                        spotifyView.translatesAutoresizingMaskIntoConstraints = false
+                        spotifyView.layer.borderWidth = 0.2
+                        spotifyView.layer.borderColor = UIColor.black.cgColor
+                        spotifyView.layoutIfNeeded()
+                        spotifyView.backgroundColor = .black
+                        spotifyView.selectedPlaylistImage = selectedPlaylistImage
+                    }
                     
-            
-            print(footer.frame.size)
-            print(spotifyView.frame.size)
+                if SPTAudioStreamingController.sharedInstance().loggedIn {
+                    startStreamingAudio()
+                }
+                
+                footer.addSubview(spotifyView)
+                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .leading, relatedBy: .equal, toItem: footer, attribute: .leading, multiplier: 1.0, constant: 0.0)])
+                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .trailing, relatedBy: .equal, toItem: footer, attribute: .trailing, multiplier: 1.0, constant: 0.0)])
+                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .top, relatedBy: .equal, toItem: footer, attribute: .top, multiplier: 1.0, constant: 0.0)])
+                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .bottom, relatedBy: .equal, toItem: footer, attribute: .bottom, multiplier: 1.0, constant: 0.0)])
                 }
             }
-            
+      
             return footer
         }
     }
@@ -555,37 +470,29 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
    //  Set the size for the footer element.
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 200.0)
+        var height : CGFloat = 0.0
+        if let cell = lastCellAdded {
+            height = (self.collectionView?.frame.height)! - cell.frame.maxY - self.view.safeAreaInsets.top - margin
+        } else {
+               height = 0.0
+        }
+        
+        return CGSize(width: view.frame.width, height: height)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         collectionView?.collectionViewLayout.invalidateLayout()
         super.viewWillTransition(to: size, with: coordinator)
     }
-    
+
     func updateCollectionViewFooter() {
+        if !didSetFooterHeight {
         self.collectionView?.reloadSections(IndexSet(0 ..< 1))
+        didSetFooterHeight = true
+        }
     }
     
 } // End Class
 
-extension ViewController: MediaDelegate {
-    func mediaStarted() {
-        setButton()
-        if let imageString =  spotifyView.getImageURL() {
-            print(imageString)
-            // trackImageView.downloadImageWithURL(imageString)
-        } else{
-            print("no image string")
-        }
-    }
-    
-    func mediaPaused() {
-        setButton()
-    }
-    
-    func mediaEnded() {
-        setButton()
-    }
-}
+
 

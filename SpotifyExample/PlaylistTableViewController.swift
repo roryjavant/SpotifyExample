@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PlayListTableViewControllerDelegate: class {
-    func updateSelectedPlaylist(playlist: String, playlistUrl: String, playlistOwner: String, playlistImageUrl: String)
+    func updateSelectedPlaylist(playlist: String, playlistUrl: String, playlistOwner: String, playlistImageUrl: String, trackCount: UInt)
     func updateCollectionViewFooter()
 }
 
@@ -18,7 +18,7 @@ protocol PlayListTableViewControllerDelegate: class {
 
 
 class PlaylistTableViewController: UITableViewController {
-    
+    var selectedPlaylistCount : UInt = 0
     var selectedPlaylist : String = ""
     var selectedPlaylistId : URL!
     var selectedPlaylistOwner : String = ""
@@ -77,10 +77,12 @@ class PlaylistTableViewController: UITableViewController {
             if button.tag == sender.tag {
                 selectedPlaylist = playlists[button.tag].name
                 selectedPlaylistId = playlists[button.tag].playableUri
+                selectedPlaylistCount = playlists[button.tag].trackCount
                 selectedPlaylistOwner = playlists[button.tag].owner.canonicalUserName
-                var test = playlists[button.tag].images[1] as? SPTImage
+                var test = playlists[button.tag].images[0] as? SPTImage
                 selectedPlaylistImageUrl = (test?.imageURL.absoluteString)!
                 print(test?.imageURL!.absoluteString)
+                
                 
             
 
@@ -98,7 +100,8 @@ class PlaylistTableViewController: UITableViewController {
         }
         
         selectedPlaylistUrlString = parsePlaylistUrl(urlString: selectedPlaylistId.absoluteString)
-        delegate?.updateSelectedPlaylist(playlist: selectedPlaylist, playlistUrl: selectedPlaylistUrlString, playlistOwner: selectedPlaylistOwner, playlistImageUrl: selectedPlaylistImageUrl)
+        delegate?.updateSelectedPlaylist(playlist: selectedPlaylist, playlistUrl: selectedPlaylistUrlString, playlistOwner: selectedPlaylistOwner, playlistImageUrl: selectedPlaylistImageUrl, trackCount: selectedPlaylistCount)
+        
         delegate?.updateCollectionViewFooter()
         navigationController?.popViewController(animated: true)
     }
