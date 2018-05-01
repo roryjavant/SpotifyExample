@@ -8,28 +8,31 @@
 
 import UIKit
 
-class SpotifyView: MediaView {
-    var playBackSlider: UISlider!
-    var artistText: UILabel = UILabel()
-    var albumText: UILabel!
+class SpotifyView : MediaView {
+    var playBackSlider : UISlider!
+    var playBackStatusSlider : UISlider!
+    var artistText : UILabel = UILabel()
+    var albumText : UILabel!
     var songText : UILabel!
     var playistImage : SPTImage!
     var loggedIn = false
     
     var imageView : UIImageView!
-    var player : SPTAudioStreamingController?
+    var player : SPTAudioStreamingController!
     var currentTrackIndex : UInt = 0
+    var currentTrackUri : String!
     var selectedPlaylistTotalTracks : UInt = 0
     var selectedPlaylist : String = ""
     var selectedPlaylistUrl = ""
     var selectedPlaylistOwner = ""
     var selectedPlaylistImageUrl : String = ""
     var subViewSpotifyControls : UIView = UIView()
-    var selectedPlaylistImage : SPTImage! {
-        didSet {
-            //updateSubViews()
-        }
-    }
+    var selectedPlaylistImage : SPTImage!
+
+    var didSeek = false
+    
+    let api = API.sharedAPI
+    let sharedPlayer = ClipPlayer.sharedPlayer
     
     required init(frame: CGRect, uid: String) {
         super.init(frame: frame, uid: uid)
@@ -44,6 +47,18 @@ class SpotifyView: MediaView {
     convenience init(selectedPlaylistImageUrl: String, frame: CGRect) {
         self.init(frame: frame)
         self.selectedPlaylistImageUrl = selectedPlaylistImageUrl
+        
+        // Add NotificationCenter Observer to listen for when the user selects a playlist to start playing audio.
+        NotificationCenter.default.addObserver(self, selector: #selector(self.startStreamingAudio), name: NSNotification.Name(rawValue: "startPlayer"), object: nil)
+        player = api.player
+        
+        player!.playbackDelegate = self as SPTAudioStreamingPlaybackDelegate
+        player!.delegate = self as SPTAudioStreamingDelegate
+        
+        songText = UILabel()
+        artistText = UILabel()
+        albumText = UILabel()
+        
     }
     
     override init(frame: CGRect) { super.init(frame: frame) }
@@ -54,30 +69,35 @@ class SpotifyView: MediaView {
     
     func setupSubViews() {
 
-          playBackSlider = UISlider(frame: CGRect(x: 0.0, y: 0.0, width: self.frame.width, height: 50.0))
+          playBackSlider = UISlider()
+          playBackSlider.widthAnchor.constraint(equalToConstant: 150.0)
+          playBackSlider.heightAnchor.constraint(equalToConstant: 50.0)
           playBackSlider.isEnabled = true
+          playBackSlider.isUserInteractionEnabled = true
+          playBackSlider.addTarget(self, action: #selector(volumeSliderChanged(slider:)), for: UIControlEvents.valueChanged)
+          playBackSlider.translatesAutoresizingMaskIntoConstraints = false
           self.addSubview(playBackSlider)
+         // playBackSlider.center.x = self.center.x
+        //  playBackSlider.topAnchor.constraint(equalTo: self.topAnchor, constant: 20.0).isActive = true
+        
           let spotifyRect = CGRect(x: playBackSlider.frame.origin.x, y: playBackSlider.frame.origin.y + playBackSlider.frame.size.height + 5, width: self.frame.size.width, height: self.frame.height - playBackSlider.frame.size.height - 10)
-            subViewSpotifyControls = UIView(frame: spotifyRect)
-            self.addSubview(subViewSpotifyControls)
+          subViewSpotifyControls = UIView(frame: spotifyRect)
+//          self.addSubview(subViewSpotifyControls)
 //
-        self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .top, relatedBy: .equal, toItem: playBackSlider, attribute: .bottom, multiplier: 1.0, constant: 5.0)])
-        self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 2.0)])
-        self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 2.0)])
-        self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 2.0)])
         
-       // self.addConstraints([NSLayoutConstraint(item: playBackSlider, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 10.0)])
-        //playBackSlider.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: 40)
+//          self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 2.0)])
+//          self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 2.0)])
+//          self.addConstraints([NSLayoutConstraint(item: subViewSpotifyControls, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 2.0)])
         
+         let url = URL(string: selectedPlaylistImageUrl)
         
-            let url = URL(string: selectedPlaylistImageUrl)
-        do {
+         do {
             let data = try! Data(contentsOf: url!)
             let playlistImage = UIImage(data: data)
             playlistImage?.stretchableImage(withLeftCapWidth: 78, topCapHeight: 78)
             imageView = UIImageView(frame: CGRect(x: 0.0, y: 0, width: 78, height: 78))
             imageView.image = playlistImage
-            subViewSpotifyControls.addSubview(imageView)
+//            subViewSpotifyControls.addSubview(imageView)
         }
         catch {
             print(error)
@@ -92,20 +112,25 @@ class SpotifyView: MediaView {
         backwardTrackNavButton.translatesAutoresizingMaskIntoConstraints = false
         backwardTrackNavButton.tag = 1
         backwardTrackNavButton.addTarget(self, action: #selector(self.updateTrack(button:)), for: .touchUpInside)
+//
+//        subViewSpotifyControls.addSubview(backwardTrackNavButton)
+//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: backwardTrackNavButton, attribute: .top, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .top, multiplier: 1.0, constant: 40.0)])
+//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: backwardTrackNavButton, attribute: .left, relatedBy: .equal, toItem: imageView, attribute: .right, multiplier: 1.0, constant: 5.0)])
         
-        subViewSpotifyControls.addSubview(backwardTrackNavButton)
-        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: backwardTrackNavButton, attribute: .top, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .top, multiplier: 1.0, constant: 40.0)])
-        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: backwardTrackNavButton, attribute: .left, relatedBy: .equal, toItem: imageView, attribute: .right, multiplier: 1.0, constant: 5.0)])
-        
-        let playbackStatusSlider = UISlider()
-        playbackStatusSlider.isEnabled = true
-//        playbackStatusSlider.frame.size = CGSize(width: 80.0, height: 25.0)
-        playbackStatusSlider.translatesAutoresizingMaskIntoConstraints = false
-        subViewSpotifyControls.addSubview(playbackStatusSlider)
-        
-        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playbackStatusSlider, attribute: .top, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .top, multiplier: 1.0, constant: 40.0)])
-        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playbackStatusSlider, attribute: .left, relatedBy: .equal, toItem: backwardTrackNavButton, attribute: .right, multiplier: 1.0, constant: 5.0)])
-//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playbackStatusSlider, attribute: .trailing, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .trailing, multiplier: 1.0, constant: -20.0)])
+        playBackStatusSlider = UISlider()
+        playBackStatusSlider.isEnabled = true
+        playBackStatusSlider.isUserInteractionEnabled = true
+        playBackStatusSlider.translatesAutoresizingMaskIntoConstraints = false
+        playBackStatusSlider.isContinuous = false
+        playBackStatusSlider.addTarget(self, action: #selector(sliderValueChanged(slider:)), for: UIControlEvents.valueChanged)
+        if let track = player.metadata.currentTrack {
+            playBackStatusSlider.maximumValue = Float(track.duration.magnitude)
+            playBackStatusSlider.minimumValue = Float(0.0)
+        }
+//        subViewSpotifyControls.addSubview(playBackStatusSlider)
+//
+//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playBackStatusSlider, attribute: .top, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .top, multiplier: 1.0, constant: 40.0)])
+//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playBackStatusSlider, attribute: .left, relatedBy: .equal, toItem: backwardTrackNavButton, attribute: .right, multiplier: 1.0, constant: 5.0)])
         
         let forwardTrackNavButton = UIButton()
         forwardTrackNavButton.frame.size = CGSize(width: 45.0, height: 45.0)
@@ -117,30 +142,25 @@ class SpotifyView: MediaView {
         forwardTrackNavButton.tag = 0
         forwardTrackNavButton.addTarget(self, action: #selector(self.updateTrack(button:)), for: .touchUpInside)
         
-        subViewSpotifyControls.addSubview(forwardTrackNavButton)
-        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: forwardTrackNavButton, attribute: .top, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .top, multiplier: 1.0, constant: 40.0)])
-        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: forwardTrackNavButton, attribute: .left, relatedBy: .equal, toItem: playbackStatusSlider, attribute: .right, multiplier: 1.0, constant: 5.0)])
-        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: forwardTrackNavButton, attribute: .trailing, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .trailing, multiplier: 1.0, constant: -5.0)])
-        
-        let globalPoint = playbackStatusSlider.superview?.convert(playbackStatusSlider.frame.origin, to: nil)
-        
+//        subViewSpotifyControls.addSubview(forwardTrackNavButton)
+//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: forwardTrackNavButton, attribute: .top, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .top, multiplier: 1.0, constant: 40.0)])
+//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: forwardTrackNavButton, attribute: .left, relatedBy: .equal, toItem: playBackStatusSlider, attribute: .right, multiplier: 1.0, constant: 5.0)])
+//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: forwardTrackNavButton, attribute: .trailing, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .trailing, multiplier: 1.0, constant: -5.0)])
+//
         let playButton = UIButton()
         playButton.setTitle("Play", for: .normal)
         playButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
         playButton.setTitleColor(.white, for: .normal)
         playButton.titleLabel?.textAlignment = .center
         playButton.translatesAutoresizingMaskIntoConstraints = false
+        playButton.addTarget(self, action: #selector(self.playButtonPressed(button:)), for: .touchUpInside)
         
-        playButton.addTarget(self, action: #selector(self.button_click(button:)), for: .touchUpInside)
-        
-        subViewSpotifyControls.addSubview(playButton)
-        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playButton, attribute: .top, relatedBy: .equal, toItem: playbackStatusSlider, attribute: .bottom, multiplier: 1.0, constant: 8.0)])
-//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playButton, attribute: .left, relatedBy: .equal, toItem: playbackStatusSlider, attribute: .right, multiplier: 1.0, constant: 5.0)])
-        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playButton, attribute: .trailing, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .trailing, multiplier: 1.0, constant: -5.0 - playbackStatusSlider.frame.size.width - 40.0)])
-  //        playButton.centerXAnchor.constraint(equalTo: playbackStatusSlider.centerXAnchor)
+//        subViewSpotifyControls.addSubview(playButton)
+//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playButton, attribute: .top, relatedBy: .equal, toItem: playBackStatusSlider, attribute: .bottom, multiplier: 1.0, constant: 8.0)])
+//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playButton, attribute: .trailing, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .trailing, multiplier: 1.0, constant: -5.0 - playBackStatusSlider.frame.size.width - 40.0)])
     }
     
-    @objc func button_click(button: UIButton) {
+    @objc func playButtonPressed(button: UIButton) {
         if button.titleLabel?.text == "Play" {
             button.setTitle("Pause", for: .normal)
             SPTAudioStreamingController.sharedInstance().setIsPlaying(false, callback: nil)
@@ -150,42 +170,44 @@ class SpotifyView: MediaView {
         }
     }
     
-    func startStreamingAudio(playlistUrl: String) {
-        if self.player == nil {
-            self.player = SPTAudioStreamingController.sharedInstance()
-            self.player!.playbackDelegate = self as SPTAudioStreamingPlaybackDelegate
-            self.player!.delegate = self as SPTAudioStreamingDelegate
-
-                    SPTAudioStreamingController.sharedInstance().playSpotifyURI(self.selectedPlaylistUrl, startingWith: 0, startingWithPosition: 0, callback: nil)
-                }
+    @objc func volumeSliderChanged(slider: UISlider) {
+        let clipAudio = pow(slider.value, 2)
+        let spotifyAudio = pow(1 - slider.value, 2)
+        sharedPlayer.audioPlayer?.setVolume(clipAudio, fadeDuration: TimeInterval(0.1))
+        player.setVolume(SPTVolume(spotifyAudio)) { (error: Error?) -> Void in
+            if let error = error {
+                print(error)                
             }
-            
+        }
+    }
+    
+    @objc func sliderValueChanged(slider: UISlider) {
+       
         
- 
+        let position = player!.playbackState.position
+        print(playBackStatusSlider.value)
+        
+        player.seek(to: TimeInterval.init(slider.value)) { (error: Error?) -> Void in
+            if let error = error {
+                print(error)
+            } else {
+            }
+        }
+    }
+    
+    @objc func startStreamingAudio() {
+            player!.playSpotifyURI(api.selectedPlaylistId.absoluteString, startingWith: 0, startingWithPosition: 0, callback: nil)
+        }
     
     @objc func updateTrack(button: UIButton) {
-        SPTAudioStreamingController.sharedInstance().setIsPlaying(false, callback: nil)
         if button.tag == 1 {
             //backwards
-            if currentTrackIndex == 0 {
-                currentTrackIndex = selectedPlaylistTotalTracks - 1
-            } else {
-                currentTrackIndex -= 1
-            }
+            player!.skipPrevious(nil)
         } else {
-            if currentTrackIndex == selectedPlaylistTotalTracks {
-                currentTrackIndex = 0
-            } else {
-                    currentTrackIndex += 1
-                 }
-            }
-
-
-        SPTAudioStreamingController.sharedInstance().playSpotifyURI(self.selectedPlaylistUrl, startingWith: 0, startingWithPosition: 0, callback: nil)
-        
-}
-
-
+            // forwards
+            player.skipNext(nil)
+        }
+    }
     
     func loginPlayer() {
         do {
@@ -204,8 +226,8 @@ class SpotifyView: MediaView {
     
     func setUI() {
         if let track = player?.metadata.currentTrack{
-//            songText.text = track.name
-//            albumText.text = track.albumName
+            songText.text = track.name
+            albumText.text = track.albumName
             artistText.text = track.artistName
         }
     }
@@ -255,6 +277,10 @@ class SpotifyView: MediaView {
     }
 }
 
+func updateTrackImage() {
+    
+}
+
 extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate{
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStopPlayingTrack trackUri: String!) {
@@ -262,31 +288,40 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
     }
     
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
-//        SPTSearch.perform(withQuery: "writing music", queryType: SPTSearchQueryType.queryTypePlaylist, offset: 0, accessToken: nil, callback: { (error: NSError!, result:AnyObject!)  -> Void in
-//            let playlistList = result as! SPTPlaylistList
-//            let partialPlaylist = playlistList.items.first as! SPTPartialPlaylist
-//
-//
-//            } as! SPTRequestCallback)
-//        player?.playSpotifyURI("spotify:user:roryjavant:playlist:1jJ1Wp88jRjCtl4ljB8xro", startingWith: 0, startingWithPosition: 10, callback: {(error) in
-//                if let errorDescription = error?.localizedDescription{
-//                    print("error", errorDescription)
-//                } else {
-//                    print("logged in!")
-//                    self.loggedIn = true
-//                }
-//            })
+
         }
     
   func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStartPlayingTrack trackUri: String!) {
-        state = .playing
+    if currentTrackUri != nil {
+        if currentTrackUri != trackUri {
+            currentTrackUri = trackUri
+            
+            let albumCoverArt = player.metadata.currentTrack?.albumCoverArtURL
+            api.selectedTrackAlbumCoverArt = albumCoverArt!
+            imageView.downloadImageWithURL(albumCoverArt)
+        }
+    } else {
+        currentTrackUri = trackUri
+    }
+        
+//        state = .playing
         setUI()
-        self.delegate?.mediaStarted()
+//        self.delegate?.mediaStarted()
    }
     
+    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didChange metadata: SPTPlaybackMetadata!) {
+        print(metadata)
+    }
+    
+    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didSeekToPosition position: TimeInterval) {
+        playBackStatusSlider.value = Float(player.playbackState.position)
+    }
+    
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didChangePosition position: TimeInterval) {
-        if let track = player?.metadata.currentTrack{
-            playBackSlider.value = Float(position/track.duration)
+        if playBackStatusSlider != nil {
+            if playBackStatusSlider.isTouchInside == false {
+            playBackStatusSlider.value = Float(position)
+            }
         }
     }
     

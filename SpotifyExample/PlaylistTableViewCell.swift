@@ -14,11 +14,7 @@ class PlaylistTableViewCell: UITableViewCell {
     @IBOutlet weak var trackName: UILabel!
     @IBOutlet weak var trackArtist: UILabel!
     @IBOutlet weak var playStatusButton: UIButton!
-
-    var playList : String = ""
-    
-    
-    
+   
     override func awakeFromNib() {
         super.awakeFromNib()
         let trackNameColor = UIColor(red: 168.0/255.0, green: 168.0/255.0, blue: 168.0/255.0, alpha: 1.0)
@@ -32,14 +28,11 @@ class PlaylistTableViewCell: UITableViewCell {
         
         playStatusButton.isSelected = false
         playStatusButton.setTitle("X", for: .normal)
-        
-        
+ 
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }

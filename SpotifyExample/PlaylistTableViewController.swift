@@ -8,49 +8,29 @@
 
 import UIKit
 
-protocol PlayListTableViewControllerDelegate: class {
-    func updateSelectedPlaylist(playlist: String, playlistUrl: String, playlistOwner: String, playlistImageUrl: String, trackCount: UInt)
+protocol PlayListTableViewControllerDelegate: class {    
     func updateCollectionViewFooter()
 }
 
-
-
-
-
 class PlaylistTableViewController: UITableViewController {
-    var selectedPlaylistCount : UInt = 0
-    var selectedPlaylist : String = ""
-    var selectedPlaylistId : URL!
-    var selectedPlaylistOwner : String = ""
-    var selectedPlaylistUrlString : String = ""
-    var selectedPlaylistImage : SPTImage!
-    var selectedPlaylistImageUrl : String = ""
+   
     var playStatusButtonArr : [UIButton] = [UIButton]()
     var numOfCells : Int = 0
-    var playlists : [SPTPartialPlaylist] = [SPTPartialPlaylist]()
+    var api = API.sharedAPI
     weak var delegate: PlayListTableViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return numOfCells
     }
-
-    
+ 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "playlistCell"
         let index = indexPath.item
@@ -61,30 +41,28 @@ class PlaylistTableViewController: UITableViewController {
         self.tableView.backgroundColor = spotifyBlack
         cell.contentView.backgroundColor = spotifyBlack
         
-        if playlists.count > 0 {
-        cell.trackName.text = playlists[index].name
+        if api.userPlaylists.count > 0 {
+        cell.trackName.text = api.userPlaylists[index].name
         cell.trackArtist.text = "Rory the King"
         cell.trackNumber.text = String(index)
         cell.playStatusButton.tag = index
-            cell.playStatusButton.addTarget(self, action: #selector(PlaylistTableViewController.playStatusButtonPressed(sender:)), for: UIControlEvents.touchUpInside)
+        cell.playStatusButton.addTarget(self, action: #selector(PlaylistTableViewController.playPlaylistButtonPressed(sender:)), for: UIControlEvents.touchUpInside)
         playStatusButtonArr.append(cell.playStatusButton)
         }
         return cell
     }
     
-    @objc func playStatusButtonPressed(sender: UIButton) {
+    @objc func playPlaylistButtonPressed(sender: UIButton) {
         for button in playStatusButtonArr {
             if button.tag == sender.tag {
-                selectedPlaylist = playlists[button.tag].name
-                selectedPlaylistId = playlists[button.tag].playableUri
-                selectedPlaylistCount = playlists[button.tag].trackCount
-                selectedPlaylistOwner = playlists[button.tag].owner.canonicalUserName
-                var test = playlists[button.tag].images[0] as? SPTImage
-                selectedPlaylistImageUrl = (test?.imageURL.absoluteString)!
-                print(test?.imageURL!.absoluteString)
-                
-                
-            
+                api.selectedPlaylist = api.userPlaylists[button.tag].name
+                api.selectedPlaylistId = api.userPlaylists[button.tag].playableUri
+                api.selectedPlaylistCount = api.userPlaylists[button.tag].trackCount
+                api.selectedPlaylistOwner = api.userPlaylists[button.tag].owner.canonicalUserName
+
+                let playlistImage = api.userPlaylists[button.tag].images[0] as? SPTImage
+                api.selectedPlaylistImage = playlistImage
+                api.selectedPlaylistImageUrl = (playlistImage?.imageURL.absoluteString)!
 
                 if button.isSelected {
                     button.isSelected = false
@@ -99,11 +77,9 @@ class PlaylistTableViewController: UITableViewController {
             }
         }
         
-        selectedPlaylistUrlString = parsePlaylistUrl(urlString: selectedPlaylistId.absoluteString)
-        delegate?.updateSelectedPlaylist(playlist: selectedPlaylist, playlistUrl: selectedPlaylistUrlString, playlistOwner: selectedPlaylistOwner, playlistImageUrl: selectedPlaylistImageUrl, trackCount: selectedPlaylistCount)
-        
-        delegate?.updateCollectionViewFooter()
+        api.selectedPlaylistUrlString = parsePlaylistUrl(urlString: api.selectedPlaylistId.absoluteString)        
         navigationController?.popViewController(animated: true)
+        delegate?.updateCollectionViewFooter()
     }
     
     func parsePlaylistUrl(urlString: String) -> String {
