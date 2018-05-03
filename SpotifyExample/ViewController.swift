@@ -164,14 +164,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.navigationController?.pushViewController(playlistController, animated: false)
         //self.present(playlistController, animated: true, completion: nil)
     }
-    
 
-    /*----------------------------------------------------------------------------
-     
-                    TRIGGER CLIP GYMPARTER BUTTON CLICK
-     
-     ------------------------------------------------------------------------------*/
-    
     @objc func button_click(button: UIButton) {
         
         // Play the audio file associated with this button.
@@ -223,26 +216,13 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func getUrlHandler(forOauth oauth: OAuth2Swift) -> SafariURLHandler {
         return SafariURLHandler(viewController: self, oauthSwift: oauth)
     }
-    
-    /*----------------------------------------------------------------------------
-     
-                        COLLECTION VIEW DELEGATE CODE SECTION
-     
-     ------------------------------------------------------------------------------*/
-    
-    // MARK: CollectionView
+
     
     // Set the number of cells
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 12
     }
-    
-    /*----------------------------------------------------------------------------
-     
-                                CELL/CLIP_BUTTON CODE
-     
-     ------------------------------------------------------------------------------*/
-    
+
     // Create the cell for the index passed in by the collection view and return it.
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
@@ -305,16 +285,11 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     // Create the section element (header or footer) for the collection view.
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        // Check if element is header or footer.
         if kind == UICollectionElementKindSectionHeader {
             
-            // Create the header
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
-            
-            // Header Background Color
             header.backgroundColor = .darkGray
             
-            // Create Play Button
             playButton = UIButton()
             
             // Configure Play Button
@@ -328,7 +303,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             playButton.isEnabled = false
             playButton.isHidden = true
             
-            
             // Add Play Button to header
             header.addSubview(playButton)
             
@@ -340,7 +314,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             loginButton.layer.borderWidth = 2.0
             loginButton.layer.borderColor = UIColor.blue.cgColor
             loginButton.setTitle("Login", for: .normal)
-
+            
             // Add loginButton to header
             header.addSubview(loginButton)
             
@@ -350,20 +324,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .left, relatedBy: .equal, toItem: playButton, attribute: .right, multiplier: 1, constant: 0)])
             header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .trailing, relatedBy: .equal, toItem: header, attribute: .trailing, multiplier: 1, constant: -5)])
             header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .top, relatedBy: .equal, toItem: header, attribute: .top, multiplier: 1, constant: 5)])
-            
-            // Create BlurEffect
-            let blurEffect = UIBlurEffect(style: .light)
-            
-            // Create Blurred View
-            let blurView = UIVisualEffectView(effect: blurEffect)
-            
-            // Add Subview
-            header.insertSubview(blurView, at: 0)
-            
-            // Add Blur View Constraints
-            blurView.translatesAutoresizingMaskIntoConstraints = false
-            blurView.heightAnchor.constraint(equalTo: header.heightAnchor).isActive = true
-            blurView.widthAnchor.constraint(equalTo: header.widthAnchor).isActive = true
             
             // Set Background Color Depending On Selected Partner
             switch intGymPartner {
@@ -378,36 +338,37 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         } else {
             
             // Create the footer.
-            
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath)
-            let footerHeight = footer.frame.size.height - footer.frame.minY
-            //footer.frame = CGRect(x: 0.0, y: footer.frame.minY, width: self.view.frame.width, height: self.view.frame.height - footer.frame.minY)
-            
             
             // Set footer background color.
             footer.backgroundColor = .green
-       
-            if ViewController.didLogin {
-                if selectedPlaylist != "" {
-//                let playbackSlider = UISlider(frame: CGRect(x: 0, y: 10.0, width: footer.frame.size.width, height: 30.9))
-//                playbackSlider.isUserInteractionEnabled = true
-//                playbackSlider.isEnabled = true
-//                footer.addSubview(playbackSlider)
-                
-                
-               footer.backgroundColor = .white
-               footer.layer.isHidden = false
-
-                spotifyView = SpotifyView(selectedPlaylistImageUrl: selectedPlaylistImageUrl, frame: CGRect(x: 0.0, y: 0.0, width: footer.frame.size.width, height: 180.00))
-            spotifyView.clipsToBounds = true
-            spotifyView.translatesAutoresizingMaskIntoConstraints = false
-            spotifyView.layer.borderWidth = 2.0
-            spotifyView.layer.borderColor = UIColor.orange.cgColor
             
-            spotifyView.selectedPlaylistImage = selectedPlaylistImage
-            footer.addSubview(spotifyView)
-
+            if api.selectedPlaylist != "" {
+                if spotifyView == nil {
+                    let playbackSlider = UISlider(frame: CGRect(x: 0, y: 0.0, width: footer.frame.size.width, height: footer.frame.size.height))
+                    playbackSlider.isUserInteractionEnabled = true
+                    playbackSlider.isEnabled = true
+                    
+                    spotifyView = SpotifyView(selectedPlaylistImageUrl: api.selectedPlaylistImageUrl, frame: .zero)
+                    spotifyView.clipsToBounds = true
+                    spotifyView.translatesAutoresizingMaskIntoConstraints = false
+                    spotifyView.layer.borderWidth = 0.2
+                    spotifyView.layer.borderColor = UIColor.black.cgColor
+                    spotifyView.layoutIfNeeded()
+                    spotifyView.backgroundColor = .black
+                    spotifyView.selectedPlaylistImage = selectedPlaylistImage
+                    
+                    footer.backgroundColor = .white
                 }
+                // Add NotificationCenter post to tell SpotifyView player to start playing selected playlist.
+//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startPlayer"), object: nil)
+                
+                footer.addSubview(spotifyView)
+                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .leading, relatedBy: .equal, toItem: footer, attribute: .leading, multiplier: 1.0, constant: 0.0)])
+                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .trailing, relatedBy: .equal, toItem: footer, attribute: .trailing, multiplier: 1.0, constant: 0.0)])
+                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .top, relatedBy: .equal, toItem: footer, attribute: .top, multiplier: 1.0, constant: 0.0)])
+                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .bottom, relatedBy: .equal, toItem: footer, attribute: .bottom, multiplier: 1.0, constant: 0.0)])
+                
             }
             
             return footer
