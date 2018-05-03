@@ -9,7 +9,7 @@ import UIKit
 import OAuthSwift
 import AVFoundation
 
-class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
+class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, UINavigationControllerDelegate, PlayListTableViewControllerDelegate {
     
     // MARK: HomeController Properties
     let margin: CGFloat = 10
@@ -96,6 +96,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Initialize clipPlayer
         sharedPlayer.intGymPartner = intGymPartner
         sharedPlayer.getBundle()
+        
+        navigationController?.delegate = self
  
     }
 
@@ -305,6 +307,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         return CGSize(width: view.frame.width, height: height)
     }
+    
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         collectionView?.collectionViewLayout.invalidateLayout()

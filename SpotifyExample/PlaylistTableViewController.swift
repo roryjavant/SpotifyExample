@@ -77,9 +77,12 @@ class PlaylistTableViewController: UITableViewController {
             }
         }
         
-        api.selectedPlaylistUrlString = parsePlaylistUrl(urlString: api.selectedPlaylistId.absoluteString)        
-        navigationController?.popViewController(animated: true)
+        api.selectedPlaylistUrlString = parsePlaylistUrl(urlString: api.selectedPlaylistId.absoluteString)
+        navigationController?.popViewController(animated: false)
         delegate?.updateCollectionViewFooter()
+        
+   
+        
     }
     
     func parsePlaylistUrl(urlString: String) -> String {

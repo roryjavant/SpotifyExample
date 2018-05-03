@@ -115,7 +115,7 @@ class SpotifyView : MediaView {
 //
 //        subViewSpotifyControls.addSubview(backwardTrackNavButton)
 //        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: backwardTrackNavButton, attribute: .top, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .top, multiplier: 1.0, constant: 40.0)])
-//        subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: backwardTrackNavButton, attribute: .left, relatedBy: .equal, toItem: imageView, attribute: .right, multiplier: 1.0, constant: 5.0)])
+//        subViewzSpotifyControls.addConstraints([NSLayoutConstraint(item: backwardTrackNavButton, attribute: .left, relatedBy: .equal, toItem: imageView, attribute: .right, multiplier: 1.0, constant: 5.0)])
         
         playBackStatusSlider = UISlider()
         playBackStatusSlider.isEnabled = true
