@@ -17,7 +17,7 @@ class PlaylistTableViewController: UITableViewController {
     var playStatusButtonArr : [UIButton] = [UIButton]()
     var numOfCells : Int = 0
     var api = API.sharedAPI
-    weak var delegate: PlayListTableViewControllerDelegate?
+    var delegate: PlayListTableViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
