@@ -34,10 +34,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     var gridCell = GridCell()
     var reusableView : UICollectionReusableView = UICollectionReusableView()
+    var lastCellAdded : UICollectionViewCell?
     
     var playButton: UIButton!
     var loginButton: UIButton!
     var audioPlayer: AVAudioPlayer?
+    var clipPlayer : ClipPlayer!
     
     var soundArray = [URL]()
     var intGymPartner : Int!
@@ -45,7 +47,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     var didAuthorize = false
     static var didLogin = false
-    //var spotifyPlayer = SpotifyPlayer()
     var spotifyView : SpotifyView!
     var auth = SPTAuth.defaultInstance()!
     var session:SPTSession!
@@ -55,11 +56,14 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var userPlaylists = [SPTPartialPlaylist]()
     var playlistController : PlaylistTableViewController!
     var selectedPlaylist : String = ""
-    var webView : UIWebView = UIWebView()
     var selectedPlaylistUrl = ""
     var selectedPlaylistOwner = ""
     var selectedPlaylistImage : SPTImage!
     var selectedPlaylistImageUrl : String = ""
+    var selectedPlaylistTrackCount : UInt = 0
+    
+    let api = API.sharedAPI
+    let sharedPlayer = ClipPlayer.sharedPlayer
     
     /*----------------------------------------------------------------------------
      
@@ -69,9 +73,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        webView = UIWebView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 100.00))
-  
+
         
         // Add Navigation Item to navigate to user's playlist (needs implementation)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(spotify_click))
@@ -97,22 +99,19 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
         collectionView.isScrollEnabled = false
         
-        // Add Constraints
-//        
-//        self.view.addConstraints([NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)])
-//        self.view.addConstraints([NSLayoutConstraint(item: collectionView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)])
-//        self.view.addConstraints([NSLayoutConstraint(item: collectionView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)])
-//        self.view.addConstraints([NSLayoutConstraint(item: collectionView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)])
-        collectionView.contentSize = self.view.frame.size
         
         // Call Initial Spotify Setup
-        setupSpotify()
-      
-        // Add View Controller to listen for message from Notification Center (Triggers updateAfterFirstLogin()
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.updateAfterFirstLogin), name: NSNotification.Name(rawValue: "loginSuccessful"), object: nil)
+        api.setupSpotify()
         
-        // Get Bundle (audio clips)
-        getBundle()
+        // Call init on api to set add observer to NotificationCenter.default
+        api.addNotificationCenterObserver()
+        
+        // Add Notification Observer to notify self when to display the playlistTableViewController
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.displayPlaylistController), name: NSNotification.Name(rawValue: "displayPlayer"), object: nil)
+        
+        // Initialize clipPlayer
+        sharedPlayer.intGymPartner = intGymPartner
+        sharedPlayer.getBundle()
     }
     
     override func loadViewIfNeeded() {
@@ -137,6 +136,15 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
      
      ------------------------------------------------------------------------------*/
     
+    
+   @objc func displayPlaylistController() {
+    self.playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
+    playlistController.api = api
+    playlistController.numOfCells = Int(api.userPlaylistsCount)
+    playlistController.delegate = self
+    
+    self.navigationController?.pushViewController(self.playlistController, animated: false)
+    }
     
     // MARK: Setup
     func setupSpotify() {

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8C1E6BA7D787C8E28C03AB10 /* Pods_SpotifyExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 017345F3F0445A69F48640E1 /* Pods_SpotifyExample.framework */; };
+		9817DBB7209B38B3002678F0 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9817DBB6209B38B3002678F0 /* API.swift */; };
+		9817DBB9209B390F002678F0 /* ClipPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9817DBB8209B390F002678F0 /* ClipPlayer.swift */; };
 		982E36F52056F55B00C85513 /* SpotifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982E36F42056F55B00C85513 /* SpotifyView.swift */; };
 		982E36F72056FB8D00C85513 /* AccessTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982E36F62056FB8D00C85513 /* AccessTokenManager.swift */; };
 		9858DF81206AFA4A003EF103 /* Sound 3 in Resources */ = {isa = PBXBuildFile; fileRef = 9858DF80206AFA4A003EF103 /* Sound 3 */; };
@@ -39,6 +41,8 @@
 /* Begin PBXFileReference section */
 		017345F3F0445A69F48640E1 /* Pods_SpotifyExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotifyExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AA38948B5514F6BD33F8C88 /* Pods-SpotifyExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotifyExample/Pods-SpotifyExample.release.xcconfig"; sourceTree = "<group>"; };
+		9817DBB6209B38B3002678F0 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		9817DBB8209B390F002678F0 /* ClipPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipPlayer.swift; sourceTree = "<group>"; };
 		982E36F42056F55B00C85513 /* SpotifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyView.swift; sourceTree = "<group>"; };
 		982E36F62056FB8D00C85513 /* AccessTokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenManager.swift; sourceTree = "<group>"; };
 		9858DF80206AFA4A003EF103 /* Sound 3 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Sound 3"; path = "SpotifyExample/Sound 3"; sourceTree = "<group>"; };
@@ -134,6 +138,7 @@
 				986A03342077B45900D49273 /* PlaylistTableViewCell.swift */,
 				986A03362077B50200D49273 /* PlaylistTableViewController.swift */,
 				98E60BB720559805005F849B /* ViewController.swift */,
+				9817DBB6209B38B3002678F0 /* API.swift */,
 				98E60BD22055A1DE005F849B /* MainView.swift */,
 				982E36F42056F55B00C85513 /* SpotifyView.swift */,
 				98E60BD020559FDD005F849B /* MediaView.swift */,
@@ -147,6 +152,7 @@
 				98E60BBE20559805005F849B /* LaunchScreen.storyboard */,
 				98E60BC120559805005F849B /* Info.plist */,
 				98B56C88205719A7005900F8 /* Extensions.swift */,
+				9817DBB8209B390F002678F0 /* ClipPlayer.swift */,
 			);
 			path = SpotifyExample;
 			sourceTree = "<group>";
@@ -303,6 +309,8 @@
 				98E60BB820559805005F849B /* ViewController.swift in Sources */,
 				98E60BB620559805005F849B /* AppDelegate.swift in Sources */,
 				98B56C89205719A7005900F8 /* Extensions.swift in Sources */,
+				9817DBB7209B38B3002678F0 /* API.swift in Sources */,
+				9817DBB9209B390F002678F0 /* ClipPlayer.swift in Sources */,
 				98E60BD120559FDD005F849B /* MediaView.swift in Sources */,
 				986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */,
 				986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */,
