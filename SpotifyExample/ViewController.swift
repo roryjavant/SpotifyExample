@@ -316,20 +316,38 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             gpWebsiteLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
             
             
+            
             // Add Settings Gear Icon
             let settingsGearImage = UIImage(named: "settingsGear")
             settingsGearImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
             
-            let settingsGearImageView = UIImageView()
-            settingsGearImageView.translatesAutoresizingMaskIntoConstraints = false
-            settingsGearImageView.adjustsImageSizeForAccessibilityContentSizeCategory = false
-            settingsGearImageView.widthAnchor.constraint(equalToConstant: 70.0).isActive = true
-            settingsGearImageView.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
-            settingsGearImageView.image = settingsGearImage
-            header.addSubview(settingsGearImageView)
+//
+//            let settingsGearImageView = UIImageView()
+//            settingsGearImageView.translatesAutoresizingMaskIntoConstraints = false
+//            settingsGearImageView.adjustsImageSizeForAccessibilityContentSizeCategory = false
+//            settingsGearImageView.widthAnchor.constraint(equalToConstant: 70.0).isActive = true
+//            settingsGearImageView.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
+//            settingsGearImageView.image = settingsGearImage
+//            header.addSubview(settingsGearImageView)
+//
+//            settingsGearImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
+//            settingsGearImageView.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -15.0).isActive = true
             
-            settingsGearImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
-            settingsGearImageView.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -15.0).isActive = true
+            // Add Settings Gear Button
+            let settingsButton = UIButton()
+            settingsButton.translatesAutoresizingMaskIntoConstraints = false
+            settingsButton.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+            settingsButton.widthAnchor.constraint(equalToConstant: 70.0).isActive = true
+            settingsButton.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
+            settingsButton.imageView?.intrinsicContentSize.equalTo(settingsButton.frame.size)
+            settingsButton.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+            settingsButton.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
+            settingsButton.setBackgroundImage(settingsGearImage, for: .normal)
+            settingsButton.addTarget(self, action: #selector(settingsMenuClicked(sender:)), for: .touchUpInside)
+            header.addSubview(settingsButton)
+            
+            settingsButton.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
+            settingsButton.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -15.0).isActive = true
             
             
             
@@ -401,6 +419,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             
             return footer
         }
+    }
+    
+    @objc func settingsMenuClicked(sender: UIButton) {
+        let settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! UITableViewController
+        self.navigationController?.pushViewController(settingsController, animated: false)
+        
     }
     
     // Set the size for the header element.

@@ -11,11 +11,6 @@ import UIKit
 protocol PlayListTableViewControllerDelegate: class {
     func updateCollectionViewFooter()
 }
-
-
-
-
-
 class PlaylistTableViewController: UITableViewController {
     
   
