@@ -38,6 +38,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     var playButton: UIButton!
     var loginButton: UIButton!
+    var loginButton2: UIButton!
     var audioPlayer: AVAudioPlayer?
     var clipPlayer : ClipPlayer!
     
@@ -64,27 +65,26 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     let api = API.sharedAPI
     let sharedPlayer = ClipPlayer.sharedPlayer
-    
-    /*----------------------------------------------------------------------------
-     
-                                        INITIAL SETUP
-     
-     ------------------------------------------------------------------------------*/
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         // Add Navigation Item to navigate to user's playlist (needs implementation)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(spotify_click))
+        //navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(ViewController.loginButtonPressed(sender:)))
+        loginButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
+        loginButton.setTitle("Login", for: .normal)
+        loginButton.addTarget(self, action: #selector(ViewController.loginButtonPressed(sender:)), for: UIControlEvents.touchUpInside)
+        loginButton.setTitleColor(.black, for: .normal)
+        let barButton = UIBarButtonItem.init(customView: loginButton)
+        navigationItem.rightBarButtonItem = barButton
         
         // Intialize Collection View
         guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
         // Set the collectionView layout to our custom layout 'columnLayout' class.
-        flowLayout.minimumInteritemSpacing = margin + 10
-        flowLayout.minimumLineSpacing = margin + 10
-        flowLayout.sectionInset = UIEdgeInsets(top: margin + 10, left: margin, bottom: margin + 10, right: margin)
+        flowLayout.minimumInteritemSpacing = margin
+        flowLayout.minimumLineSpacing = margin
+        flowLayout.sectionInset = UIEdgeInsets(top: margin + 8, left: margin + 8, bottom: margin, right: margin)
         flowLayout.accessibilityFrame.origin.x = 0.0
         flowLayout.accessibilityFrame.origin.y = 0.0
         
@@ -114,10 +114,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         sharedPlayer.getBundle()
     }
     
-    override func loadViewIfNeeded() {
-        guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
-    }
-    
+
     override func viewWillLayoutSubviews() {
         guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
         let marginsAndInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + flowLayout.minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
@@ -130,13 +127,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
      
     }
     
-    /*----------------------------------------------------------------------------
-     
-                                SPOTIFY_API_SETUP CODE
-     
-     ------------------------------------------------------------------------------*/
-    
-    
+
    @objc func displayPlaylistController() {
     self.playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
     playlistController.api = api
@@ -145,9 +136,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     self.navigationController?.pushViewController(self.playlistController, animated: false)
     }
-
-
-    
+   
     // Navigate to AppDelegate after login button pressed
     @objc func loginButtonPressed(sender: Any) {
         UIApplication.shared.open(api.loginUrl!, options: [:], completionHandler: {
@@ -233,8 +222,16 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         cell.layer.cornerRadius = 8
         
         // Set Cell Boarder
-        cell.layer.borderColor = UIColor(white: 0.8, alpha: 1.0).cgColor
-        cell.layer.borderWidth = 2.0
+        let yellow = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(213.0/255.0), blue: CGFloat(70.0/255.0), alpha: CGFloat(1.0))
+        cell.layer.borderColor = yellow.cgColor
+        cell.layer.borderWidth = 1.0
+        
+        // Cell Shadow
+        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowOpacity = 1
+        cell.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        cell.layer.shadowRadius = 5
+        cell.clipsToBounds = false
         
         // Create the button
         let button: UIButton =  UIButton()
@@ -245,8 +242,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         button.widthAnchor.constraint(equalToConstant: cell.frame.width).isActive = true
         
         // Change background color.
-        button.backgroundColor = UIColor(red: CGFloat(90/255.0), green: CGFloat(13/255.0), blue: CGFloat(255/255.0), alpha: CGFloat(1.0))
-        
+        button.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+
         // Setup the button action.
         button.tag = indexPath.item
         button.addTarget(sharedPlayer, action: #selector(sharedPlayer.button_click(button:)), for: .touchUpInside)
@@ -268,19 +265,14 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         cell.bringSubview(toFront: button)
         
         switch intGymPartner {
-        case 1:  collectionView.backgroundColor = UIColor(red: CGFloat(0/255.0), green: CGFloat(94/255.0), blue: CGFloat(170/255.0), alpha: CGFloat(1.0) )
-        case 2:  collectionView.backgroundColor = UIColor(red: CGFloat(14/255.0), green: CGFloat(95/255.0), blue: CGFloat(214/255.0), alpha: CGFloat(1.0) )
-        case 3:  collectionView.backgroundColor = UIColor(red: CGFloat(14/255.0), green: CGFloat(95/255.0), blue: CGFloat(214/255.0), alpha: CGFloat(1.0) )
-        default: collectionView.backgroundColor = UIColor(red: CGFloat(14/255.0), green: CGFloat(95/255.0), blue: CGFloat(214/255.0), alpha: CGFloat(1.0) )
+        case 1:  collectionView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+        case 2:  collectionView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+        case 3:  collectionView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+        default: collectionView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
         }
         
         return cell
     }
-    /*----------------------------------------------------------------------------
-     
-                      HEADER/FOOTER/PLAYBUTTON/LOGINBUTTON CODE
-     
-    ------------------------------------------------------------------------------*/
     
     // Create the section element (header or footer) for the collection view.
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -288,50 +280,93 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         if kind == UICollectionElementKindSectionHeader {
             
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
-            header.backgroundColor = .darkGray
+            header.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
             
-            playButton = UIButton()
+            // Add Gym Partner image to header
+            let gymPartnerImage = UIImage(named: "leroyHeader")
+            gymPartnerImage?.stretchableImage(withLeftCapWidth: 70, topCapHeight: 70)
+           
+            let gpImageView = UIImageView()
+            gpImageView.translatesAutoresizingMaskIntoConstraints = false
+            gpImageView.adjustsImageSizeForAccessibilityContentSizeCategory = false
+            gpImageView.widthAnchor.constraint(equalToConstant: 70.0).isActive = true
+            gpImageView.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
+            gpImageView.image = gymPartnerImage
+            header.addSubview(gpImageView)
+            gpImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
+            gpImageView.leftAnchor.constraint(equalTo: header.leftAnchor, constant: 15.0).isActive = true
             
-            // Configure Play Button
-            playButton.translatesAutoresizingMaskIntoConstraints = false
-            playButton.frame = CGRect(x: 0.0, y: 0.0, width: 40, height: 40)
-            playButton.layer.borderWidth = 2.0
-            playButton.layer.borderColor = UIColor.red.cgColor
-            playButton.setTitle("Play", for: .normal)
-            playButton.setTitleColor(.blue, for: .normal)
-            playButton.contentHorizontalAlignment = .left
-            playButton.isEnabled = false
-            playButton.isHidden = true
+            // Add Gym Partner Name Label
+            let gpNameLabel = UILabel()
+                      gpNameLabel.translatesAutoresizingMaskIntoConstraints = false
+            gpNameLabel.text = "Leroy Davis"
+            gpNameLabel.textColor = .white
+            gpNameLabel.font = UIFont.boldSystemFont(ofSize: 24.0)
+            gpNameLabel.widthAnchor.constraint(equalToConstant: 60.0)
+            gpNameLabel.heightAnchor.constraint(equalToConstant: 25.0)
+            header.addSubview(gpNameLabel)
             
-            // Add Play Button to header
-            header.addSubview(playButton)
+            gpNameLabel.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
+            gpNameLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
             
-            // Create loginButton and configure
-            let loginButton : UIButton = UIButton()
-            loginButton.addTarget(self, action: #selector(ViewController.loginButtonPressed(sender:)), for: .touchUpInside)
-            loginButton.translatesAutoresizingMaskIntoConstraints = false
-            loginButton.frame = CGRect(x: header.frame.size.width - 40, y: 0.0, width: 40, height: 40)
-            loginButton.layer.borderWidth = 2.0
-            loginButton.layer.borderColor = UIColor.blue.cgColor
-            loginButton.setTitle("Login", for: .normal)
+            // Add Gym Partner Website Label
+            let gpWebsiteLabel = UILabel()
+            gpWebsiteLabel.translatesAutoresizingMaskIntoConstraints = false
+            gpWebsiteLabel.text = "NastyLeroyDavis.com"
+            gpWebsiteLabel.textColor = .white
+            gpWebsiteLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
+            gpWebsiteLabel.widthAnchor.constraint(equalToConstant: 60.0)
+            gpWebsiteLabel.heightAnchor.constraint(equalToConstant: 25.0)
+            header.addSubview(gpWebsiteLabel)
             
-            // Add loginButton to header
-            header.addSubview(loginButton)
+            gpWebsiteLabel.topAnchor.constraint(equalTo: gpNameLabel.bottomAnchor, constant: 5.0).isActive = true
+            gpWebsiteLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
             
-            // header contraints
-            header.addConstraints([NSLayoutConstraint(item: playButton, attribute: .leading, relatedBy: .equal, toItem: header, attribute: .leading, multiplier: 1, constant: 0)])
-            header.addConstraints([NSLayoutConstraint(item: playButton, attribute: .top, relatedBy: .equal, toItem: header, attribute: .top, multiplier: 1, constant: 5)])
-            header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .left, relatedBy: .equal, toItem: playButton, attribute: .right, multiplier: 1, constant: 0)])
-            header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .trailing, relatedBy: .equal, toItem: header, attribute: .trailing, multiplier: 1, constant: -5)])
-            header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .top, relatedBy: .equal, toItem: header, attribute: .top, multiplier: 1, constant: 5)])
             
-            // Set Background Color Depending On Selected Partner
-            switch intGymPartner {
-            case 1: header.backgroundColor = UIColor.black
-            case 2: header.backgroundColor = UIColor.blue
-            case 3: header.backgroundColor = UIColor.red
-            default: header.backgroundColor = UIColor.white
-            }
+            // Add Settings Gear Icon
+            let settingsGearImage = UIImage(named: "settingsGear")
+            settingsGearImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
+            
+            let settingsGearImageView = UIImageView()
+            settingsGearImageView.translatesAutoresizingMaskIntoConstraints = false
+            settingsGearImageView.adjustsImageSizeForAccessibilityContentSizeCategory = false
+            settingsGearImageView.widthAnchor.constraint(equalToConstant: 70.0).isActive = true
+            settingsGearImageView.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
+            settingsGearImageView.image = settingsGearImage
+            header.addSubview(settingsGearImageView)
+            
+            settingsGearImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
+            settingsGearImageView.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -15.0).isActive = true
+            
+            
+            
+            // Add separator line below header
+            var lineSubView = UIView(frame: CGRect(x: 0.0, y: header.frame.size.height - 8.0, width: self.view.frame.size.width, height: 1.0))
+            lineSubView.backgroundColor = .black
+            header.addSubview(lineSubView)
+   
+            
+        
+            
+//            // Create loginButton and configure
+//            let loginButton : UIButton = UIButton()
+//            loginButton.addTarget(self, action: #selector(ViewController.loginButtonPressed(sender:)), for: .touchUpInside)
+//            loginButton.translatesAutoresizingMaskIntoConstraints = false
+//            loginButton.frame = CGRect(x: header.frame.size.width - 40, y: 0.0, width: 40, height: 40)
+//            loginButton.layer.borderWidth = 2.0
+//            loginButton.layer.borderColor = UIColor.blue.cgColor
+//            loginButton.setTitle("Login", for: .normal)
+//
+//            // Add loginButton to header
+//            header.addSubview(loginButton)
+//
+//            // header contraints
+//            header.addConstraints([NSLayoutConstraint(item: playButton, attribute: .leading, relatedBy: .equal, toItem: header, attribute: .leading, multiplier: 1, constant: 0)])
+//            header.addConstraints([NSLayoutConstraint(item: playButton, attribute: .top, relatedBy: .equal, toItem: header, attribute: .top, multiplier: 1, constant: 5)])
+//            header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .left, relatedBy: .equal, toItem: playButton, attribute: .right, multiplier: 1, constant: 0)])
+//            header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .trailing, relatedBy: .equal, toItem: header, attribute: .trailing, multiplier: 1, constant: -5)])
+//            header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .top, relatedBy: .equal, toItem: header, attribute: .top, multiplier: 1, constant: 5)])
+
             
             return header
             
@@ -355,13 +390,13 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     spotifyView.layer.borderWidth = 0.2
                     spotifyView.layer.borderColor = UIColor.black.cgColor
                     spotifyView.layoutIfNeeded()
-                    spotifyView.backgroundColor = .black
+                    spotifyView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0))
                     spotifyView.selectedPlaylistImage = selectedPlaylistImage
                     
                     footer.backgroundColor = .white
                 }
                 // Add NotificationCenter post to tell SpotifyView player to start playing selected playlist.
-//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startPlayer"), object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startPlayer"), object: nil)
                 
                 footer.addSubview(spotifyView)
                 footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .leading, relatedBy: .equal, toItem: footer, attribute: .leading, multiplier: 1.0, constant: 0.0)])
@@ -382,7 +417,14 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
    //  Set the size for the footer element.
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 200.0)
+        var height : CGFloat = 0.0
+        if let cell = lastCellAdded {
+            height = (self.collectionView?.frame.height)! - cell.frame.maxY - self.view.safeAreaInsets.top - margin
+        } else {
+            height = 0.0
+        }
+        
+        return CGSize(width: view.frame.width, height: height)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

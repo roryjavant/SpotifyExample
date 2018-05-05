@@ -33,6 +33,8 @@ class API {
     var selectedPlaylistUrlString : String = ""
     var selectedPlaylistImage : SPTImage!
     var selectedPlaylistImageUrl : String = ""
+    var selectedTrack : String = ""
+    var selectedTrackArtist : String = ""
     var selectedTrackAlbumCoverArt : String = ""
     
     var currentTrackImageUrl : String = ""
@@ -86,31 +88,7 @@ class API {
     }
     
     @objc func getTrackAlbumArt(url: URL)  {
-        //    let urlRequest = try!SPTTrack.createRequest(forTrack: url, withAccessToken: session.accessToken, market: "")
-        //        SPTRequest.sharedHandler().perform(urlRequest) { (error, response, data) in
-        //            if let error = error {
-        //                print(error)
-        //            }
-        //
-        //            if let response = response {
-        //                print(response)
-        //
-        //
-        //                if let data = data {
-        //                    print(data)
-        //                    do {
-        //                    var tracks = try! SPTTrack.tracks(from: data, with: response)
-        //
-        //                    print(tracks)
-        //                    } catch is SPTMetadataErrorableOperationCallback {
-        //                        print(error)
-        //                    }
-        //                }
-        //            }
-        //        }
-        
-        
-        
+
         if SPTAlbum.isAlbumURI(url) {
             print("album")
         } else {
