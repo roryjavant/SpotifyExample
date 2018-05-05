@@ -5,15 +5,7 @@
 //  Created by Rory Avant on 3/11/18.
 //  Copyright © 2018 Rory Avant. All rights reserved.
 //
-/*----------------------------------------------------------------------------
- INDEX: INITIAL SETUP .............................................. (Line 57)
-        SPOTIFY_API_SETUP .......................................... (Line 115)
-        SPOTIFY_PLAYER ............................................. (Line 127)
-        TRIGGER CLIP GYMPARTER BUTTON CLICK ........................ (Line 236)
-        COLLECTION VIEW DELEGATE CODE SECTION ...................... (Line 297)
-            - CELL/CLIP_BUTTON CODE ................................ (Line 312)
-            - HEADER/FOOTER/PLAYBUTTON/LOGINBUTTON CODE ............ (Line 378)
- ----------------------------------------------------------------------------*/
+
 
 import UIKit
 import OAuthSwift
@@ -29,8 +21,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let footerId = "footerId"
     var headerHeight : Float = 0.0
     var cellSectionHeight : Float = 0.0
-    
-    
     
     var gridCell = GridCell()
     var reusableView : UICollectionReusableView = UICollectionReusableView()
@@ -82,9 +72,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
         // Set the collectionView layout to our custom layout 'columnLayout' class.
-        flowLayout.minimumInteritemSpacing = margin
-        flowLayout.minimumLineSpacing = margin
-        flowLayout.sectionInset = UIEdgeInsets(top: margin + 8, left: margin + 8, bottom: margin, right: margin)
+        flowLayout.minimumInteritemSpacing = margin + 10
+        flowLayout.minimumLineSpacing = margin + 10
+        flowLayout.sectionInset = UIEdgeInsets(top: margin, left: margin , bottom: margin, right: margin)
         flowLayout.accessibilityFrame.origin.x = 0.0
         flowLayout.accessibilityFrame.origin.y = 0.0
         
@@ -249,9 +239,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         button.addTarget(sharedPlayer, action: #selector(sharedPlayer.button_click(button:)), for: .touchUpInside)
         button.isEnabled = true
         
+        // Set Button Font
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14.0)
+        
         // Set Button Label Text Depending On Selected Gym Partner
         switch intGymPartner {
-        case 1:  button.setTitle("Dorian Yates", for: .normal)
+        case 1:  button.setTitle("One More Rep!", for: .normal)
         case 2:  button.setTitle("Michele Lewin", for: .normal)
         case 3:  button.setTitle("Leroy Davis", for: .normal)
         default: button.titleLabel?.text = ""
@@ -298,7 +291,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             
             // Add Gym Partner Name Label
             let gpNameLabel = UILabel()
-                      gpNameLabel.translatesAutoresizingMaskIntoConstraints = false
+            gpNameLabel.translatesAutoresizingMaskIntoConstraints = false
             gpNameLabel.text = "Leroy Davis"
             gpNameLabel.textColor = .white
             gpNameLabel.font = UIFont.boldSystemFont(ofSize: 24.0)

@@ -75,7 +75,6 @@ class SpotifyView : MediaView {
         playBackSlider.topAnchor.constraint(equalTo: self.topAnchor, constant: 20.0).isActive = true
         
         addSubview(subViewSpotifyControls)
-//        button.backgroundColor = UIColor(red: CGFloat(90/255.0), green: CGFloat(13/255.0), blue: CGFloat(255/255.0), alpha: CGFloat(1.0))
         subViewSpotifyControls.backgroundColor = UIColor(red: CGFloat(40.0/255.0), green: CGFloat(40.0/255.0), blue: CGFloat(40.0/255.0), alpha: 1.0)
         subViewSpotifyControls.widthAnchor.constraint(equalTo: self.widthAnchor, constant: 0.0).isActive = true
         subViewSpotifyControls.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
@@ -152,7 +151,6 @@ class SpotifyView : MediaView {
         playBackStatusSlider.leftAnchor.constraint(equalTo: backwardTrackNavButton.rightAnchor, constant: 0.0).isActive = true
         playBackStatusSlider.topAnchor.constraint(equalTo: artistText.bottomAnchor, constant: 9.0).isActive = true
 
-//105 112 110
         let forwardTrackNavButton = UIButton()
         forwardTrackNavButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         forwardTrackNavButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
@@ -175,18 +173,6 @@ class SpotifyView : MediaView {
         songPositionText.leftAnchor.constraint(equalTo: forwardTrackNavButton.rightAnchor, constant: 2.0).isActive = true
         songPositionText.topAnchor.constraint(equalTo: artistText.bottomAnchor, constant: 10.0).isActive = true
 
-//
-//        let playButton = UIButton()
-//        playButton.setTitle("Play", for: .normal)
-//        playButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
-//        playButton.setTitleColor(.white, for: .normal)
-//        playButton.titleLabel?.textAlignment = .center
-//        playButton.translatesAutoresizingMaskIntoConstraints = false
-//        playButton.addTarget(self, action: #selector(self.playButtonPressed(button:)), for: .touchUpInside)
-//
-//                subViewSpotifyControls.addSubview(playButton)
-//                subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playButton, attribute: .top, relatedBy: .equal, toItem: playBackStatusSlider, attribute: .bottom, multiplier: 1.0, constant: 8.0)])
-//                subViewSpotifyControls.addConstraints([NSLayoutConstraint(item: playButton, attribute: .trailing, relatedBy: .equal, toItem: subViewSpotifyControls, attribute: .trailing, multiplier: 1.0, constant: -5.0 - playBackStatusSlider.frame.size.width - 40.0)])
     }
     
     func updateSongPositionText(position: Double) {
@@ -233,8 +219,6 @@ class SpotifyView : MediaView {
     }
     
     @objc func sliderValueChanged(slider: UISlider) {
-        
-        
         let position = player!.playbackState.position
         print(playBackStatusSlider.value)
         
