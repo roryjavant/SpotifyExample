@@ -59,8 +59,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Pandora API test
+        pandoraApiTest()
+        
         // Add Navigation Item to navigate to user's playlist (needs implementation)
-        //navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(ViewController.loginButtonPressed(sender:)))
         loginButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
         loginButton.setTitle("Login", for: .normal)
         loginButton.addTarget(self, action: #selector(ViewController.loginButtonPressed(sender:)), for: UIControlEvents.touchUpInside)
@@ -103,6 +105,31 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         sharedPlayer.intGymPartner = intGymPartner
         sharedPlayer.getBundle()
     }
+    
+    func pandoraApiTest() {
+        let jsonUrlString = "https://www.pandora.com/api/v1/auth/login"
+        guard let url = URL(string: jsonUrlString) else
+        {return}
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
+        request.setValue("www.pandora.com", forHTTPHeaderField: "Host")
+        request.setValue("123456a7889b1c23", forHTTPHeaderField: "X-CsrfToken")
+        let bodyData = "username=rory.avant@selu.edu&password=PWM-rww-Tp8-hpU"
+        request.httpBody = bodyData.data(using: .utf8)
+        URLSession.shared.dataTask(with: request) { (data,response, err) in
+            guard let data = data else {return}
+            
+            do {
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)  as? [String: Any] else {return}
+                print(json)
+            } catch let jsonErr {
+                
+            }
+        }.resume()
+    }
+    
     
 
     override func viewWillLayoutSubviews() {
