@@ -647,7 +647,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "190"
             endingLineNumber = "190"
-            landmarkName = "playButtonPressed(button:)"
+            landmarkName = "updateSongPositionText(position:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -704,7 +704,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "353"
-            endingLineNumber = "353">
+            endingLineNumber = "353"
+            landmarkName = "audioStreaming(_:didSeekToPosition:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -718,7 +720,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "354"
-            endingLineNumber = "354">
+            endingLineNumber = "354"
+            landmarkName = "audioStreaming(_:didSeekToPosition:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -749,7 +753,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "225"
             endingLineNumber = "225"
-            landmarkName = "updateTrack(button:)"
+            landmarkName = "sliderValueChanged(slider:)"
             landmarkType = "7">
             <Locations>
                <Location
