@@ -55,12 +55,14 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     let api = API.sharedAPI
     let sharedPlayer = ClipPlayer.sharedPlayer
+    let sharedPandora = PandoraApi.sharedPandora
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Pandora API test
-        pandoraApiTest()
+        //pandoraApiTest()
+        sharedPandora.setupPandora()
         
         // Add Navigation Item to navigate to user's playlist (needs implementation)
         loginButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
@@ -113,9 +115,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept-Charset")
         request.setValue("www.pandora.com", forHTTPHeaderField: "Host")
         request.setValue("123456a7889b1c23", forHTTPHeaderField: "X-CsrfToken")
+        request.httpShouldHandleCookies = true
         let bodyData = "username=rory.avant@selu.edu&password=PWM-rww-Tp8-hpU"
         request.httpBody = bodyData.data(using: .utf8)
         URLSession.shared.dataTask(with: request) { (data,response, err) in

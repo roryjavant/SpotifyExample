@@ -34,6 +34,7 @@
 		98E60BCF20559CF3005F849B /* MediaProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E60BCE20559CF3005F849B /* MediaProtocol.swift */; };
 		98E60BD120559FDD005F849B /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E60BD020559FDD005F849B /* MediaView.swift */; };
 		98E60BD32055A1DE005F849B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E60BD22055A1DE005F849B /* MainView.swift */; };
+		98F0A3E720A39040000D051F /* PandoraApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F0A3E620A39040000D051F /* PandoraApi.swift */; };
 		98F9E83D2055DD04003B6EFD /* Pods-SpotifyExample.debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = A9B9A988DBD2D9D8CE54B3BB /* Pods-SpotifyExample.debug.xcconfig */; };
 		98F9E83E2055DD0D003B6EFD /* Pods-SpotifyExample.release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6AA38948B5514F6BD33F8C88 /* Pods-SpotifyExample.release.xcconfig */; };
 /* End PBXBuildFile section */
@@ -70,6 +71,7 @@
 		98E60BCE20559CF3005F849B /* MediaProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaProtocol.swift; sourceTree = "<group>"; };
 		98E60BD020559FDD005F849B /* MediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaView.swift; sourceTree = "<group>"; };
 		98E60BD22055A1DE005F849B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		98F0A3E620A39040000D051F /* PandoraApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PandoraApi.swift; sourceTree = "<group>"; };
 		A9B9A988DBD2D9D8CE54B3BB /* Pods-SpotifyExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotifyExample/Pods-SpotifyExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,6 +112,7 @@
 			children = (
 				982E36F62056FB8D00C85513 /* AccessTokenManager.swift */,
 				9817DBB6209B38B3002678F0 /* API.swift */,
+				98F0A3E620A39040000D051F /* PandoraApi.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				9817DBB9209B390F002678F0 /* ClipPlayer.swift in Sources */,
 				98E60BD120559FDD005F849B /* MediaView.swift in Sources */,
 				986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */,
+				98F0A3E720A39040000D051F /* PandoraApi.swift in Sources */,
 				986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */,
 				98E60BD32055A1DE005F849B /* MainView.swift in Sources */,
 				98B9794E2059DE3500E4F41B /* ColumnFlowLayout.swift in Sources */,

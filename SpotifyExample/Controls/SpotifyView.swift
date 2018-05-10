@@ -69,6 +69,8 @@ class SpotifyView : MediaView {
         playBackSlider.isEnabled = true
         playBackSlider.isUserInteractionEnabled = true
         playBackSlider.addTarget(self, action: #selector(volumeSliderChanged(slider:)), for: UIControlEvents.valueChanged)
+        playBackSlider.minimumValue = -1.0
+        playBackSlider.maximumValue = 1.0
         playBackSlider.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(playBackSlider)
         playBackSlider.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
@@ -208,8 +210,12 @@ class SpotifyView : MediaView {
     }
     
     @objc func volumeSliderChanged(slider: UISlider) {
-        let clipAudio = pow(slider.value, 2)
-        let spotifyAudio = pow(1 - slider.value, 2)
+        let clipAudio = pow(1/2*(1 + playBackSlider.value), 0.5)
+        let spotifyAudio = pow(1/2*(1 - playBackSlider.value), 0.5)
+        
+        //let clipAudio = pow(slider.value, 2)
+        //let spotifyAudio = pow(1 - slider.value, 2)
+        print(slider.value)
         sharedPlayer.audioPlayer?.setVolume(clipAudio, fadeDuration: TimeInterval(0.1))
         player.setVolume(SPTVolume(spotifyAudio)) { (error: Error?) -> Void in
             if let error = error {
@@ -220,7 +226,7 @@ class SpotifyView : MediaView {
     
     @objc func sliderValueChanged(slider: UISlider) {
         let position = player!.playbackState.position
-        print(playBackStatusSlider.value)
+        //print(playBackStatusSlider.value)
         
         player.seek(to: TimeInterval.init(slider.value)) { (error: Error?) -> Void in
             if let error = error {
@@ -359,7 +365,7 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
             if playBackStatusSlider.isTouchInside == false {
                 playBackStatusSlider.value = Float(position.magnitude)
                 updateSongPositionText(position: position.magnitude)
-                print(position.magnitude)
+                //print(position.magnitude)
             }
         }
 }
