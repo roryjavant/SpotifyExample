@@ -64,7 +64,7 @@ class SpotifyView : MediaView {
     func setupSubViews() {
         
         playBackSlider = UISlider()
-        playBackSlider.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
+        playBackSlider.widthAnchor.constraint(equalToConstant: 350.0).isActive = true
         playBackSlider.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         playBackSlider.isEnabled = true
         playBackSlider.isUserInteractionEnabled = true
