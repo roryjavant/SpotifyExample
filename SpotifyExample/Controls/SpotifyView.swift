@@ -83,8 +83,6 @@ class SpotifyView : MediaView {
         subViewSpotifyControls.translatesAutoresizingMaskIntoConstraints = false
         subViewSpotifyControls.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0).isActive = true
         subViewSpotifyControls.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0.0).isActive = true
-        
-        
 
         let url = URL(string: selectedPlaylistImageUrl)
 
@@ -212,10 +210,6 @@ class SpotifyView : MediaView {
     @objc func volumeSliderChanged(slider: UISlider) {
         let clipAudio = pow(1/2*(1 + playBackSlider.value), 0.5)
         let spotifyAudio = pow(1/2*(1 - playBackSlider.value), 0.5)
-        
-        //let clipAudio = pow(slider.value, 2)
-        //let spotifyAudio = pow(1 - slider.value, 2)
-        print(slider.value)
         sharedPlayer.audioPlayer?.setVolume(clipAudio, fadeDuration: TimeInterval(0.1))
         player.setVolume(SPTVolume(spotifyAudio)) { (error: Error?) -> Void in
             if let error = error {
@@ -225,9 +219,6 @@ class SpotifyView : MediaView {
     }
     
     @objc func sliderValueChanged(slider: UISlider) {
-        let position = player!.playbackState.position
-        //print(playBackStatusSlider.value)
-        
         player.seek(to: TimeInterval.init(slider.value)) { (error: Error?) -> Void in
             if let error = error {
                 print(error)
@@ -260,7 +251,6 @@ class SpotifyView : MediaView {
             }
             loggedIn = true
         } catch{
-            print("didn't work")
             loggedIn = false
         }
     }
@@ -284,7 +274,6 @@ class SpotifyView : MediaView {
                     } else {
                         self.state = .playing
                         self.delegate?.mediaStarted()
-                        print("i guess")
                     }
                 })
             }
@@ -299,21 +288,18 @@ class SpotifyView : MediaView {
                 } else {
                     self.state = .paused
                     self.delegate?.mediaPaused()
-                    print("i guess")
                 }
             })
         }
     }
     
     override func stop() {
-        
     }
     
     func getImageURL() -> String?{
         if let track = player?.metadata.currentTrack, let albumArt = track.albumCoverArtURL{
             return albumArt
         }
-        print("nothing")
         return nil
     }
 }
@@ -325,7 +311,6 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
     }
     
     func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
-        
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStartPlayingTrack trackUri: String!) {
@@ -347,9 +332,7 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
         } else {
             currentTrackUri = trackUri
         }
-
         setUI()
-
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didChange metadata: SPTPlaybackMetadata!) {
@@ -365,9 +348,8 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
             if playBackStatusSlider.isTouchInside == false {
                 playBackStatusSlider.value = Float(position.magnitude)
                 updateSongPositionText(position: position.magnitude)
-                //print(position.magnitude)
             }
         }
-}
+    }
 
 }

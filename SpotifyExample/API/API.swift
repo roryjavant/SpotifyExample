@@ -10,10 +10,8 @@ import Foundation
 
 class API {
     
-    // Singleton
-    static let sharedAPI = API()
+static let sharedAPI = API()
     
-    // Login and Authentication
     var auth = SPTAuth.defaultInstance()!
     var session : SPTSession!
     var loginUrl: URL?
@@ -107,7 +105,5 @@ class API {
         }
         
     }
-    
-    
     
 } // end class
