@@ -14,7 +14,6 @@
 		982E36F72056FB8D00C85513 /* AccessTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982E36F62056FB8D00C85513 /* AccessTokenManager.swift */; };
 		9858DF83206AFA5E003EF103 /* Sound 2 in Resources */ = {isa = PBXBuildFile; fileRef = 9858DF82206AFA5E003EF103 /* Sound 2 */; };
 		986060E92069827700EBBACB /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986060E82069827700EBBACB /* HomeController.swift */; };
-		98613C58206C581500EB4D17 /* embedded.html in Resources */ = {isa = PBXBuildFile; fileRef = 98613C57206C581500EB4D17 /* embedded.html */; };
 		986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A03342077B45900D49273 /* PlaylistTableViewCell.swift */; };
 		986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A03362077B50200D49273 /* PlaylistTableViewController.swift */; };
 		9889B4A620A74EC90032293E /* PandoraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9889B4A520A74EC90032293E /* PandoraModel.swift */; };
@@ -32,9 +31,6 @@
 		98E60BC020559805005F849B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E60BBE20559805005F849B /* LaunchScreen.storyboard */; };
 		98E60BCC20559B67005F849B /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E60BCA20559B67005F849B /* SpotifyAudioPlayback.framework */; };
 		98E60BCD20559B67005F849B /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E60BCB20559B67005F849B /* SpotifyAuthentication.framework */; };
-		98E60BCF20559CF3005F849B /* MediaProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E60BCE20559CF3005F849B /* MediaProtocol.swift */; };
-		98E60BD120559FDD005F849B /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E60BD020559FDD005F849B /* MediaView.swift */; };
-		98E60BD32055A1DE005F849B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E60BD22055A1DE005F849B /* MainView.swift */; };
 		98F0A3E720A39040000D051F /* PandoraApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F0A3E620A39040000D051F /* PandoraApi.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +43,6 @@
 		982E36F62056FB8D00C85513 /* AccessTokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenManager.swift; sourceTree = "<group>"; };
 		9858DF82206AFA5E003EF103 /* Sound 2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Sound 2"; sourceTree = "<group>"; };
 		986060E82069827700EBBACB /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
-		98613C57206C581500EB4D17 /* embedded.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = embedded.html; sourceTree = "<group>"; };
 		986A03342077B45900D49273 /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		986A03362077B50200D49273 /* PlaylistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewController.swift; sourceTree = "<group>"; };
 		9889B4A520A74EC90032293E /* PandoraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PandoraModel.swift; sourceTree = "<group>"; };
@@ -68,9 +63,6 @@
 		98E60BC7205598F0005F849B /* SpotifyExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SpotifyExample-Bridging-Header.h"; sourceTree = "<group>"; };
 		98E60BCA20559B67005F849B /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAudioPlayback.framework; sourceTree = "<group>"; };
 		98E60BCB20559B67005F849B /* SpotifyAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAuthentication.framework; sourceTree = "<group>"; };
-		98E60BCE20559CF3005F849B /* MediaProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaProtocol.swift; sourceTree = "<group>"; };
-		98E60BD020559FDD005F849B /* MediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaView.swift; sourceTree = "<group>"; };
-		98E60BD22055A1DE005F849B /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		98F0A3E620A39040000D051F /* PandoraApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PandoraApi.swift; sourceTree = "<group>"; };
 		A9B9A988DBD2D9D8CE54B3BB /* Pods-SpotifyExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotifyExample/Pods-SpotifyExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,19 +114,8 @@
 			isa = PBXGroup;
 			children = (
 				982E36F42056F55B00C85513 /* SpotifyView.swift */,
-				98E60BD020559FDD005F849B /* MediaView.swift */,
-				98E60BCE20559CF3005F849B /* MediaProtocol.swift */,
-				98E60BD22055A1DE005F849B /* MainView.swift */,
 			);
 			path = Controls;
-			sourceTree = "<group>";
-		};
-		987FCB7B20A3555C003CAA87 /* HTML */ = {
-			isa = PBXGroup;
-			children = (
-				98613C57206C581500EB4D17 /* embedded.html */,
-			);
-			path = HTML;
 			sourceTree = "<group>";
 		};
 		987FCB7C20A35574003CAA87 /* Main */ = {
@@ -192,7 +173,6 @@
 			children = (
 				987FCB7D20A355E2003CAA87 /* Resources */,
 				987FCB7C20A35574003CAA87 /* Main */,
-				987FCB7B20A3555C003CAA87 /* HTML */,
 				987FCB7A20A35539003CAA87 /* Controls */,
 				987FCB7920A35523003CAA87 /* API */,
 				98B9794A2059DD3500E4F41B /* Layout */,
@@ -286,7 +266,6 @@
 				98B22A1D20A358BD00DE2F7B /* Sound in Resources */,
 				98C356DC206AC77E00FBD7D3 /* Images in Resources */,
 				9858DF83206AFA5E003EF103 /* Sound 2 in Resources */,
-				98613C58206C581500EB4D17 /* embedded.html in Resources */,
 				98E60BBB20559805005F849B /* Main.storyboard in Resources */,
 				98B22A1B20A358B000DE2F7B /* Sound 3 in Resources */,
 			);
@@ -355,7 +334,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98E60BCF20559CF3005F849B /* MediaProtocol.swift in Sources */,
 				9889B4A620A74EC90032293E /* PandoraModel.swift in Sources */,
 				98B9794C2059DDB200E4F41B /* GridCell.swift in Sources */,
 				986060E92069827700EBBACB /* HomeController.swift in Sources */,
@@ -364,11 +342,9 @@
 				98B56C89205719A7005900F8 /* Extensions.swift in Sources */,
 				9817DBB7209B38B3002678F0 /* API.swift in Sources */,
 				9817DBB9209B390F002678F0 /* ClipPlayer.swift in Sources */,
-				98E60BD120559FDD005F849B /* MediaView.swift in Sources */,
 				986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */,
 				98F0A3E720A39040000D051F /* PandoraApi.swift in Sources */,
 				986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */,
-				98E60BD32055A1DE005F849B /* MainView.swift in Sources */,
 				98B9794E2059DE3500E4F41B /* ColumnFlowLayout.swift in Sources */,
 				982E36F72056FB8D00C85513 /* AccessTokenManager.swift in Sources */,
 				982E36F52056F55B00C85513 /* SpotifyView.swift in Sources */,
