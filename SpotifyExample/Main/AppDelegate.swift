@@ -17,9 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var auth = SPTAuth()
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
         auth.redirectURL = URL(string : "spotify-example-login://callback")
         auth.sessionUserDefaultsKey = "current session"
 
@@ -52,7 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }) // end callback closure
         
             return true
-            
         }
         return false
     }
@@ -80,8 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Tell notification center login is succesful
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "loginSuccessful"), object: nil)
                 
-            }) // end callback closure
-        
+            }) // end callback closure        
         }
         return true
     }

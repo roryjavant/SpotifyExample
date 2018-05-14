@@ -57,6 +57,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let api = API.sharedAPI
     let sharedPlayer = ClipPlayer.sharedPlayer
     let sharedPandora = PandoraApi.sharedPandora
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -346,23 +348,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             gpWebsiteLabel.topAnchor.constraint(equalTo: gpNameLabel.bottomAnchor, constant: 5.0).isActive = true
             gpWebsiteLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
             
-            
-            
             // Add Settings Gear Icon
             let settingsGearImage = UIImage(named: "settingsGear")
             settingsGearImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
             
-//
-//            let settingsGearImageView = UIImageView()
-//            settingsGearImageView.translatesAutoresizingMaskIntoConstraints = false
-//            settingsGearImageView.adjustsImageSizeForAccessibilityContentSizeCategory = false
-//            settingsGearImageView.widthAnchor.constraint(equalToConstant: 70.0).isActive = true
-//            settingsGearImageView.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
-//            settingsGearImageView.image = settingsGearImage
-//            header.addSubview(settingsGearImageView)
-//
-//            settingsGearImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
-//            settingsGearImageView.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -15.0).isActive = true
             
             // Add Settings Gear Button
             let settingsButton = UIButton()
@@ -379,37 +368,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             
             settingsButton.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
             settingsButton.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -15.0).isActive = true
-            
-            
-            
+ 
             // Add separator line below header
-            var lineSubView = UIView(frame: CGRect(x: 0.0, y: header.frame.size.height - 8.0, width: self.view.frame.size.width, height: 1.0))
+            let lineSubView = UIView(frame: CGRect(x: 0.0, y: header.frame.size.height - 8.0, width: self.view.frame.size.width, height: 1.0))
             lineSubView.backgroundColor = .black
             header.addSubview(lineSubView)
-   
-            
         
-            
-//            // Create loginButton and configure
-//            let loginButton : UIButton = UIButton()
-//            loginButton.addTarget(self, action: #selector(ViewController.loginButtonPressed(sender:)), for: .touchUpInside)
-//            loginButton.translatesAutoresizingMaskIntoConstraints = false
-//            loginButton.frame = CGRect(x: header.frame.size.width - 40, y: 0.0, width: 40, height: 40)
-//            loginButton.layer.borderWidth = 2.0
-//            loginButton.layer.borderColor = UIColor.blue.cgColor
-//            loginButton.setTitle("Login", for: .normal)
-//
-//            // Add loginButton to header
-//            header.addSubview(loginButton)
-//
-//            // header contraints
-//            header.addConstraints([NSLayoutConstraint(item: playButton, attribute: .leading, relatedBy: .equal, toItem: header, attribute: .leading, multiplier: 1, constant: 0)])
-//            header.addConstraints([NSLayoutConstraint(item: playButton, attribute: .top, relatedBy: .equal, toItem: header, attribute: .top, multiplier: 1, constant: 5)])
-//            header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .left, relatedBy: .equal, toItem: playButton, attribute: .right, multiplier: 1, constant: 0)])
-//            header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .trailing, relatedBy: .equal, toItem: header, attribute: .trailing, multiplier: 1, constant: -5)])
-//            header.addConstraints([NSLayoutConstraint(item: loginButton, attribute: .top, relatedBy: .equal, toItem: header, attribute: .top, multiplier: 1, constant: 5)])
-
-            
             return header
             
         } else {
@@ -447,7 +411,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .bottom, relatedBy: .equal, toItem: footer, attribute: .bottom, multiplier: 1.0, constant: 0.0)])
                 
             }
-            
             return footer
         }
     }
@@ -455,7 +418,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     @objc func settingsMenuClicked(sender: UIButton) {
         let settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! UITableViewController
         self.navigationController?.pushViewController(settingsController, animated: false)
-        
     }
     
     // Set the size for the header element.
@@ -470,8 +432,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             height = (self.collectionView?.frame.height)! - cell.frame.maxY - self.view.safeAreaInsets.top - margin
         } else {
             height = 0.0
-        }
-        
+        }        
         return CGSize(width: view.frame.width, height: height)
     }
     

@@ -81,7 +81,6 @@ static let sharedAPI = API()
             self.player = SPTAudioStreamingController.sharedInstance()
             try! player!.start(withClientId: auth.clientID)
             self.player!.login(withAccessToken: authSession.accessToken)
-            
         }
     }
     

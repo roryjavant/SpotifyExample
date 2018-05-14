@@ -41,7 +41,6 @@ class ClipPlayer {
     }
     
     @objc func button_click(button: UIButton) {
-        
         // Play the audio file associated with this button.
         if audioPlayer != nil {
             
@@ -67,6 +66,4 @@ class ClipPlayer {
         }
         currentClip = button.tag
     }
-    
-    
 }
