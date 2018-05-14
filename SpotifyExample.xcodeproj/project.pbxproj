@@ -36,8 +36,6 @@
 		98E60BD120559FDD005F849B /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E60BD020559FDD005F849B /* MediaView.swift */; };
 		98E60BD32055A1DE005F849B /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E60BD22055A1DE005F849B /* MainView.swift */; };
 		98F0A3E720A39040000D051F /* PandoraApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F0A3E620A39040000D051F /* PandoraApi.swift */; };
-		98F9E83D2055DD04003B6EFD /* Pods-SpotifyExample.debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = A9B9A988DBD2D9D8CE54B3BB /* Pods-SpotifyExample.debug.xcconfig */; };
-		98F9E83E2055DD0D003B6EFD /* Pods-SpotifyExample.release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6AA38948B5514F6BD33F8C88 /* Pods-SpotifyExample.release.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -250,7 +248,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Rory Avant";
 				TargetAttributes = {
 					98E60BB120559805005F849B = {
@@ -290,8 +288,6 @@
 				9858DF83206AFA5E003EF103 /* Sound 2 in Resources */,
 				98613C58206C581500EB4D17 /* embedded.html in Resources */,
 				98E60BBB20559805005F849B /* Main.storyboard in Resources */,
-				98F9E83D2055DD04003B6EFD /* Pods-SpotifyExample.debug.xcconfig in Resources */,
-				98F9E83E2055DD0D003B6EFD /* Pods-SpotifyExample.release.xcconfig in Resources */,
 				98B22A1B20A358B000DE2F7B /* Sound 3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -415,6 +411,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -422,6 +419,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -472,6 +470,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -479,6 +478,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

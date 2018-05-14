@@ -294,7 +294,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     spotifyView.layer.borderColor = UIColor.black.cgColor
                     spotifyView.layoutIfNeeded()
                     spotifyView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0))
-                    spotifyView.selectedPlaylistImage = selectedPlaylistImage
+                    spotifyView.selectedPlaylistImage = api.selectedPlaylistImage
                     
                     footer.backgroundColor = .white
                 }
