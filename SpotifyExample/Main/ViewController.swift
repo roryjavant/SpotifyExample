@@ -45,8 +45,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let api = API.sharedAPI
     let sharedPlayer = ClipPlayer.sharedPlayer
     let sharedPandora = PandoraApi.sharedPandora
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,19 +130,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
         flowLayout.itemSize =  CGSize(width: itemWidth, height: itemWidth - (itemWidth * 0.4))
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-     
-    }
-    
 
    @objc func displayPlaylistController() {
     self.playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
     playlistController.api = api
     playlistController.numOfCells = Int(api.userPlaylistsCount)
     playlistController.delegate = self
-    
     self.navigationController?.pushViewController(self.playlistController, animated: false)
     }
    
@@ -163,27 +154,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         playlistController.delegate = self
         self.navigationController?.pushViewController(playlistController, animated: false)
         //self.present(playlistController, animated: true, completion: nil)
-    }
-    
-    func getBundle() {
-        // Get audio file paths in Sound folder.
-        var strDirectory : String = ""
-        
-        switch intGymPartner {
-        case 1: strDirectory = "Sound"
-        case 2: strDirectory = "Sound 2"
-        case 3: strDirectory = "Sound 3"
-        default: print("error")
-        }
-        
-        let audioFilePaths = Bundle.main.paths(forResourcesOfType: "mp3", inDirectory: strDirectory)
-        
-        // Add paths to soundArray.
-        for url in audioFilePaths {
-            print(url)
-            let audioFileURL = URL.init(fileURLWithPath: url)
-            soundArray.append(audioFileURL)
-        }
     }
     
     func getUrlHandler(forOauth oauth: OAuth2Swift) -> SafariURLHandler {
@@ -395,11 +365,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             height = 0.0
         }        
         return CGSize(width: view.frame.width, height: height)
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        collectionView?.collectionViewLayout.invalidateLayout()
-        super.viewWillTransition(to: size, with: coordinator)
     }
     
     func updateCollectionViewFooter() {

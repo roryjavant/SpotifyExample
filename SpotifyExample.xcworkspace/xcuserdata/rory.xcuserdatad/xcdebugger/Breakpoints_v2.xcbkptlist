@@ -840,11 +840,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "547994815.164063"
+            timestampString = "547995132.1031671"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "117"
@@ -1020,12 +1020,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/ClipPlayer.swift"
-            timestampString = "547994815.164714"
+            timestampString = "547995132.104033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "45"
             endingLineNumber = "45"
             landmarkName = "button_click(button:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Main/ViewController.swift"
+            timestampString = "547995132.1041009"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
+            landmarkName = "loginButtonPressed(sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
