@@ -24,12 +24,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var cellSectionHeight : Float = 0.0
     
     var gridCell = GridCell()
-    var reusableView : UICollectionReusableView = UICollectionReusableView()
     var lastCellAdded : UICollectionViewCell?
     
     var playButton: UIButton!
     var loginButton: UIButton!
-    var loginButton2: UIButton!
     var audioPlayer: AVAudioPlayer?
     var clipPlayer : ClipPlayer!
     
@@ -37,22 +35,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var intGymPartner : Int!
     var intClipNum : Int! = 0
     
-    var didAuthorize = false
-    static var didLogin = false
+ 
     var spotifyView : SpotifyView!
-    var auth = SPTAuth.defaultInstance()!
-    var session:SPTSession!
-    var loginUrl: URL?
-    var player : SPTAudioStreamingController?
-    var user : SPTUser?
-    var userPlaylists = [SPTPartialPlaylist]()
     var playlistController : PlaylistTableViewController!
-    var selectedPlaylist : String = ""
-    var selectedPlaylistUrl = ""
-    var selectedPlaylistOwner = ""
+    
     var selectedPlaylistImage : SPTImage!
     var selectedPlaylistImageUrl : String = ""
-    var selectedPlaylistTrackCount : UInt = 0
     
     let api = API.sharedAPI
     let sharedPlayer = ClipPlayer.sharedPlayer
@@ -171,37 +159,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     // Brings user to their playlist's (Spotify Controller)
     @objc func spotify_click() {
         playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
-        playlistController.numOfCells = userPlaylists.count
+        playlistController.numOfCells = api.userPlaylists.count
         playlistController.delegate = self
         self.navigationController?.pushViewController(playlistController, animated: false)
         //self.present(playlistController, animated: true, completion: nil)
-    }
-
-    @objc func button_click(button: UIButton) {
-        
-        // Play the audio file associated with this button.
-        if audioPlayer != nil {
-            if (audioPlayer?.isPlaying)! {
-                if intClipNum != button.tag {
-                    audioPlayer?.stop()
-                    audioPlayer = try! AVAudioPlayer(contentsOf: soundArray[button.tag])
-                    audioPlayer?.play()
-                } else {
-                    audioPlayer?.pause()
-                }
-            } else {
-                if intClipNum != button.tag  {
-                    audioPlayer = try! AVAudioPlayer(contentsOf: soundArray[button.tag])
-                    audioPlayer?.play()
-                } else {
-                    audioPlayer?.play()
-                }
-            }
-        } else {
-            audioPlayer = try! AVAudioPlayer(contentsOf: soundArray[button.tag])
-            audioPlayer?.play()
-        }
-        intClipNum = button.tag
     }
     
     func getBundle() {
