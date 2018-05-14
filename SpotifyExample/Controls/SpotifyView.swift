@@ -7,22 +7,14 @@ class SpotifyView : MediaView {
     var albumText : UILabel!
     var songText : UILabel!
     var songPositionText : UILabel = UILabel()
-    var playistImage : SPTImage!
-    var loggedIn = false
     
     var imageView : UIImageView!
     var player : SPTAudioStreamingController!
-    var currentTrackIndex : UInt = 0
     var currentTrackUri : String!
-    var selectedPlaylistTotalTracks : UInt = 0
-    var selectedPlaylist : String = ""
-    var selectedPlaylistUrl = ""
-    var selectedPlaylistOwner = ""
+
     var selectedPlaylistImageUrl : String = ""
     var subViewSpotifyControls : UIView = UIView()
     var selectedPlaylistImage : SPTImage!
-    
-    var didSeek = false
     
     let api = API.sharedAPI
     let sharedPlayer = ClipPlayer.sharedPlayer
@@ -249,9 +241,9 @@ class SpotifyView : MediaView {
             if let token = AccessTokenManager.sharedManager().getToken(forService: "spotify") {
                 player?.login(withAccessToken: token)
             }
-            loggedIn = true
+
         } catch{
-            loggedIn = false
+
         }
     }
     
