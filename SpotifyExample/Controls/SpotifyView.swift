@@ -1,6 +1,6 @@
 import UIKit
 
-class SpotifyView : MediaView {
+class SpotifyView : UIView {
     var playBackSlider : UISlider!
     var playBackStatusSlider : UISlider!
     var artistText : UILabel = UILabel()
@@ -19,16 +19,8 @@ class SpotifyView : MediaView {
     let api = API.sharedAPI
     let sharedPlayer = ClipPlayer.sharedPlayer
     
-    required init(frame: CGRect, uid: String) {
-        super.init(frame: frame, uid: uid)
-        self.uid = uid
-        self.state = .none
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.state = .none
-    }
+
+
     convenience init(selectedPlaylistImageUrl: String, frame: CGRect) {
         self.init(frame: frame)
         self.selectedPlaylistImageUrl = selectedPlaylistImageUrl
@@ -47,7 +39,11 @@ class SpotifyView : MediaView {
         
     }
     
-    override init(frame: CGRect) { super.init(frame: frame) }
+    override init(frame: CGRect) {super.init(frame: frame)}
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func layoutSubviews() {
         setupSubViews()
@@ -230,20 +226,6 @@ class SpotifyView : MediaView {
         }
     }
     
-    func loginPlayer() {
-        do {
-            try player?.start(withClientId: "a7735d435db84a869a2db687bc5401bf", audioController:nil, allowCaching: true)
-            player?.delegate = self
-            player?.playbackDelegate = self
-            if let token = AccessTokenManager.sharedManager().getToken(forService: "spotify") {
-                player?.login(withAccessToken: token)
-            }
-
-        } catch{
-
-        }
-    }
-    
     func setUI() {
         if let track = player?.metadata.currentTrack{
             songText.text = track.name
@@ -251,46 +233,8 @@ class SpotifyView : MediaView {
             artistText.text = track.artistName
         }
     }
-    
-    override func play() {
-        if let currentPlayer = player, !currentPlayer.loggedIn {
-            loginPlayer()
-        } else {
-            if let state = player?.playbackState , !state.isPlaying{
-                player?.setIsPlaying(true, callback: { (error) in
-                    if let errorString = error?.localizedDescription {
-                        print(errorString)
-                    } else {
-                        self.state = .playing
-                        self.delegate?.mediaStarted()
-                    }
-                })
-            }
-        }
-    }
-    
-    override func pause() {
-        if let state = player?.playbackState , state.isPlaying{
-            player?.setIsPlaying(false, callback: { (error) in
-                if let errorString = error?.localizedDescription {
-                    print(errorString)
-                } else {
-                    self.state = .paused
-                    self.delegate?.mediaPaused()
-                }
-            })
-        }
-    }
-    
-    override func stop() {
-    }
-    
-    func getImageURL() -> String?{
-        if let track = player?.metadata.currentTrack, let albumArt = track.albumCoverArtURL{
-            return albumArt
-        }
-        return nil
-    }
+
+
 }
 
 extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate{
@@ -323,11 +267,7 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
         }
         setUI()
     }
-    
-    func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didChange metadata: SPTPlaybackMetadata!) {
-        print(metadata)
-    }
-    
+
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didSeekToPosition position: TimeInterval) {
         playBackStatusSlider.value = Float(player.playbackState.position.magnitude)
     }
