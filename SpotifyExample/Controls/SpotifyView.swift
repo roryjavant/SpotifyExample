@@ -78,22 +78,19 @@ class SpotifyView : MediaView {
 
         let url = URL(string: selectedPlaylistImageUrl)
 
-        do {
-            let data = try! Data(contentsOf: url!)
-            let playlistImage = UIImage(data: data)
-            playlistImage?.stretchableImage(withLeftCapWidth: 95, topCapHeight: 95)
-            imageView = UIImageView()
-            imageView.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-            imageView.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
-            imageView.image = playlistImage
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            subViewSpotifyControls.addSubview(imageView)
-            imageView.leftAnchor.constraint(equalTo: subViewSpotifyControls.leftAnchor).isActive = true
-            imageView.bottomAnchor.constraint(equalTo: subViewSpotifyControls.bottomAnchor).isActive = true
-        }
-        catch {
-            print(error)
-        }
+        // TODO: Add Try/Catch block
+        let data = try! Data(contentsOf: url!)
+        let playlistImage = UIImage(data: data)
+        playlistImage?.stretchableImage(withLeftCapWidth: 95, topCapHeight: 95)
+        imageView = UIImageView()
+        imageView.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
+        imageView.image = playlistImage
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        subViewSpotifyControls.addSubview(imageView)
+        imageView.leftAnchor.constraint(equalTo: subViewSpotifyControls.leftAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: subViewSpotifyControls.bottomAnchor).isActive = true
+ 
         
         songText.translatesAutoresizingMaskIntoConstraints = false
         songText.widthAnchor.constraint(equalToConstant: 175.0).isActive = true

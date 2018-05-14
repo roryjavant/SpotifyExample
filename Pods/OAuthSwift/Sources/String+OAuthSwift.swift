@@ -46,7 +46,7 @@ extension String {
         var string = self
 
         if hasPrefix(elementSeparator) {
-            string = String(characters.dropFirst(1))
+            string = String(string.dropFirst(1))
         }
 
         var parameters = [String: String]()
@@ -90,12 +90,12 @@ extension String {
         self.remove(at: self.index(before: self.endIndex))
     }
 
-    func substring(to offset: String.IndexDistance) -> String {
+    func substring(to offset: Int) -> String {
         let to = self.index(self.startIndex, offsetBy: offset)
         return String(self[..<to])
     }
 
-    func substring(from offset: String.IndexDistance) -> String {
+    func substring(from offset: Int) -> String {
         let from = self.index(self.startIndex, offsetBy: offset)
         return String(self[from...])
     }

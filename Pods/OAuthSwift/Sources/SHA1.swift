@@ -139,9 +139,9 @@ class SHA1 {
 
 }
 
-private struct BytesSequence<D: RandomAccessCollection>: Sequence where D.Iterator.Element == UInt8, D.IndexDistance == Int, D.SubSequence.IndexDistance == Int, D.Index == Int {
+private struct BytesSequence<D: RandomAccessCollection>: Sequence where D.Iterator.Element == UInt8, D.Index == Int {
     let data: D
-    let chunkSize: D.IndexDistance
+    let chunkSize: D.Index
 
     func makeIterator() -> AnyIterator<D.SubSequence> {
         var offset = data.startIndex

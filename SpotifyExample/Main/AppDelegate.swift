@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let userDefaults = UserDefaults.standard
             
-            let sessionData = NSKeyedArchiver.archivedData(withRootObject: session)
+            let sessionData = NSKeyedArchiver.archivedData(withRootObject: session as Any)
             userDefaults.set(sessionData, forKey: "SpotifySession")
             userDefaults.synchronize()
                 
@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 let userDefaults = UserDefaults.standard
                 
-                let sessionData = NSKeyedArchiver.archivedData(withRootObject: session)
+                let sessionData = NSKeyedArchiver.archivedData(withRootObject: session as Any)
                 userDefaults.set(sessionData, forKey: "SpotifySession")
                 userDefaults.synchronize()
                 
