@@ -15,7 +15,6 @@ import AVFoundation
 class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     
     // MARK: HomeController Properties
-    let margin: CGFloat = 10
     let cellsPerRow = 3
     let cellId = "cellId"
     let headerId = "headerId"
@@ -35,7 +34,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var intGymPartner : Int!
     var intClipNum : Int! = 0
     
- 
     var spotifyView : SpotifyView!
     var playlistController : PlaylistTableViewController!
     
@@ -50,7 +48,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         super.viewDidLoad()
         
         // Pandora API test
-        //pandoraApiTest()
         sharedPandora.setupPandora()
         
         // Add Navigation Item to navigate to user's playlist (needs implementation)
@@ -65,9 +62,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
         // Set the collectionView layout to our custom layout 'columnLayout' class.
-        flowLayout.minimumInteritemSpacing = margin + 10
-        flowLayout.minimumLineSpacing = margin + 10
-        flowLayout.sectionInset = UIEdgeInsets(top: margin, left: margin , bottom: margin, right: margin)
+        flowLayout.minimumInteritemSpacing = gridCell.margin + 10
+        flowLayout.minimumLineSpacing = gridCell.margin + 10
+        flowLayout.sectionInset = UIEdgeInsets(top: gridCell.margin, left: gridCell.margin , bottom: gridCell.margin, right: gridCell.margin)
         flowLayout.accessibilityFrame.origin.x = 0.0
         flowLayout.accessibilityFrame.origin.y = 0.0
         let marginsAndInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + flowLayout.minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
@@ -99,40 +96,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         sharedPlayer.getBundle()
     }
     
-    func pandoraApiTest() {
-        let jsonUrlString = "https://www.pandora.com/api/v1/auth/login"
-        guard let url = URL(string: jsonUrlString) else
-        {return}
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept-Charset")
-        request.setValue("www.pandora.com", forHTTPHeaderField: "Host")
-        request.setValue("123456a7889b1c23", forHTTPHeaderField: "X-CsrfToken")
-        request.httpShouldHandleCookies = true
-        let bodyData = "username=rory.avant@selu.edu&password=PWM-rww-Tp8-hpU"
-        request.httpBody = bodyData.data(using: .utf8)
-        URLSession.shared.dataTask(with: request) { (data,response, err) in
-            guard let data = data else {return}
-            
-            do {
-                guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)  as? [String: Any] else {return}
-                print(json)
-            } catch let jsonErr {
-                
-            }
-        }.resume()
-    }
     
-    
-
-//    override func viewWillLayoutSubviews() {
-//        guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
-//        let marginsAndInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + flowLayout.minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
-//        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
-//        flowLayout.itemSize =  CGSize(width: itemWidth, height: itemWidth - (itemWidth * 0.4))
-//    }
-
    @objc func displayPlaylistController() {
     self.playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
     playlistController.api = api
@@ -362,7 +326,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         var height : CGFloat = 0.0
         if let cell = lastCellAdded {
-            height = (self.collectionView?.frame.height)! - cell.frame.maxY - self.view.safeAreaInsets.top - margin
+            height = (self.collectionView?.frame.height)! - cell.frame.maxY - self.view.safeAreaInsets.top - gridCell.margin
         } else {
             height = 0.0
         }        
