@@ -47,9 +47,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Pandora API test
-        sharedPandora.setupPandora()
-        
         // Add Navigation Item to navigate to user's playlist (needs implementation)
         loginButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
         loginButton.setTitle("Login", for: .normal)
@@ -84,6 +81,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         // Call Initial Spotify Setup
         api.setupSpotify()
+        
+        // Pandora API test
+        sharedPandora.setupJsonPandora()
         
         // Call init on api to set add observer to NotificationCenter.default
         api.addNotificationCenterObserver()

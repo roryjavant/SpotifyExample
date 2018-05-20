@@ -8,7 +8,12 @@
 
 import Foundation
 
+
+
 class PandoraModel {
+    
+    var config = PandoraConfig(json: ["":""])
+   public var partnerLogin = PartnerLogin()
     
     struct PandoraConfig {
         
@@ -72,4 +77,63 @@ class PandoraModel {
             zipCode                      =    json["zipCode"]                      as? String           ?? ""
         }
     }
-}
+    
+    struct Stations {
+        
+        let totalStations : Int
+        let sortedBy : String
+        let index : Int
+        let stations : [[String: Any]]
+        
+        init(json: [String: Any]) {
+            totalStations               =   json["totalStations"]                  as? Int              ?? 0
+            sortedBy                    =   json["sortedBy"]                       as? String           ?? ""
+            index                       =   json["index"]                          as? Int              ?? 0
+            stations                    =   json["stations"]                       as? [[String : Any]] ?? [[String : Any]]()
+        }
+    }
+    
+    struct StationsList {
+        let stat : String
+        let result : [String : Any]
+        
+        init(json: [String: Any]) {
+            stat                        =   json["stat"]                            as? String          ?? ""
+            result                      =   json["result"]                          as? [String : Any]  ?? [String : Any]()
+        }
+    }
+    
+      struct PartnerLoginResponse {
+        let stat : String
+        let result : [String : Any]
+
+        
+        init(json: [String: Any]) {
+            stat                        =   json["stat"]                            as? String          ?? ""
+            result                      =   json["result"]                          as? [String : Any]  ?? [String : Any]()
+        }
+    }
+        
+    struct PartnerLogin {
+        
+        var syncTime : String = ""
+        var deviceProperties : [String : Any] = [String : Any]()
+        var partnerAuthToken : String = ""
+        var partnerId : String = "9999"
+        var stationsSkipUnit : String = ""
+        var urls : [String : Any] = [String : Any]()
+        var stationSkipLimit: Int = 9999
+        
+        }
+        
+        
+    }
+    
+    
+
+
+    
+
+
+
+
