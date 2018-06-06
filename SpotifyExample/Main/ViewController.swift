@@ -83,7 +83,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         api.setupSpotify()
         
         // Pandora API test
-        sharedPandora.setupJsonPandora()
+      //  sharedPandora.setupJsonPandora()
         
         // Call init on api to set add observer to NotificationCenter.default
         api.addNotificationCenterObserver()
@@ -188,10 +188,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         cell.bringSubview(toFront: button)
         
         switch intGymPartner {
-        case 1:  collectionView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
-        case 2:  collectionView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
-        case 3:  collectionView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
-        default: collectionView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+        case 1:  collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
+        case 2:  collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
+        case 3:  collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
+        default: collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
         }
         
         return cell
@@ -203,7 +203,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         if kind == UICollectionElementKindSectionHeader {
             
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
-            header.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+            header.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
             
             // Add Gym Partner image to header
             let gymPartnerImage = UIImage(named: "leroyHeader")
@@ -223,7 +223,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             let gpNameLabel = UILabel()
             gpNameLabel.translatesAutoresizingMaskIntoConstraints = false
             gpNameLabel.text = "Leroy Davis"
-            gpNameLabel.textColor = .white
+            gpNameLabel.textColor = UIColor(red: CGFloat(223.0/255.0), green: CGFloat(163.0/255.0), blue: CGFloat(45.0/255.0), alpha: CGFloat(1.0) )
             gpNameLabel.font = UIFont.boldSystemFont(ofSize: 24.0)
             gpNameLabel.widthAnchor.constraint(equalToConstant: 60.0)
             gpNameLabel.heightAnchor.constraint(equalToConstant: 25.0)
@@ -236,7 +236,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             let gpWebsiteLabel = UILabel()
             gpWebsiteLabel.translatesAutoresizingMaskIntoConstraints = false
             gpWebsiteLabel.text = "NastyLeroyDavis.com"
-            gpWebsiteLabel.textColor = .white
+            gpWebsiteLabel.textColor = UIColor(red: CGFloat(180.0/255.0), green: CGFloat(158.0/255.0), blue: CGFloat(84.0/255.0), alpha: CGFloat(1.5) ) //166 158 34
             gpWebsiteLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
             gpWebsiteLabel.widthAnchor.constraint(equalToConstant: 60.0)
             gpWebsiteLabel.heightAnchor.constraint(equalToConstant: 25.0)
@@ -288,6 +288,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     playbackSlider.isEnabled = true
                     
                     spotifyView = SpotifyView(selectedPlaylistImageUrl: api.selectedPlaylistImageUrl, frame: .zero)
+                    playlistController.audioDelegate = spotifyView
                     spotifyView.clipsToBounds = true
                     spotifyView.translatesAutoresizingMaskIntoConstraints = false
                     spotifyView.layer.borderWidth = 0.2
@@ -295,11 +296,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     spotifyView.layoutIfNeeded()
                     spotifyView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0))
                     spotifyView.selectedPlaylistImage = api.selectedPlaylistImage
-                    
                     footer.backgroundColor = .white
+                    // Add NotificationCenter post to tell SpotifyView player to start playing selected playlist.
+                   // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startPlayer"), object: nil)
+                    
+                    spotifyView.setupSubViews()
                 }
-                // Add NotificationCenter post to tell SpotifyView player to start playing selected playlist.
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startPlayer"), object: nil)
                 
                 footer.addSubview(spotifyView)
                 footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .leading, relatedBy: .equal, toItem: footer, attribute: .leading, multiplier: 1.0, constant: 0.0)])
@@ -336,6 +338,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func updateCollectionViewFooter() {
         self.collectionView?.reloadSections(IndexSet(0 ..< 1))
     }
+    
+    
     
 } // End Class
 

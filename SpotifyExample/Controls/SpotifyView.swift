@@ -1,6 +1,6 @@
 import UIKit
 
-class SpotifyView : UIView {
+class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
     var playBackSlider : UISlider!
     var playBackStatusSlider : UISlider!
     var artistText : UILabel = UILabel()
@@ -26,7 +26,7 @@ class SpotifyView : UIView {
         self.selectedPlaylistImageUrl = selectedPlaylistImageUrl
         
         // Add NotificationCenter Observer to listen for when the user selects a playlist to start playing audio.
-        NotificationCenter.default.addObserver(self, selector: #selector(self.startStreamingAudio), name: NSNotification.Name(rawValue: "startPlayer"), object: nil)
+       // NotificationCenter.default.addObserver(self, selector: #selector(self.startStreamingAudio), name: NSNotification.Name(rawValue: "startPlayer"), object: nil)
         player = api.player
         
         player!.playbackDelegate = self as SPTAudioStreamingPlaybackDelegate
@@ -45,9 +45,7 @@ class SpotifyView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        setupSubViews()
-    }
+
     
     func setupSubViews() {
         
@@ -72,16 +70,16 @@ class SpotifyView : UIView {
         subViewSpotifyControls.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0).isActive = true
         subViewSpotifyControls.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0.0).isActive = true
 
-        let url = URL(string: selectedPlaylistImageUrl)
+       // let url = URL(string: selectedPlaylistImageUrl)
 
         // TODO: Add Try/Catch block
-        let data = try! Data(contentsOf: url!)
-        let playlistImage = UIImage(data: data)
-        playlistImage?.stretchableImage(withLeftCapWidth: 95, topCapHeight: 95)
+//        let data = try! Data(contentsOf: url!)
+//        let playlistImage = UIImage(data: data)
+//        playlistImage?.stretchableImage(withLeftCapWidth: 95, topCapHeight: 95)
         imageView = UIImageView()
         imageView.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
-        imageView.image = playlistImage
+       // imageView.image = playlistImage
         imageView.translatesAutoresizingMaskIntoConstraints = false
         subViewSpotifyControls.addSubview(imageView)
         imageView.leftAnchor.constraint(equalTo: subViewSpotifyControls.leftAnchor).isActive = true
@@ -128,10 +126,6 @@ class SpotifyView : UIView {
         playBackStatusSlider.translatesAutoresizingMaskIntoConstraints = false
         playBackStatusSlider.isContinuous = false
         playBackStatusSlider.addTarget(self, action: #selector(sliderValueChanged(slider:)), for: UIControlEvents.valueChanged)
-        if let track = player.metadata.currentTrack {
-            playBackStatusSlider.maximumValue = Float(track.duration.magnitude)
-            playBackStatusSlider.minimumValue = Float(0.0)
-        }
         subViewSpotifyControls.addSubview(playBackStatusSlider)
         playBackStatusSlider.leftAnchor.constraint(equalTo: backwardTrackNavButton.rightAnchor, constant: 0.0).isActive = true
         playBackStatusSlider.topAnchor.constraint(equalTo: artistText.bottomAnchor, constant: 9.0).isActive = true
@@ -212,8 +206,23 @@ class SpotifyView : UIView {
         }
     }
     
-    @objc func startStreamingAudio() {
-        player!.playSpotifyURI(api.selectedPlaylistId.absoluteString, startingWith: 0, startingWithPosition: 0, callback: nil)
+     func startStreamingAudio() {
+        player!.playSpotifyURI(api.selectedPlaylistId.absoluteString, startingWith: 0, startingWithPosition: 0) { (error: Error?) -> Void in
+            
+            if let error = error {
+                print(error)
+            } else {
+             
+            }
+            
+            }            
+    }
+    
+    func setSliderValues() {
+        if let track = player.metadata.currentTrack {
+            playBackStatusSlider.maximumValue = Float(track.duration.magnitude)
+            playBackStatusSlider.minimumValue = Float(0.0)
+        }
     }
     
     @objc func updateTrack(button: UIButton) {
@@ -247,8 +256,8 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStartPlayingTrack trackUri: String!) {
-        if currentTrackUri != nil {
-            if currentTrackUri != trackUri {
+       // if currentTrackUri != nil {
+//            if currentTrackUri != trackUri {
                 currentTrackUri = trackUri
                 
                 let albumCoverArt = player.metadata.currentTrack?.albumCoverArtURL
@@ -261,10 +270,15 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
                 albumText.text = api.selectedTrackArtist
                 
                 imageView.downloadImageWithURL(albumCoverArt)
-            }
-        } else {
-            currentTrackUri = trackUri
+        
+        if let track = player.metadata.currentTrack {
+            playBackStatusSlider.maximumValue = Float(track.duration.magnitude)
+            playBackStatusSlider.minimumValue = Float(0.0)
         }
+//            }
+//        } else {
+//            currentTrackUri = trackUri
+//        }
         setUI()
     }
 

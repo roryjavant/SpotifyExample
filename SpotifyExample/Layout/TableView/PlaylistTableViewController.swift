@@ -11,13 +11,20 @@ import UIKit
 protocol PlayListTableViewControllerDelegate: class {
     func updateCollectionViewFooter()
 }
+
+protocol PlaylistTableViewControllerAudioStreamingDelegate: class {
+    func startStreamingAudio()
+}
+
 class PlaylistTableViewController: UITableViewController {
     
   
     var playStatusButtonArr : [UIButton] = [UIButton]()
     var numOfCells : Int = 0
     var delegate: PlayListTableViewControllerDelegate?
+    var audioDelegate: PlaylistTableViewControllerAudioStreamingDelegate?
     var api = API.sharedAPI
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,8 +77,10 @@ class PlaylistTableViewController: UITableViewController {
                 api.selectedPlaylistOwner = api.userPlaylists[button.tag].owner.canonicalUserName
                 
                 let playlistImage = api.userPlaylists[button.tag].images[0] as? SPTImage
-                api.selectedPlaylistImage = playlistImage
-                api.selectedPlaylistImageUrl = (playlistImage?.imageURL.absoluteString)!
+              //  api.selectedPlaylistImage = playlistImage
+              //  api.selectedPlaylistImageUrl = (playlistImage?.imageURL.absoluteString)!
+                let tracks = api.userPlaylists[button.tag].tracksForPlayback
+                print(tracks)
                 
                 if button.isSelected {
                     button.isSelected = false
@@ -88,6 +97,7 @@ class PlaylistTableViewController: UITableViewController {
         
         api.selectedPlaylistUrlString = parsePlaylistUrl(urlString: api.selectedPlaylistId.absoluteString)
         delegate?.updateCollectionViewFooter()
+        audioDelegate?.startStreamingAudio()
         navigationController?.popViewController(animated: true)
     }
     
