@@ -279,7 +279,19 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath)
             
             // Set footer background color.
-            footer.backgroundColor = .green
+            footer.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
+            
+            // Chains StackView
+            let chainsStackView = UIStackView(arrangedSubviews: createButtons(named: "1", "2", "3", "4"))
+            chainsStackView.translatesAutoresizingMaskIntoConstraints = false
+            chainsStackView.axis = .horizontal
+            chainsStackView.spacing = 2
+            chainsStackView.distribution = .fillEqually
+            chainsStackView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+            chainsStackView.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
+            chainsStackView.backgroundColor = .white
+            footer.addSubview(chainsStackView)
+            chainsStackView.centerXAnchor.constraint(equalTo: footer.centerXAnchor).isActive = true
             
             if api.selectedPlaylist != "" {
                 if spotifyView == nil {
@@ -304,13 +316,87 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 }
                 
                 footer.addSubview(spotifyView)
-                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .leading, relatedBy: .equal, toItem: footer, attribute: .leading, multiplier: 1.0, constant: 0.0)])
-                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .trailing, relatedBy: .equal, toItem: footer, attribute: .trailing, multiplier: 1.0, constant: 0.0)])
-                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .top, relatedBy: .equal, toItem: footer, attribute: .top, multiplier: 1.0, constant: 0.0)])
-                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .bottom, relatedBy: .equal, toItem: footer, attribute: .bottom, multiplier: 1.0, constant: 0.0)])
+                spotifyView.topAnchor.constraint(equalTo: chainsStackView.bottomAnchor).isActive = true
+                spotifyView.widthAnchor.constraint(equalTo: footer.widthAnchor).isActive = true
+                spotifyView.heightAnchor.constraint(equalTo: footer.heightAnchor, constant: -chainsStackView.frame.size.height).isActive = true
+//                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .leading, relatedBy: .equal, toItem: footer, attribute: .leading, multiplier: 1.0, constant: 0.0)])
+//                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .trailing, relatedBy: .equal, toItem: footer, attribute: .trailing, multiplier: 1.0, constant: 0.0)])
+//                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .top, relatedBy: .equal, toItem: footer, attribute: .top, multiplier: 1.0, constant: 0.0)])
+//                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .bottom, relatedBy: .equal, toItem: footer, attribute: .bottom, multiplier: 1.0, constant: 0.0)])
+                
+            } else {
+                let selectAudioPlayerView = UIView()
+                footer.addSubview(selectAudioPlayerView)
+                selectAudioPlayerView.translatesAutoresizingMaskIntoConstraints = false
+                selectAudioPlayerView.widthAnchor.constraint(equalTo: footer.widthAnchor).isActive = true
+                selectAudioPlayerView.heightAnchor.constraint(equalToConstant: 145.0).isActive = true
+                selectAudioPlayerView.topAnchor.constraint(equalTo: chainsStackView.bottomAnchor).isActive = true
+                selectAudioPlayerView.bottomAnchor.constraint(equalTo: footer.bottomAnchor).isActive = true
+                selectAudioPlayerView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
+                
+                let label = UILabel()
+                selectAudioPlayerView.addSubview(label)
+                label.translatesAutoresizingMaskIntoConstraints = false
+                label.widthAnchor.constraint(equalTo: selectAudioPlayerView.widthAnchor).isActive = true
+                label.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+                label.centerXAnchor.constraint(equalTo: selectAudioPlayerView.centerXAnchor).isActive = true
+                label.centerYAnchor.constraint(equalTo: selectAudioPlayerView.centerYAnchor, constant: -30.0).isActive = true
+                label.text = "Select Your Audio Player"
+                label.textAlignment = .center
+                label.textColor = .white
+//                label.isUserInteractionEnabled = true
+//                let gesture = UITapGestureRecognizer(target: self, action: #selector(onTapGesture(_:)))
+//                gesture.numberOfTapsRequired = 1
+//                label.addGestureRecognizer(gesture)
+                
+                let facebookLabel = UILabel()
+                selectAudioPlayerView.addSubview(facebookLabel)
+                facebookLabel.translatesAutoresizingMaskIntoConstraints = false
+                facebookLabel.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
+                facebookLabel.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+                facebookLabel.topAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
+                facebookLabel.leftAnchor.constraint(equalTo: selectAudioPlayerView.leftAnchor, constant: 45.0).isActive = true
+                facebookLabel.text = "Facebook"
+                facebookLabel.textColor = .white
+                
+                let pandoraLabel = UILabel()
+                selectAudioPlayerView.addSubview(pandoraLabel)
+                pandoraLabel.translatesAutoresizingMaskIntoConstraints = false
+                pandoraLabel.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
+                pandoraLabel.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+                pandoraLabel.leftAnchor.constraint(equalTo: facebookLabel.rightAnchor, constant: 25.0).isActive = true
+                pandoraLabel.topAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
+                pandoraLabel.text = "Pandora"
+                pandoraLabel.textColor = .white
+                
+                let itunesLabel = UILabel()
+                selectAudioPlayerView.addSubview(itunesLabel)
+                itunesLabel.translatesAutoresizingMaskIntoConstraints = false
+                itunesLabel.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
+                itunesLabel.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+                itunesLabel.leftAnchor.constraint(equalTo: pandoraLabel.rightAnchor, constant: 25.0).isActive = true
+                itunesLabel.topAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
+                itunesLabel.text = "iTunes"
+                itunesLabel.textColor = .white
+            
                 
             }
             return footer
+        }
+    }
+    
+    @objc func onTapGesture(_ gesture:UITapGestureRecognizer) {
+        
+    }
+    
+    private func createButtons(named: String...) -> [UIButton] {
+        return named.map { name in
+            let button = UIButton()
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.setTitle(name, for: .normal)
+            button.backgroundColor = .gray
+            button.setTitleColor(.white, for: .normal)
+            return button
         }
     }
     
@@ -326,11 +412,11 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
    //  Set the size for the footer element.
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        var height : CGFloat = 0.0
+        var height : CGFloat = 100.0
         if let cell = lastCellAdded {
             height = (self.collectionView?.frame.height)! - cell.frame.maxY - self.view.safeAreaInsets.top - gridCell.margin
         } else {
-            height = 0.0
+            height = 200.0
         }        
         return CGSize(width: view.frame.width, height: height)
     }
