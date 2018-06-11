@@ -14,6 +14,7 @@
 		982E36F72056FB8D00C85513 /* AccessTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982E36F62056FB8D00C85513 /* AccessTokenManager.swift */; };
 		984B33D420C82619008F9707 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984B33D320C82619008F9707 /* Settings.swift */; };
 		9858DF83206AFA5E003EF103 /* Sound 2 in Resources */ = {isa = PBXBuildFile; fileRef = 9858DF82206AFA5E003EF103 /* Sound 2 */; };
+		985F850620CED05000635507 /* ChainsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985F850520CED05000635507 /* ChainsStackView.swift */; };
 		986060E92069827700EBBACB /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986060E82069827700EBBACB /* HomeController.swift */; };
 		986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A03342077B45900D49273 /* PlaylistTableViewCell.swift */; };
 		986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A03362077B50200D49273 /* PlaylistTableViewController.swift */; };
@@ -44,6 +45,7 @@
 		982E36F62056FB8D00C85513 /* AccessTokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenManager.swift; sourceTree = "<group>"; };
 		984B33D320C82619008F9707 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9858DF82206AFA5E003EF103 /* Sound 2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Sound 2"; sourceTree = "<group>"; };
+		985F850520CED05000635507 /* ChainsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainsStackView.swift; sourceTree = "<group>"; };
 		986060E82069827700EBBACB /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		986A03342077B45900D49273 /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		986A03362077B50200D49273 /* PlaylistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				982E36F42056F55B00C85513 /* SpotifyView.swift */,
+				985F850520CED05000635507 /* ChainsStackView.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				98E60BB620559805005F849B /* AppDelegate.swift in Sources */,
 				98B56C89205719A7005900F8 /* Extensions.swift in Sources */,
 				9817DBB7209B38B3002678F0 /* API.swift in Sources */,
+				985F850620CED05000635507 /* ChainsStackView.swift in Sources */,
 				9817DBB9209B390F002678F0 /* ClipPlayer.swift in Sources */,
 				986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */,
 				984B33D420C82619008F9707 /* Settings.swift in Sources */,
