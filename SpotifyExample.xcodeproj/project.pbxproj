@@ -34,6 +34,8 @@
 		98E60BCC20559B67005F849B /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E60BCA20559B67005F849B /* SpotifyAudioPlayback.framework */; };
 		98E60BCD20559B67005F849B /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E60BCB20559B67005F849B /* SpotifyAuthentication.framework */; };
 		98F0A3E720A39040000D051F /* PandoraApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F0A3E620A39040000D051F /* PandoraApi.swift */; };
+		98FE149820D01340000DEC4A /* UsersChains.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 98FE149620D01340000DEC4A /* UsersChains.xcdatamodeld */; };
+		98FF72A720D00A4B0015C07C /* ChainsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FF72A620D00A4B0015C07C /* ChainsModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +70,8 @@
 		98E60BCA20559B67005F849B /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAudioPlayback.framework; sourceTree = "<group>"; };
 		98E60BCB20559B67005F849B /* SpotifyAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAuthentication.framework; sourceTree = "<group>"; };
 		98F0A3E620A39040000D051F /* PandoraApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PandoraApi.swift; sourceTree = "<group>"; };
+		98FE149720D01340000DEC4A /* UsersChains.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UsersChains.xcdatamodel; sourceTree = "<group>"; };
+		98FF72A620D00A4B0015C07C /* ChainsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChainsModel.swift; sourceTree = "<group>"; };
 		A9B9A988DBD2D9D8CE54B3BB /* Pods-SpotifyExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotifyExample/Pods-SpotifyExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +131,7 @@
 			children = (
 				982E36F42056F55B00C85513 /* SpotifyView.swift */,
 				985F850520CED05000635507 /* ChainsStackView.swift */,
+				98FF72A620D00A4B0015C07C /* ChainsModel.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 		98E60BA920559805005F849B = {
 			isa = PBXGroup;
 			children = (
+				98FE149620D01340000DEC4A /* UsersChains.xcdatamodeld */,
 				98C356DB206AC77E00FBD7D3 /* Images */,
 				98E60BB420559805005F849B /* SpotifyExample */,
 				98E60BB320559805005F849B /* Products */,
@@ -362,9 +368,11 @@
 				986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */,
 				984B33D420C82619008F9707 /* Settings.swift in Sources */,
 				98F0A3E720A39040000D051F /* PandoraApi.swift in Sources */,
+				98FF72A720D00A4B0015C07C /* ChainsModel.swift in Sources */,
 				986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */,
 				98B9794E2059DE3500E4F41B /* ColumnFlowLayout.swift in Sources */,
 				982E36F72056FB8D00C85513 /* AccessTokenManager.swift in Sources */,
+				98FE149820D01340000DEC4A /* UsersChains.xcdatamodeld in Sources */,
 				982E36F52056F55B00C85513 /* SpotifyView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -571,6 +579,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		98FE149620D01340000DEC4A /* UsersChains.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				98FE149720D01340000DEC4A /* UsersChains.xcdatamodel */,
+			);
+			currentVersion = 98FE149720D01340000DEC4A /* UsersChains.xcdatamodel */;
+			path = UsersChains.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 98E60BAA20559805005F849B /* Project object */;
 }
