@@ -287,11 +287,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             chainsStackView.axis = .horizontal
             chainsStackView.spacing = 2
             chainsStackView.distribution = .fillEqually
-            chainsStackView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+            chainsStackView.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
             chainsStackView.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
-            chainsStackView.backgroundColor = .white
+            chainsStackView.backgroundColor = .black
             footer.addSubview(chainsStackView)
             chainsStackView.centerXAnchor.constraint(equalTo: footer.centerXAnchor).isActive = true
+            chainsStackView.topAnchor.constraint(equalTo: footer.topAnchor, constant: 0.0)
             
             if api.selectedPlaylist != "" {
                 if spotifyView == nil {
@@ -317,8 +318,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 
                 footer.addSubview(spotifyView)
                 spotifyView.topAnchor.constraint(equalTo: chainsStackView.bottomAnchor).isActive = true
+                spotifyView.bottomAnchor.constraint(equalTo: footer.bottomAnchor).isActive = true
                 spotifyView.widthAnchor.constraint(equalTo: footer.widthAnchor).isActive = true
-                spotifyView.heightAnchor.constraint(equalTo: footer.heightAnchor, constant: -chainsStackView.frame.size.height).isActive = true
+                spotifyView.heightAnchor.constraint(equalTo: footer.heightAnchor, constant: -50.0).isActive = true
 //                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .leading, relatedBy: .equal, toItem: footer, attribute: .leading, multiplier: 1.0, constant: 0.0)])
 //                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .trailing, relatedBy: .equal, toItem: footer, attribute: .trailing, multiplier: 1.0, constant: 0.0)])
 //                footer.addConstraints([NSLayoutConstraint(item: spotifyView, attribute: .top, relatedBy: .equal, toItem: footer, attribute: .top, multiplier: 1.0, constant: 0.0)])
@@ -396,8 +398,16 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             button.setTitle(name, for: .normal)
             button.backgroundColor = .gray
             button.setTitleColor(.white, for: .normal)
+            button.layer.cornerRadius = 4.0
+            button.isUserInteractionEnabled = true
+            
+            
             return button
         }
+    }
+    
+    @objc func chainButtonClicked(sender: UIButton) {
+        
     }
     
     @objc func settingsMenuClicked(sender: UIButton) {

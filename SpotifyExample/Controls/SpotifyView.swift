@@ -60,9 +60,10 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
         playBackSlider.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(playBackSlider)
         playBackSlider.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        playBackSlider.topAnchor.constraint(equalTo: self.topAnchor, constant: 20.0).isActive = true
+        playBackSlider.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         
         addSubview(subViewSpotifyControls)
+        subViewSpotifyControls.topAnchor.constraint(equalTo: playBackSlider.bottomAnchor).isActive = true
         subViewSpotifyControls.backgroundColor = UIColor(red: CGFloat(40.0/255.0), green: CGFloat(40.0/255.0), blue: CGFloat(40.0/255.0), alpha: 1.0)
         subViewSpotifyControls.widthAnchor.constraint(equalTo: self.widthAnchor, constant: 0.0).isActive = true
         subViewSpotifyControls.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
