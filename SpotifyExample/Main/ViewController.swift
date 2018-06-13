@@ -102,8 +102,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//         super.viewWillAppear(animated)
-//         self.navigationController?.setNavigationBarHidden(true, animated: false)
+         super.viewWillAppear(animated)
+         self.navigationController?.isNavigationBarHidden = true
+         self.navigationController?.isToolbarHidden = true
     }
     
     
@@ -244,20 +245,40 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
             header.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+           
             
             // Add Gym Partner image to header
-            let gymPartnerImage = UIImage(named: "leroyHeader")
-            gymPartnerImage?.stretchableImage(withLeftCapWidth: 70, topCapHeight: 70)
-           
-            let gpImageView = UIImageView()
-            gpImageView.translatesAutoresizingMaskIntoConstraints = false
-            gpImageView.adjustsImageSizeForAccessibilityContentSizeCategory = false
-            gpImageView.widthAnchor.constraint(equalToConstant: 70.0).isActive = true
-            gpImageView.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
-            gpImageView.image = gymPartnerImage
-            header.addSubview(gpImageView)
-            gpImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
-            gpImageView.leftAnchor.constraint(equalTo: header.leftAnchor, constant: 15.0).isActive = true
+//            let gymPartnerImage = UIImage(named: "leroyHeader")
+//            gymPartnerImage?.stretchableImage(withLeftCapWidth: 70, topCapHeight: 70)
+//
+//            let gpImageView = UIImageView()
+//            gpImageView.translatesAutoresizingMaskIntoConstraints = false
+//            gpImageView.adjustsImageSizeForAccessibilityContentSizeCategory = false
+//            gpImageView.widthAnchor.constraint(equalToConstant: 70.0).isActive = true
+//            gpImageView.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
+//            gpImageView.image = gymPartnerImage
+//            header.addSubview(gpImageView)
+//            gpImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
+//            gpImageView.leftAnchor.constraint(equalTo: header.leftAnchor, constant: 15.0).isActive = true
+            
+            // Add Back Navigation
+            let backIcon3 = UIImage(named: "backIcon2")
+            
+            
+            let backIconImageView = UIButton()
+            backIconImageView.translatesAutoresizingMaskIntoConstraints = false
+            backIconImageView.widthAnchor.constraint(equalToConstant: 35.0).isActive = true
+            backIconImageView.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+            backIconImageView.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+            backIconImageView.setBackgroundImage(backIcon3, for: .normal)
+            backIconImageView.imageView?.intrinsicContentSize.equalTo(backIconImageView.frame.size)
+            backIconImageView.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
+            
+
+            header.addSubview(backIconImageView)
+            backIconImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 11.0).isActive = true
+            backIconImageView.leftAnchor.constraint(equalTo: header.leftAnchor, constant: 25.0).isActive = true
+            backIconImageView.addTarget(self, action: #selector(backButtonClicked(sender:)), for: .touchUpInside)
             
             // Add Gym Partner Name Label
             let gpNameLabel = UILabel()
@@ -286,7 +307,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             gpWebsiteLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
             
             // Add Settings Gear Icon
-            let settingsGearImage = UIImage(named: "settingsGear")
+            let settingsGearImage = UIImage(named: "gear3")
             settingsGearImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
             
             
@@ -294,17 +315,17 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             let settingsButton = UIButton()
             settingsButton.translatesAutoresizingMaskIntoConstraints = false
             settingsButton.imageView?.contentMode = UIViewContentMode.scaleAspectFit
-            settingsButton.widthAnchor.constraint(equalToConstant: 70.0).isActive = true
-            settingsButton.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
+            settingsButton.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
+            settingsButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
             settingsButton.imageView?.intrinsicContentSize.equalTo(settingsButton.frame.size)
-            settingsButton.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+            settingsButton.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
             settingsButton.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
             settingsButton.setBackgroundImage(settingsGearImage, for: .normal)
             settingsButton.addTarget(self, action: #selector(settingsMenuClicked(sender:)), for: .touchUpInside)
             header.addSubview(settingsButton)
             
-            settingsButton.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
-            settingsButton.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -15.0).isActive = true
+            settingsButton.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 10.0).isActive = true
+            settingsButton.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -25.0).isActive = true
  
             // Add separator line below header
             let lineSubView = UIView(frame: CGRect(x: 0.0, y: header.frame.size.height - 8.0, width: self.view.frame.size.width, height: 1.0))
@@ -459,6 +480,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     @objc func settingsMenuClicked(sender: UIButton) {
         let settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! UITableViewController
         self.navigationController?.pushViewController(settingsController, animated: false)
+    }
+    
+    @objc func backButtonClicked(sender: UIButton) {
+        self.navigationController?.popViewController(animated: false)
     }
     
     // Set the size for the header element.

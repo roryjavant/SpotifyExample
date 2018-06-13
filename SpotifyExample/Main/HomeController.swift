@@ -32,6 +32,9 @@ class HomeController: UIViewController {
         LewinImg.addGestureRecognizer(gesture)
         LeroyImg.addGestureRecognizer(gesture)
         
+        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.isToolbarHidden = true
+        
     }
     
    @objc func onTapGesture(_ gesture:UITapGestureRecognizer) {
@@ -46,6 +49,7 @@ class HomeController: UIViewController {
             default: print("ayyy")
         }
     self.navigationController?.pushViewController(viewController, animated: true)
+    
         
     }
     
