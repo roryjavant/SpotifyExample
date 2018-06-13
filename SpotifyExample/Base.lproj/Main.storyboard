@@ -300,10 +300,10 @@
             </objects>
             <point key="canvasLocation" x="-2754" y="-3025"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Settings Table View Controller-->
         <scene sceneID="bdS-ux-cTe">
             <objects>
-                <tableViewController storyboardIdentifier="SettingsController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rm0-9J-TKK" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingsController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rm0-9J-TKK" customClass="SettingsTableViewController" customModule="SpotifyExample" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="3pc-or-ykZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -326,6 +326,9 @@
                                         <constraint firstAttribute="width" constant="37" id="lvW-Ry-MaM"/>
                                     </constraints>
                                     <state key="normal" backgroundImage="backIcon"/>
+                                    <connections>
+                                        <action selector="backButtonPressed:" destination="rm0-9J-TKK" eventType="touchUpInside" id="3DD-pJ-V0i"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>
@@ -625,6 +628,9 @@
                             <outlet property="delegate" destination="rm0-9J-TKK" id="8CQ-3e-vvx"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="backButton" destination="ePB-qY-DOO" id="bJP-rq-bMR"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tNu-Ec-hC7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
