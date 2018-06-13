@@ -320,9 +320,19 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ePB-qY-DOO">
+                                    <rect key="frame" x="8" y="8" width="37" height="29"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="37" id="lvW-Ry-MaM"/>
+                                    </constraints>
+                                    <state key="normal" backgroundImage="backIcon"/>
+                                </button>
                             </subviews>
                             <constraints>
+                                <constraint firstItem="ePB-qY-DOO" firstAttribute="centerY" secondItem="6x0-83-qT9" secondAttribute="centerY" id="1Jy-jC-R8X"/>
+                                <constraint firstItem="ePB-qY-DOO" firstAttribute="top" secondItem="0LS-pl-X07" secondAttribute="top" constant="8" id="5za-z6-ueq"/>
                                 <constraint firstItem="6x0-83-qT9" firstAttribute="centerY" secondItem="0LS-pl-X07" secondAttribute="centerY" id="H3z-01-QJX"/>
+                                <constraint firstItem="ePB-qY-DOO" firstAttribute="leading" secondItem="0LS-pl-X07" secondAttribute="leading" constant="8" id="TdN-hl-nXb"/>
                                 <constraint firstItem="6x0-83-qT9" firstAttribute="centerX" secondItem="0LS-pl-X07" secondAttribute="centerX" id="VHB-Ac-pBN"/>
                             </constraints>
                         </view>
@@ -378,7 +388,7 @@
                                                     <rect key="frame" x="332" y="6" width="51" height="31"/>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Spotify" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hFw-9O-niK">
-                                                    <rect key="frame" x="20.000000000000004" y="11" width="54.333333333333343" height="22"/>
+                                                    <rect key="frame" x="20" y="11" width="54" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -429,7 +439,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pandora" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrs-Vr-kNf">
-                                                    <rect key="frame" x="19.999999999999996" y="11" width="63.666666666666657" height="22"/>
+                                                    <rect key="frame" x="20" y="11" width="64" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -622,6 +632,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="backIcon" width="16" height="16"/>
         <image name="circleLeroy" width="133" height="133"/>
         <image name="circleMichelle" width="133" height="133"/>
         <image name="dorianCircle" width="133" height="133"/>
