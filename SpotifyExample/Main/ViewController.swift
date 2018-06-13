@@ -43,6 +43,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let api = API.sharedAPI
     let sharedPlayer = ClipPlayer.sharedPlayer
     let sharedPandora = PandoraApi.sharedPandora
+    
+    var counter = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,9 +61,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
         // Set the collectionView layout to our custom layout 'columnLayout' class.
-        flowLayout.minimumInteritemSpacing = gridCell.margin + 10
+        flowLayout.minimumInteritemSpacing = gridCell.margin + 5
         flowLayout.minimumLineSpacing = gridCell.margin + 10
-        flowLayout.sectionInset = UIEdgeInsets(top: gridCell.margin, left: gridCell.margin , bottom: gridCell.margin, right: gridCell.margin)
+        flowLayout.sectionInset = UIEdgeInsets(top: gridCell.margin, left: gridCell.margin + 5 , bottom: gridCell.margin, right: gridCell.margin + 5)
         flowLayout.accessibilityFrame.origin.x = 0.0
         flowLayout.accessibilityFrame.origin.y = 0.0
         let marginsAndInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + flowLayout.minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
@@ -94,6 +96,14 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Initialize clipPlayer
         sharedPlayer.intGymPartner = intGymPartner
         sharedPlayer.getBundle()
+        
+        // Hide Top Nav Bar
+       
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+//         super.viewWillAppear(animated)
+//         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     
@@ -141,17 +151,37 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 8
         
-        // Set Cell Boarder
+
+        
+        if counter != 5 {
+        // Cell Shadow
+            // Set Cell Boarder
         let yellow = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(213.0/255.0), blue: CGFloat(70.0/255.0), alpha: CGFloat(1.0))
         cell.layer.borderColor = yellow.cgColor
         cell.layer.borderWidth = 1.0
-        
-        // Cell Shadow
-        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowColor = UIColor.white.cgColor
         cell.layer.shadowOpacity = 1
         cell.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        cell.layer.shadowRadius = 5
+        cell.layer.shadowRadius = 3
         cell.clipsToBounds = false
+            
+        let layer = CAGradientLayer()
+            layer.frame = cell.frame
+            layer.colors = [UIColor.white, UIColor.gray]
+            //layer.startPoint = CGPoint(cell.frame.minX)
+        
+        cell.layer.addSublayer(layer)
+        } else {
+            let yellow = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(213.0/255.0), blue: CGFloat(70.0/255.0), alpha: CGFloat(1.0))
+            cell.layer.borderColor = yellow.cgColor
+            cell.layer.borderWidth = 0.5
+            cell.layer.shadowColor = UIColor.gray.cgColor
+            cell.layer.shadowOpacity = 0.9
+            cell.layer.shadowOffset = CGSize(width: 2.5, height: 2.5)
+            
+            cell.layer.shadowRadius =  2
+            cell.clipsToBounds = false
+        }
         
         // Create the button
         let button: UIButton =  UIButton()
@@ -160,6 +190,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: cell.frame.height).isActive = true
         button.widthAnchor.constraint(equalToConstant: cell.frame.width).isActive = true
+        
+        // Round Corners
+        button.layer.cornerRadius = 8
         
         // Change background color.
         button.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
@@ -179,9 +212,14 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         case 3:  button.setTitle("Leroy Davis", for: .normal)
         default: button.titleLabel?.text = ""
         }
+        if counter != 5 {
+            button.setTitleColor(UIColor.white, for: .normal)
+        } else {
+            button.setTitleColor(UIColor.red, for: .normal)
+        }
         
         button.titleLabel?.isHidden = false
-        button.setTitleColor(UIColor.white, for: .normal)
+        
         
         // Add Button to Cell
         cell.contentView.addSubview(button)
@@ -193,6 +231,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         case 3:  collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
         default: collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
         }
+        
+        counter = counter + 1
         
         return cell
     }
@@ -287,12 +327,15 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             chainsStackView.axis = .horizontal
             chainsStackView.spacing = 2
             chainsStackView.distribution = .fillEqually
-            chainsStackView.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+            chainsStackView.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
             chainsStackView.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
             chainsStackView.backgroundColor = .black
             footer.addSubview(chainsStackView)
             chainsStackView.centerXAnchor.constraint(equalTo: footer.centerXAnchor).isActive = true
-            chainsStackView.topAnchor.constraint(equalTo: footer.topAnchor, constant: 0.0)
+            chainsStackView.topAnchor.constraint(equalTo: footer.topAnchor, constant: 0.0).isActive = true
+            chainsStackView.alignment = .center
+
+    
             
             if api.selectedPlaylist != "" {
                 if spotifyView == nil {
@@ -394,13 +437,16 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     private func createButtons(named: String...) -> [UIButton] {
         return named.map { name in
             let button = UIButton()
+            button.heightAnchor.constraint(equalToConstant: 30.0)
             button.translatesAutoresizingMaskIntoConstraints = false
             button.setTitle(name, for: .normal)
             button.backgroundColor = .gray
             button.setTitleColor(.white, for: .normal)
-            button.layer.cornerRadius = 4.0
+            button.layer.cornerRadius = 3.0
+            button.layer.shadowColor = UIColor.white.cgColor
+            button.layer.shadowOpacity = 1
+            button.layer.shadowOffset  = CGSize(width: 3.0, height: 3.0)
             button.isUserInteractionEnabled = true
-            
             
             return button
         }
