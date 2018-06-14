@@ -11,15 +11,13 @@ import UIKit
 class SettingsTableViewController: UITableViewController {
 
     @IBOutlet weak var backButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
     }
 
     @IBAction func backButtonPressed(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: false)
     }
-    
 
 }

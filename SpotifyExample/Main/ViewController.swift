@@ -11,6 +11,13 @@ import UIKit
 import OAuthSwift
 import AVFoundation
 
+struct Colors {
+    let gradient1 = UIColor(red: 19.0/255.0, green: 19.0/255.0, blue: 31.0/255.0, alpha: 1.0)
+    let gradient2 = UIColor(red: 32.0/255.0, green: 32.0/255.0, blue: 55/255.0, alpha: 1.0)
+    let gradient3 = UIColor(red: 46.0/255.0, green: 46.0/255.0, blue: 79.0/255.0, alpha: 1.0)
+    let gradient4 = UIColor(red: 60.0/255.0, green: 60.0/255.0, blue: 103.0/255.0, alpha: 1.0)
+    let gradient5 = UIColor(red: 74.0/255.0, green: 74.0/255.0, blue: 128.0/255.0, alpha: 1.0)
+}
 
 class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
     
@@ -43,6 +50,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let api = API.sharedAPI
     let sharedPlayer = ClipPlayer.sharedPlayer
     let sharedPandora = PandoraApi.sharedPandora
+    
+    var buttonArray = [UIButton]()
     
     var counter = 0
 
@@ -105,6 +114,36 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
          super.viewWillAppear(animated)
          self.navigationController?.isNavigationBarHidden = true
          self.navigationController?.isToolbarHidden = true
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        let colors = Colors()
+        //        cell.layer.shadowColor = UIColor.white.cgColor
+        //        cell.layer.shadowOpacity = 1
+        //        cell.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        //        cell.layer.shadowRadius = 3
+        
+        for button in buttonArray {
+            
+            let layer = CAGradientLayer()
+            layer.frame = button.bounds
+            
+            layer.shadowColor = UIColor.white.cgColor
+            layer.shadowOpacity = 1
+            layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+            layer.shadowRadius = 3
+            layer.colors = [colors.gradient1.cgColor, colors.gradient2.cgColor, colors.gradient3.cgColor, colors.gradient4.cgColor, colors.gradient5.cgColor]
+            layer.locations = [0.0, 0.7]
+            layer.cornerRadius = 8
+            layer.startPoint = CGPoint(x: 0.0, y: 0.0)
+            layer.endPoint = CGPoint(x: 1.0, y: 1.0)
+            
+            // Add layer to button
+            button.layer.insertSublayer(layer, at: 0)
+            
+        }
     }
     
     
@@ -152,37 +191,25 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 8
         
-
-        
-        if counter != 5 {
-        // Cell Shadow
-            // Set Cell Boarder
+        // Set Cell Boarder
         let yellow = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(213.0/255.0), blue: CGFloat(70.0/255.0), alpha: CGFloat(1.0))
         cell.layer.borderColor = yellow.cgColor
         cell.layer.borderWidth = 1.0
-        cell.layer.shadowColor = UIColor.white.cgColor
-        cell.layer.shadowOpacity = 1
-        cell.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        cell.layer.shadowRadius = 3
-        cell.clipsToBounds = false
-            
-        let layer = CAGradientLayer()
-            layer.frame = cell.frame
-            layer.colors = [UIColor.white, UIColor.gray]
-            //layer.startPoint = CGPoint(cell.frame.minX)
-        
-        cell.layer.addSublayer(layer)
-        } else {
-            let yellow = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(213.0/255.0), blue: CGFloat(70.0/255.0), alpha: CGFloat(1.0))
-            cell.layer.borderColor = yellow.cgColor
-            cell.layer.borderWidth = 0.5
-            cell.layer.shadowColor = UIColor.gray.cgColor
-            cell.layer.shadowOpacity = 0.9
-            cell.layer.shadowOffset = CGSize(width: 2.5, height: 2.5)
-            
-            cell.layer.shadowRadius =  2
+//        cell.layer.shadowColor = UIColor.white.cgColor
+//        cell.layer.shadowOpacity = 1
+//        cell.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+//        cell.layer.shadowRadius = 3
             cell.clipsToBounds = false
-        }
+            
+//        let layer = CAGradientLayer()
+//            layer.frame = cell.frame
+//            layer.colors = [UIColor.white, UIColor.gray, UIColor.green]
+//
+//            layer.startPoint = CGPoint(x: cell.frame.minX, y: cell.frame.minX)
+//            layer.endPoint = CGPoint(x: cell.frame.maxX, y: cell.frame.maxY)
+        
+//        cell.layer.addSublayer(layer)
+
         
         // Create the button
         let button: UIButton =  UIButton()
@@ -196,7 +223,20 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         button.layer.cornerRadius = 8
         
         // Change background color.
-        button.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+        //button.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
+        
+        
+        // Add Gradient to Button
+//        let layer = CAGradientLayer()
+//        layer.frame = button.bounds
+//        layer.colors = [UIColor.white, UIColor.gray, UIColor.green]
+//
+//        layer.startPoint = CGPoint(x: 0.0, y: 0.5)
+//        layer.endPoint = CGPoint(x: 1.0, y: 0.5)
+//
+//        // Add layer to button
+//
+//        button.layer.addSublayer(layer)
 
         // Setup the button action.
         button.tag = indexPath.item
@@ -221,6 +261,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         button.titleLabel?.isHidden = false
         
+        // Push button to buttonArray
+        buttonArray.append(button)
         
         // Add Button to Cell
         cell.contentView.addSubview(button)
