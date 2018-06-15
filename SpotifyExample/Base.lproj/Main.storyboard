@@ -630,6 +630,9 @@
                     </tableView>
                     <connections>
                         <outlet property="backButton" destination="ePB-qY-DOO" id="bJP-rq-bMR"/>
+                        <outlet property="itunesSwitch" destination="7U3-d8-4MQ" id="Epf-xJ-Zhh"/>
+                        <outlet property="pandoraSwitch" destination="jPh-gF-meF" id="DYt-43-Sav"/>
+                        <outlet property="spotifySwitch" destination="ZSf-Zv-uav" id="tex-iN-be9"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tNu-Ec-hC7" userLabel="First Responder" sceneMemberID="firstResponder"/>

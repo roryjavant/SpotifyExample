@@ -8,9 +8,37 @@
 
 import UIKit
 
+//protocol SettingsControllerDelegate: class {
+//    func updateAudioPlayerSetting()
+//}
+
 class SettingsTableViewController: UITableViewController {
 
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var spotifySwitch: UISwitch!
+    @IBOutlet weak var itunesSwitch:  UISwitch!
+    @IBOutlet weak var pandoraSwitch: UISwitch!
+    
+    var selectedAudioPlayer : String!
+
+
+    
+    init(nibName: String, bundle: Bundle) {        
+        super.init(nibName: nibName, bundle: bundle)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        switch selectedAudioPlayer {
+        case "spotify": spotifySwitch.isOn = true; itunesSwitch.isOn  = false; pandoraSwitch.isOn = false
+        case "pandora": pandoraSwitch.isOn = true; itunesSwitch.isOn  = false; spotifySwitch.isOn = false
+        case "itunes" : itunesSwitch.isOn  = true; pandoraSwitch.isOn = false; spotifySwitch.isOn = false
+        default       : print("error")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,4 +48,14 @@ class SettingsTableViewController: UITableViewController {
         self.navigationController?.popViewController(animated: false)
     }
 
+
+    func updateSelectedAudioPlayer(player: String) {
+        switch player {
+        case "spotify": spotifySwitch.isOn = true; itunesSwitch.isOn  = false; pandoraSwitch.isOn = false
+        case "pandora": pandoraSwitch.isOn = true; itunesSwitch.isOn  = false; spotifySwitch.isOn = false
+        case "itunes" : itunesSwitch.isOn  = true; pandoraSwitch.isOn = false; spotifySwitch.isOn = false
+        default       : print("error")
+        }
+    }
+    
 }
