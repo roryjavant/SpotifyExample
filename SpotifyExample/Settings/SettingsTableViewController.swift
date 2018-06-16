@@ -14,6 +14,8 @@ import UIKit
 
 class SettingsTableViewController: UITableViewController {
 
+    let settingsModel = SettingsModel()
+    
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var spotifySwitch: UISwitch!
     @IBOutlet weak var itunesSwitch:  UISwitch!
@@ -38,6 +40,8 @@ class SettingsTableViewController: UITableViewController {
         case "itunes" : itunesSwitch.isOn  = true; pandoraSwitch.isOn = false; spotifySwitch.isOn = false
         default       : print("error")
         }
+//        settingsModel.setUsersAudioPlayerSetting(player: selectedAudioPlayer)
+        settingsModel.fetchPlayerSetting()
     }
     
     override func viewDidLoad() {

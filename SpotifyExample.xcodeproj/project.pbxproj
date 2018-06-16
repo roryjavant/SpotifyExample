@@ -24,6 +24,7 @@
 		98B9794C2059DDB200E4F41B /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B9794B2059DDB200E4F41B /* GridCell.swift */; };
 		98B9794E2059DE3500E4F41B /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B9794D2059DE3500E4F41B /* ColumnFlowLayout.swift */; };
 		98C356DC206AC77E00FBD7D3 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 98C356DB206AC77E00FBD7D3 /* Images */; };
+		98CCFA2720D5489C009D4266 /* AudioPlayerSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CCFA2620D5489C009D4266 /* AudioPlayerSetting.swift */; };
 		98E60BB620559805005F849B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E60BB520559805005F849B /* AppDelegate.swift */; };
 		98E60BB820559805005F849B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E60BB720559805005F849B /* ViewController.swift */; };
 		98E60BBB20559805005F849B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98E60BB920559805005F849B /* Main.storyboard */; };
@@ -33,6 +34,8 @@
 		98E60BCD20559B67005F849B /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98E60BCB20559B67005F849B /* SpotifyAuthentication.framework */; };
 		98F0A3E720A39040000D051F /* PandoraApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F0A3E620A39040000D051F /* PandoraApi.swift */; };
 		98FE149C20D1AE8B000DEC4A /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FE149B20D1AE8B000DEC4A /* SettingsTableViewController.swift */; };
+		98FE49C820D406D800E3BBA6 /* SettingsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 98FE49C620D406D800E3BBA6 /* SettingsModel.xcdatamodeld */; };
+		98FE49CA20D4072200E3BBA6 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FE49C920D4072200E3BBA6 /* SettingsModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +57,7 @@
 		98B9794B2059DDB200E4F41B /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		98B9794D2059DE3500E4F41B /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		98C356DB206AC77E00FBD7D3 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Images; path = SpotifyExample/Images; sourceTree = "<group>"; };
+		98CCFA2620D5489C009D4266 /* AudioPlayerSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerSetting.swift; sourceTree = "<group>"; };
 		98E60BB220559805005F849B /* SpotifyExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotifyExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98E60BB520559805005F849B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98E60BB720559805005F849B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +70,8 @@
 		98E60BCB20559B67005F849B /* SpotifyAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAuthentication.framework; sourceTree = "<group>"; };
 		98F0A3E620A39040000D051F /* PandoraApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PandoraApi.swift; sourceTree = "<group>"; };
 		98FE149B20D1AE8B000DEC4A /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		98FE49C720D406D800E3BBA6 /* SettingsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SettingsModel.xcdatamodel; sourceTree = "<group>"; };
+		98FE49C920D4072200E3BBA6 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		A9B9A988DBD2D9D8CE54B3BB /* Pods-SpotifyExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotifyExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotifyExample/Pods-SpotifyExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				98FE149B20D1AE8B000DEC4A /* SettingsTableViewController.swift */,
+				98FE49C920D4072200E3BBA6 /* SettingsModel.swift */,
+				98CCFA2620D5489C009D4266 /* AudioPlayerSetting.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -181,6 +189,7 @@
 		98E60BB420559805005F849B /* SpotifyExample */ = {
 			isa = PBXGroup;
 			children = (
+				98FE49C520D406BA00E3BBA6 /* CoreData */,
 				984B33D220C825FF008F9707 /* Settings */,
 				987FCB7D20A355E2003CAA87 /* Resources */,
 				987FCB7C20A35574003CAA87 /* Main */,
@@ -198,6 +207,14 @@
 				9817DBB8209B390F002678F0 /* ClipPlayer.swift */,
 			);
 			path = SpotifyExample;
+			sourceTree = "<group>";
+		};
+		98FE49C520D406BA00E3BBA6 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				98FE49C620D406D800E3BBA6 /* SettingsModel.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		9BD74D60ED0B652F133714AF /* Pods */ = {
@@ -349,8 +366,11 @@
 			files = (
 				9889B4A620A74EC90032293E /* PandoraModel.swift in Sources */,
 				98B9794C2059DDB200E4F41B /* GridCell.swift in Sources */,
+				98FE49CA20D4072200E3BBA6 /* SettingsModel.swift in Sources */,
 				986060E92069827700EBBACB /* HomeController.swift in Sources */,
+				98CCFA2720D5489C009D4266 /* AudioPlayerSetting.swift in Sources */,
 				98E60BB820559805005F849B /* ViewController.swift in Sources */,
+				98FE49C820D406D800E3BBA6 /* SettingsModel.xcdatamodeld in Sources */,
 				98E60BB620559805005F849B /* AppDelegate.swift in Sources */,
 				98B56C89205719A7005900F8 /* Extensions.swift in Sources */,
 				9817DBB7209B38B3002678F0 /* API.swift in Sources */,
@@ -567,6 +587,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		98FE49C620D406D800E3BBA6 /* SettingsModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				98FE49C720D406D800E3BBA6 /* SettingsModel.xcdatamodel */,
+			);
+			currentVersion = 98FE49C720D406D800E3BBA6 /* SettingsModel.xcdatamodel */;
+			path = SettingsModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 98E60BAA20559805005F849B /* Project object */;
 }
