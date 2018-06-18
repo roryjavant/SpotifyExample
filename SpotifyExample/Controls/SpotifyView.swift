@@ -48,17 +48,17 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
 
     
     func setupSubViews() {
-//        let spotifyImage = UIImage(named: "spotifyIcon")
-//        spotifyImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
-//        
-//        let spotifyImageView = UIImageView()
-//        footer.addSubview(spotifyImageView)
-//        spotifyImageView.translatesAutoresizingMaskIntoConstraints = false
-//        spotifyImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-//        spotifyImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//        spotifyImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
-//        spotifyImageView.leftAnchor.constraint(equalTo: selectAudioPlayerView.leftAnchor, constant: 45.0).isActive = true
-//        spotifyImageView.image = spotifyImage
+        let musicNoteImage = UIImage(named: "musicNote")
+        musicNoteImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
+        
+        let musicNoteImageView = UIImageView()
+        self.addSubview(musicNoteImageView)
+        musicNoteImageView.translatesAutoresizingMaskIntoConstraints = false
+        musicNoteImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        musicNoteImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        musicNoteImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 15.0).isActive = true
+        musicNoteImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 25.0).isActive = true
+        musicNoteImageView.image = musicNoteImage
 
 //        let gesture = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
 //        gesture.numberOfTapsRequired = 1
@@ -76,6 +76,7 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
         playBackSlider.maximumValue = 1.0
         playBackSlider.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(playBackSlider)
+        //playBackSlider.leftAnchor.constraint(equalTo: musicNoteImageView.rightAnchor, constant: 15.0).isActive = true
         playBackSlider.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         playBackSlider.topAnchor.constraint(equalTo: self.topAnchor, constant: 15.0).isActive = true
         
