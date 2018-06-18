@@ -415,7 +415,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     
                     spotifyView.setupSubViews()
                 }
-                
+                playlistController.audioDelegate = spotifyView
                 footer.addSubview(spotifyView)
                 spotifyView.topAnchor.constraint(equalTo: chainsStackView.bottomAnchor).isActive = true
                 spotifyView.bottomAnchor.constraint(equalTo: footer.bottomAnchor).isActive = true

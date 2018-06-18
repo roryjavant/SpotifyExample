@@ -16,6 +16,12 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
     var subViewSpotifyControls : UIView = UIView()
     var selectedPlaylistImage : SPTImage!
     
+    var playButtonImageView : UIImageView = UIImageView()
+    var playButton : UIButton!
+    
+    let playImage = UIImage(named: "circlePlay")
+    let pauseImage = UIImage(named: "circlePause")
+    
     let api = API.sharedAPI
     let sharedPlayer = ClipPlayer.sharedPlayer
     
@@ -37,6 +43,12 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
         albumText = UILabel()
         songPositionText = UILabel()
         
+  
+        playButtonImageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0))
+        playImage?.stretchableImage(withLeftCapWidth: 30, topCapHeight: 30)
+        pauseImage?.stretchableImage(withLeftCapWidth: 30, topCapHeight: 30)
+    
+
     }
     
     override init(frame: CGRect) {super.init(frame: frame)}
@@ -45,20 +57,30 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-
-    
     func setupSubViews() {
         let musicNoteImage = UIImage(named: "musicNote")
         musicNoteImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
         
-        let musicNoteImageView = UIImageView()
-        self.addSubview(musicNoteImageView)
-        musicNoteImageView.translatesAutoresizingMaskIntoConstraints = false
-        musicNoteImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        musicNoteImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        musicNoteImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 15.0).isActive = true
-        musicNoteImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 25.0).isActive = true
-        musicNoteImageView.image = musicNoteImage
+        let musicNoteButton = UIButton()
+        musicNoteButton.translatesAutoresizingMaskIntoConstraints = false
+        musicNoteButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        musicNoteButton.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+        musicNoteButton.setBackgroundImage(musicNoteImage, for: .normal)
+        self.addSubview(musicNoteButton)
+        
+        musicNoteButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 25.0).isActive = true
+        musicNoteButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 15.0).isActive = true
+        
+        
+        
+//        let musicNoteImageView = UIImageView()
+//        self.addSubview(musicNoteImageView)
+//        musicNoteImageView.translatesAutoresizingMaskIntoConstraints = false
+//        musicNoteImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//        musicNoteImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        musicNoteImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 15.0).isActive = true
+//        musicNoteImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 25.0).isActive = true
+//        musicNoteImageView.image = musicNoteImage
 
 //        let gesture = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
 //        gesture.numberOfTapsRequired = 1
@@ -80,6 +102,19 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
         playBackSlider.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         playBackSlider.topAnchor.constraint(equalTo: self.topAnchor, constant: 15.0).isActive = true
         
+        let gymPartnerImage = UIImage(named: "circleLeroy")
+        //gymPartnerImage?.stretchableImage(withLeftCapWidth: 65, topCapHeight: 60)
+        
+        let gymPartnerImageView = UIImageView()
+        self.addSubview(gymPartnerImageView)
+        gymPartnerImageView.translatesAutoresizingMaskIntoConstraints = false
+        gymPartnerImageView.contentMode = UIViewContentMode.scaleAspectFit
+        gymPartnerImageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        gymPartnerImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        gymPartnerImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 4.0).isActive = true
+        gymPartnerImageView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -15.0).isActive = true
+        gymPartnerImageView.image = gymPartnerImage
+        
         addSubview(subViewSpotifyControls)
         //subViewSpotifyControls.topAnchor.constraint(equalTo: playBackSlider.bottomAnchor).isActive = true
         subViewSpotifyControls.backgroundColor = UIColor(red: CGFloat(40.0/255.0), green: CGFloat(40.0/255.0), blue: CGFloat(40.0/255.0), alpha: 1.0)
@@ -100,10 +135,36 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
         imageView.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
        // imageView.image = playlistImage
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
         subViewSpotifyControls.addSubview(imageView)
+
+        
+        playButton = UIButton()
+        playButton.setBackgroundImage(pauseImage, for: .normal)
+        playButton.isSelected = true
+        playButton.addTarget(self, action: #selector(playButtonPressed(playButton:)), for: .touchUpInside)
+        
+        playButton.translatesAutoresizingMaskIntoConstraints = false
+        
+//        imageView.addSubview(playButton)
+//        imageView.bringSubview(toFront: playButton)
+        
         imageView.leftAnchor.constraint(equalTo: subViewSpotifyControls.leftAnchor).isActive = true
         imageView.bottomAnchor.constraint(equalTo: subViewSpotifyControls.bottomAnchor).isActive = true
- 
+        
+        
+        playButton.isUserInteractionEnabled = true
+        playButton.widthAnchor.constraint(equalToConstant: 30.0).isActive = true
+        playButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        playButton.imageView?.isUserInteractionEnabled = true
+        
+        
+        imageView.addSubview(playButton)
+        imageView.bringSubview(toFront: playButton)
+        
+        playButton.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
+        playButton.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+        
         
         songText.translatesAutoresizingMaskIntoConstraints = false
         songText.widthAnchor.constraint(equalToConstant: 175.0).isActive = true
@@ -122,6 +183,24 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
         subViewSpotifyControls.addSubview(artistText)
         artistText.leftAnchor.constraint(equalTo: imageView.rightAnchor, constant: 12.0).isActive = true
         artistText.topAnchor.constraint(equalTo: songText.bottomAnchor, constant: -5.0).isActive = true
+        
+        let hamburgerIconImage = UIImage(named: "hamburgerIcon")
+        hamburgerIconImage?.stretchableImage(withLeftCapWidth: 35, topCapHeight: 35)
+
+        let hamburgerIconImageView = UIImageView()
+        subViewSpotifyControls.addSubview(hamburgerIconImageView)
+        hamburgerIconImageView.translatesAutoresizingMaskIntoConstraints = false
+        hamburgerIconImageView.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        hamburgerIconImageView.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        hamburgerIconImageView.topAnchor.constraint(equalTo: subViewSpotifyControls.topAnchor, constant: 15.0).isActive = true
+        hamburgerIconImageView.rightAnchor.constraint(equalTo: subViewSpotifyControls.rightAnchor, constant: -25.0).isActive = true
+        hamburgerIconImageView.image = hamburgerIconImage
+        hamburgerIconImageView.isUserInteractionEnabled = true
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(displayPlaylistController(_:)))
+        gesture.numberOfTapsRequired = 1
+        hamburgerIconImageView.addGestureRecognizer(gesture)
+//        gesture.name = "spotify"
 
         let backwardTrackNavButton = UIButton()
         backwardTrackNavButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
@@ -173,8 +252,9 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
 
     }
     
-//     @objc func selectAudioPlayerTap(_ gesture:UITapGestureRecognizer) {
-//    }
+     @objc func displayPlaylistController(_ gesture:UITapGestureRecognizer) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "displayPlayer"), object: nil)
+    }
     
     func updateSongPositionText(position: Double) {
         let totalSeconds = Int(position)
@@ -198,12 +278,14 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
     }
 
     
-    @objc func playButtonPressed(button: UIButton) {
-        if button.titleLabel?.text == "Play" {
-            button.setTitle("Pause", for: .normal)
+    @objc func playButtonPressed(playButton: UIButton) {
+        if playButton.isSelected {
+            playButton.setBackgroundImage(playImage, for: .normal)
+            playButton.isSelected = false
             SPTAudioStreamingController.sharedInstance().setIsPlaying(false, callback: nil)
         } else {
-            button.setTitle("Play", for: .normal)
+            playButton.setBackgroundImage(pauseImage, for: .normal)
+            playButton.isSelected = true
             SPTAudioStreamingController.sharedInstance().setIsPlaying(true, callback: nil)
         }
     }
@@ -293,6 +375,43 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
                 
                 imageView.downloadImageWithURL(albumCoverArt)
         
+//        if playButtonImageView.state == .notSet {
+        
+//
+//                let playButtonImage = UIImage(named: "circlePlay")
+//                playButtonImage?.stretchableImage(withLeftCapWidth: 40, topCapHeight: 40)
+//
+//                playButtonImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 40.0, height: 40.0))
+        
+//                playButtonImageView.translatesAutoresizingMaskIntoConstraints = false
+//                playButtonImageView.image = playButtonImage
+                //playButtonImageView.contentMode = UIViewContentMode.scaleAspectFit
+                //playButtonImageView.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+                //playButtonImageView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+
+//                imageView.addSubview(playButtonImageView)
+                //playButtonImageView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
+                //playButtonImageView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+
+                //playButtonImageView.topAnchor.constraint(equalTo: subViewSpotifyControls.topAnchor, constant: 15.0).isActive = true
+                //playButtonImageView.rightAnchor.constraint(equalTo: subViewSpotifyControls.rightAnchor, constant: -25.0).isActive = true
+        
+                //playButtonImageView.isUserInteractionEnabled = true
+               // playButtonImageView.state = .playing
+        
+//                let gesture = UITapGestureRecognizer(target: self, action: #selector(playButtonImagePressed(_:)))
+//                gesture.numberOfTapsRequired = 1
+//                playButtonImageView.addGestureRecognizer(gesture)
+//        } else {
+//            let pausedButtonImage = UIImage(named: "circlePause")
+//            pausedButtonImage?.stretchableImage(withLeftCapWidth: 40, topCapHeight: 40)
+//            playButtonImageView.image = pausedButtonImage
+//        }
+//        playButton.setBackgroundImage(pauseImage, for: .normal)
+//        imageView.addSubview(playButton)
+        //imageView.bringSubview(toFront: playButton)
+        playButton.addTarget(self, action: #selector(playButtonPressed(playButton:)), for: .touchUpInside)
+    
         if let track = player.metadata.currentTrack {
             playBackStatusSlider.maximumValue = Float(track.duration.magnitude)
             playBackStatusSlider.minimumValue = Float(0.0)
@@ -303,7 +422,19 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
 //        }
         setUI()
     }
+    
+    @objc func playButtonImagePressed(_ gesture:UITapGestureRecognizer) {
+        if playButtonImageView.state == .playing {
+            playButtonImageView.state = .paused
+            playButtonImageView.image = UIImage(named: "circlePause")
+        } else {
+            playButtonImageView.state = .playing
+            playButtonImageView.image = UIImage(named: "circlePlay")
+        }
+        
+    }
 
+    
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didSeekToPosition position: TimeInterval) {
         playBackStatusSlider.value = Float(player.playbackState.position.magnitude)
     }
@@ -317,4 +448,33 @@ extension SpotifyView: SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDeleg
         }
     }
 
+}
+
+
+extension UIImageView {
+    convenience init(frame: CGRect, state: State) {
+        self.init(frame: frame)
+        self.state = State(state: state)
+        
+    }
+    enum State {
+        case playing, paused, notSet
+        init(state: State) {
+            self = state
+        }
+    }
+    
+    var state : State {
+        get {
+            switch self.state {
+            case .playing : return State(state: .playing)
+            case .paused  : return State(state: .paused)
+            default       : return State(state: .notSet)
+            }
+        }
+    set(newValue) {
+        self.state = State(state: newValue)
+        }
+    }
+    
 }
