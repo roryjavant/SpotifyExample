@@ -19,7 +19,22 @@ struct Colors {
     let gradient5 = UIColor(red: 74.0/255.0, green: 74.0/255.0, blue: 128.0/255.0, alpha: 1.0)
 }
 
-class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
+struct DimensionAnchor {
+    let dimensionAnchor : NSLayoutDimension
+    let anchorValue : CGFloat
+}
+
+struct AxisAnchor {
+    let axisAnchour : NSLayoutXAxisAnchor
+    let anchorValue : CGFloat
+}
+
+//enum AnchorType {
+//    case DimensionAnchor(dimensionAnchor: NSLayoutDimension, anchorValue: CGFloat)
+//    case AxisAnchor(axisAnchor: NSLayoutXAxisAnchor, anchorValue: CGFloat)
+//}
+
+class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SettingTableViewControllerDelegate {
     
     // MARK: HomeController Properties
     let cellsPerRow = 3
@@ -53,48 +68,22 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     var buttonArray = [UIButton]()
     
-    var counter = 0
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Add Navigation Item to navigate to user's playlist (needs implementation)
-        loginButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
-        loginButton.setTitle("Login", for: .normal)
-        loginButton.addTarget(self, action: #selector(ViewController.loginButtonPressed(sender:)), for: UIControlEvents.touchUpInside)
-        loginButton.setTitleColor(.black, for: .normal)
-        let barButton = UIBarButtonItem.init(customView: loginButton)
-        navigationItem.rightBarButtonItem = barButton
+        addLoginButton()
         
-        // Intialize Collection View
-        guard let collectionView = collectionView, let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        // Initial setup for Flow Layout
+        setupFlowLayout()
         
-        // Set the collectionView layout to our custom layout 'columnLayout' class.
-        flowLayout.minimumInteritemSpacing = gridCell.margin + 5
-        flowLayout.minimumLineSpacing = gridCell.margin + 10
-        flowLayout.sectionInset = UIEdgeInsets(top: gridCell.margin, left: gridCell.margin + 5 , bottom: gridCell.margin, right: gridCell.margin + 5)
-        flowLayout.accessibilityFrame.origin.x = 0.0
-        flowLayout.accessibilityFrame.origin.y = 0.0
-        let marginsAndInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + flowLayout.minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
-        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
-        flowLayout.itemSize =  CGSize(width: itemWidth, height: itemWidth - (itemWidth * 0.4))
-        collectionView.contentInsetAdjustmentBehavior = .always
-        
-        // Set collectionView background color
-        collectionView.backgroundColor = .white
-        
-        // Register cell, header, and footer for the HomeController
-        collectionView.register(GridCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
-        collectionView.isScrollEnabled = false
-        
+        // Initial setup for collectionView
+        setupCollectionView()
         
         // Call Initial Spotify Setup
         api.setupSpotify()
         
         // Pandora API test
-      //  sharedPandora.setupJsonPandora()
+        //  sharedPandora.setupJsonPandora()
         
         // Call init on api to set add observer to NotificationCenter.default
         api.addNotificationCenterObserver()
@@ -105,71 +94,112 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Initialize clipPlayer
         sharedPlayer.intGymPartner = intGymPartner
         sharedPlayer.getBundle()
-        
-        // Hide Top Nav Bar
        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-         super.viewWillAppear(animated)
-         self.navigationController?.isNavigationBarHidden = true
-         self.navigationController?.isToolbarHidden = true
+    fileprivate func addLoginButton() {
+//        // Add Navigation Item to navigate to user's playlist (needs implementation)
+//        loginButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
+//        loginButton.setTitle("Login", for: .normal)
+//        loginButton.addTarget(self, action: #selector(ViewController.loginButtonPressed(sender:)), for: UIControlEvents.touchUpInside)
+//        loginButton.setTitleColor(.black, for: .normal)
+//        let barButton = UIBarButtonItem.init(customView: loginButton)
+//        navigationItem.rightBarButtonItem = barButton
+    }
+    
+    fileprivate func setupCollectionView() {
+        guard let collectionView = collectionView  else { return }
+        collectionView.contentInsetAdjustmentBehavior = .always
         
+        // Set collectionView background color
+        collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
+        
+        // Register cell, header, and footer for the HomeController
+        collectionView.register(GridCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
+        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
+        collectionView.isScrollEnabled = false
+    }
+    
+    fileprivate func setupFlowLayout() {
+        // Set the collectionView layout to our custom layout 'columnLayout' class.
+        guard let collectionView = collectionView else { return }
+        let layout = collectionViewLayout as! UICollectionViewFlowLayout
+        layout.minimumInteritemSpacing = gridCell.margin + 5
+        layout.minimumLineSpacing = gridCell.margin + 10
+        layout.sectionInset = UIEdgeInsets(top: gridCell.margin, left: gridCell.margin + 5 , bottom: gridCell.margin, right: gridCell.margin + 5)
+        layout.accessibilityFrame.origin.x = 0.0
+        layout.accessibilityFrame.origin.y = 0.0
+        var marginsAndInsets = layout.sectionInset.left + layout.sectionInset.right + layout.minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
+        marginsAndInsets = marginsAndInsets + ((collectionView.safeAreaInsets.left)  + (collectionView.safeAreaInsets.right))
+        let itemWidth = (((collectionView.bounds.size.width) - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+        layout.itemSize =  CGSize(width: itemWidth, height: itemWidth - (itemWidth * 0.4))
+       
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // Hide Top Navigation Bar
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.isToolbarHidden = true
+    }
+    
+    fileprivate func addDefaultButtonLayer(button: UIButton) {
+        // Init Layer and Layer Rect
+        let layer = CAGradientLayer()
+        layer.frame = button.bounds
+        
+        // Set Layer's Gradient Colors
+        let colors = Colors()
+        layer.colors = [colors.gradient1.cgColor, colors.gradient2.cgColor, colors.gradient3.cgColor, colors.gradient4.cgColor, colors.gradient5.cgColor]
+        layer.locations = [0.0, 0.7]
+        
+        // Set Shadow Properties
+        layer.shadowColor = UIColor.white.cgColor
+        layer.shadowOpacity = 1
+        layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        layer.shadowRadius = 3
+        layer.cornerRadius = 8
+        
+        // Set Start/End point for gradient
+        layer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        layer.endPoint = CGPoint(x: 1.0, y: 1.0)
+        
+        // Add Layer to Button
+        button.layer.insertSublayer(layer, at: 0)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
-        let colors = Colors()
-        //        cell.layer.shadowColor = UIColor.white.cgColor
-        //        cell.layer.shadowOpacity = 1
-        //        cell.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        //        cell.layer.shadowRadius = 3
-        
         for button in buttonArray {
-            
-            let layer = CAGradientLayer()
-            layer.frame = button.bounds
-            
-            layer.shadowColor = UIColor.white.cgColor
-            layer.shadowOpacity = 1
-            layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-            layer.shadowRadius = 3
-            layer.colors = [colors.gradient1.cgColor, colors.gradient2.cgColor, colors.gradient3.cgColor, colors.gradient4.cgColor, colors.gradient5.cgColor]
-            layer.locations = [0.0, 0.7]
-            layer.cornerRadius = 8
-            layer.startPoint = CGPoint(x: 0.0, y: 0.0)
-            layer.endPoint = CGPoint(x: 1.0, y: 1.0)
-            
-            // Add layer to button
-            button.layer.insertSublayer(layer, at: 0)
-            
+            addDefaultButtonLayer(button: button)
         }
     }
     
     
    @objc func displayPlaylistController() {
-    self.playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
-    playlistController.api = api
-    playlistController.numOfCells = Int(api.userPlaylistsCount)
-    playlistController.delegate = self
-    self.navigationController?.pushViewController(self.playlistController, animated: false)
+        self.playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
+        playlistController.api = api
+        playlistController.numOfCells = Int(api.userPlaylistsCount)
+        playlistController.delegate = self
+        self.navigationController?.pushViewController(self.playlistController, animated: false)
     }
    
-    // Navigate to AppDelegate after login button pressed
-    @objc func loginButtonPressed(sender: Any) {
+    @objc func spotifyImageViewPressed() {
+        // Navigate to AppDelegate after login button pressed
         UIApplication.shared.open(api.loginUrl!, options: [:], completionHandler: {
             (success) in
             print("Open")
         })
     }
     
-    // Brings user to their playlist's (Spotify Controller)
+
     @objc func spotify_click() {
+        // Brings user to their playlist's (Spotify Controller)
         playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
         playlistController.numOfCells = api.userPlaylists.count
         playlistController.delegate = self
         self.navigationController?.pushViewController(playlistController, animated: false)
-        //self.present(playlistController, animated: true, completion: nil)
     }
     
     func getUrlHandler(forOauth oauth: OAuth2Swift) -> SafariURLHandler {
@@ -177,109 +207,89 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
 
     
-    // Set the number of cells
+
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // Set The Number of Cells For CollectionView
         return 12
     }
 
-    // Create the cell for the index passed in by the collection view and return it.
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        lastCellAdded = cell
-        
-        // Round cell corners
-        cell.layer.masksToBounds = true
-        cell.layer.cornerRadius = 8
-        
-        // Set Cell Boarder
-        let yellow = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(213.0/255.0), blue: CGFloat(70.0/255.0), alpha: CGFloat(1.0))
-        cell.layer.borderColor = yellow.cgColor
-        cell.layer.borderWidth = 1.0
-//        cell.layer.shadowColor = UIColor.white.cgColor
-//        cell.layer.shadowOpacity = 1
-//        cell.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-//        cell.layer.shadowRadius = 3
-            cell.clipsToBounds = false
-            
-//        let layer = CAGradientLayer()
-//            layer.frame = cell.frame
-//            layer.colors = [UIColor.white, UIColor.gray, UIColor.green]
-//
-//            layer.startPoint = CGPoint(x: cell.frame.minX, y: cell.frame.minX)
-//            layer.endPoint = CGPoint(x: cell.frame.maxX, y: cell.frame.maxY)
-        
-//        cell.layer.addSublayer(layer)
-
-        
-        // Create the button
-        let button: UIButton =  UIButton()
+    
+    fileprivate func configureClipButton(clipCellButton: inout UIButton, clipCell: inout UICollectionViewCell, indexPath: IndexPath) {
+        // Create The Cell For The Index Passed In By The Collection View And Return It.
         
         // Add contraints to new button.
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.heightAnchor.constraint(equalToConstant: cell.frame.height).isActive = true
-        button.widthAnchor.constraint(equalToConstant: cell.frame.width).isActive = true
+        clipCellButton.translatesAutoresizingMaskIntoConstraints = false
+        clipCellButton.heightAnchor.constraint(equalToConstant: clipCell.frame.height).isActive = true
+        clipCellButton.widthAnchor.constraint(equalToConstant: clipCell.frame.width).isActive = true
         
         // Round Corners
-        button.layer.cornerRadius = 8
+        clipCellButton.layer.cornerRadius = 8
         
         // Change background color.
         //button.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
         
-        
-        // Add Gradient to Button
-//        let layer = CAGradientLayer()
-//        layer.frame = button.bounds
-//        layer.colors = [UIColor.white, UIColor.gray, UIColor.green]
-//
-//        layer.startPoint = CGPoint(x: 0.0, y: 0.5)
-//        layer.endPoint = CGPoint(x: 1.0, y: 0.5)
-//
-//        // Add layer to button
-//
-//        button.layer.addSublayer(layer)
-
         // Setup the button action.
-        button.tag = indexPath.item
-        button.addTarget(self, action: #selector(clipButtonPressed(button:)), for: .touchUpInside)
-        button.isEnabled = true
+        clipCellButton.tag = indexPath.item
+        clipCellButton.addTarget(self, action: #selector(clipButtonPressed(button:)), for: .touchUpInside)
+        clipCellButton.isEnabled = true
+        
+        // Set Title Color
+        clipCellButton.setTitleColor(UIColor.white, for: .normal)
+        
+        // Set Button Properties
+        clipCellButton.titleLabel?.isHidden = false
+        clipCellButton.isSelected = false
+        
+        // Push button to buttonArray
+        buttonArray.append(clipCellButton)
         
         // Set Button Font
-        //button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14.0)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12.0)
+        clipCellButton.titleLabel?.font = UIFont.systemFont(ofSize: 12.0)
         
         // Set Button Label Text Depending On Selected Gym Partner
         switch intGymPartner {
-        case 1:  button.setTitle("One More Rep!", for: .normal)
-        case 2:  button.setTitle("Michele Lewin", for: .normal)
-        case 3:  button.setTitle("Leroy Davis", for: .normal)
-        default: button.titleLabel?.text = ""
+            case 1:  clipCellButton.setTitle("One More Rep!", for: .normal)
+            case 2:  clipCellButton.setTitle("Michele Lewin", for: .normal)
+            case 3:  clipCellButton.setTitle("Leroy Davis", for: .normal)
+            default: clipCellButton.titleLabel?.text = ""
         }
-      
         
-        // Set Title Color
-        button.setTitleColor(UIColor.white, for: .normal)
-      
+        // Add Target Method to clipCellButton
         
-        button.titleLabel?.isHidden = false
-        button.isSelected = false
-        
-        // Push button to buttonArray
-        buttonArray.append(button)
         
         // Add Button to Cell
-        cell.contentView.addSubview(button)
-        cell.bringSubview(toFront: button)
+        clipCell.contentView.addSubview(clipCellButton)
+        clipCell.bringSubview(toFront: clipCellButton)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        var clipCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
         
-        switch intGymPartner {
-        case 1:  collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
-        case 2:  collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
-        case 3:  collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
-        default: collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
-        }
+        // Hold Reference to The Last Cell Added (Used In Footer Section to Help Calculate Footer Bounds Based On The Bottom Cell (Last Cell Added)
+        lastCellAdded = clipCell
         
-        counter = counter + 1
+        // Configure The Audio Clip Cell
+        configureClipCell(clipCell: &clipCell)
+      
         
-        return cell
+        // Create ClipButton And Configure t
+        var clipCellButton: UIButton =  UIButton()
+        configureClipButton(clipCellButton: &clipCellButton, clipCell: &clipCell, indexPath: indexPath)
+        
+        return clipCell
+    }
+   
+    func configureClipCell(clipCell: inout UICollectionViewCell)  {
+        // Round cell corners
+        clipCell.layer.masksToBounds = true
+        clipCell.layer.cornerRadius = 8
+        
+        // Set Cell Boarder
+        let yellow = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(213.0/255.0), blue: CGFloat(70.0/255.0), alpha: CGFloat(1.0))
+        clipCell.layer.borderColor = yellow.cgColor
+        clipCell.layer.borderWidth = 1.0
+        clipCell.clipsToBounds = false
+
     }
     
     // Create the section element (header or footer) for the collection view.
@@ -289,27 +299,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
             header.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
-           
-            
-            // Add Gym Partner image to header
-//            let gymPartnerImage = UIImage(named: "leroyHeader")
-//            gymPartnerImage?.stretchableImage(withLeftCapWidth: 70, topCapHeight: 70)
-//
-//            let gpImageView = UIImageView()
-//            gpImageView.translatesAutoresizingMaskIntoConstraints = false
-//            gpImageView.adjustsImageSizeForAccessibilityContentSizeCategory = false
-//            gpImageView.widthAnchor.constraint(equalToConstant: 70.0).isActive = true
-//            gpImageView.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
-//            gpImageView.image = gymPartnerImage
-//            header.addSubview(gpImageView)
-//            gpImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
-//            gpImageView.leftAnchor.constraint(equalTo: header.leftAnchor, constant: 15.0).isActive = true
             
             // Add Back Navigation
             let backIcon3 = UIImage(named: "backIcon2")
             
-            
             let backIconImageView = UIButton()
+            
             backIconImageView.translatesAutoresizingMaskIntoConstraints = false
             backIconImageView.widthAnchor.constraint(equalToConstant: 35.0).isActive = true
             backIconImageView.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
@@ -317,7 +312,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             backIconImageView.setBackgroundImage(backIcon3, for: .normal)
             backIconImageView.imageView?.intrinsicContentSize.equalTo(backIconImageView.frame.size)
             backIconImageView.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-            
 
             header.addSubview(backIconImageView)
             backIconImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 10.0).isActive = true
@@ -388,19 +382,17 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             
             // Chains StackView
             let chainsStackView = UIStackView(arrangedSubviews: createButtons(named: "1", "2", "3", "4"))
+            chainsStackView.backgroundColor = UIColor(red: CGFloat(40.0/255.0), green: CGFloat(40.0/255.0), blue: CGFloat(40.0/255.0), alpha: 1.0)
             chainsStackView.translatesAutoresizingMaskIntoConstraints = false
             chainsStackView.axis = .horizontal
             chainsStackView.spacing = 2
             chainsStackView.distribution = .fillEqually
             chainsStackView.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
             chainsStackView.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
-            chainsStackView.backgroundColor = .black
             footer.addSubview(chainsStackView)
             chainsStackView.centerXAnchor.constraint(equalTo: footer.centerXAnchor).isActive = true
-            chainsStackView.topAnchor.constraint(equalTo: footer.topAnchor, constant: 20.0).isActive = true
+            chainsStackView.topAnchor.constraint(equalTo: footer.topAnchor, constant: 5.0).isActive = true
             chainsStackView.alignment = .center
-
-    
             
             if api.selectedPlaylist != "" {
                 if spotifyView == nil {
@@ -417,7 +409,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     spotifyView.layoutIfNeeded()
                     spotifyView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0))
                     spotifyView.selectedPlaylistImage = api.selectedPlaylistImage
-                    footer.backgroundColor = .white
+                    
                     // Add NotificationCenter post to tell SpotifyView player to start playing selected playlist.
                    // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startPlayer"), object: nil)
                     
@@ -428,6 +420,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 spotifyView.topAnchor.constraint(equalTo: chainsStackView.bottomAnchor).isActive = true
                 spotifyView.bottomAnchor.constraint(equalTo: footer.bottomAnchor).isActive = true
                 spotifyView.widthAnchor.constraint(equalTo: footer.widthAnchor).isActive = true
+//                spotifyView.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
                 spotifyView.heightAnchor.constraint(equalTo: footer.heightAnchor, constant: -50.0).isActive = true
 
             } else {
@@ -451,11 +444,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 label.text = "Select Your Audio Player"
                 label.textAlignment = .center
                 label.textColor = .white
-//                label.isUserInteractionEnabled = true
-//                let gesture = UITapGestureRecognizer(target: self, action: #selector(onTapGesture(_:)))
-//                gesture.numberOfTapsRequired = 1
-//                label.addGestureRecognizer(gesture)
-                
+
                 let spotifyImage = UIImage(named: "spotifyIcon")
                 spotifyImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
                 
@@ -467,7 +456,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 spotifyImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
                 spotifyImageView.leftAnchor.constraint(equalTo: selectAudioPlayerView.leftAnchor, constant: 45.0).isActive = true
                 spotifyImageView.image = spotifyImage
-                
                 
                 let pandoraImage = UIImage(named: "pandoraIcon")
                 spotifyImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
@@ -507,52 +495,24 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 
                 let gesture3 = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
                 gesture3.name = "itunes"
+                gesture3.numberOfTapsRequired = 1
                 
                 spotifyImageView.isUserInteractionEnabled = true
                 pandoraImageView.isUserInteractionEnabled = true
                 iTunesImageView.isUserInteractionEnabled = true
                 
-                
                 spotifyImageView.addGestureRecognizer(gesture)
                 pandoraImageView.addGestureRecognizer(gesture2)
                 iTunesImageView.addGestureRecognizer(gesture3)
                 
-                
-                
-//                let facebookLabel = UILabel()
-//                selectAudioPlayerView.addSubview(facebookLabel)
-//                facebookLabel.translatesAutoresizingMaskIntoConstraints = false
-//                facebookLabel.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-//                facebookLabel.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
-//                facebookLabel.topAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
-//                facebookLabel.leftAnchor.constraint(equalTo: selectAudioPlayerView.leftAnchor, constant: 45.0).isActive = true
-//                facebookLabel.text = "Facebook"
-//                facebookLabel.textColor = .white
-//
-//                let pandoraLabel = UILabel()
-//                selectAudioPlayerView.addSubview(pandoraLabel)
-//                pandoraLabel.translatesAutoresizingMaskIntoConstraints = false
-//                pandoraLabel.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-//                pandoraLabel.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
-//                pandoraLabel.leftAnchor.constraint(equalTo: facebookLabel.rightAnchor, constant: 25.0).isActive = true
-//                pandoraLabel.topAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
-//                pandoraLabel.text = "Pandora"
-//                pandoraLabel.textColor = .white
-//
-//                let itunesLabel = UILabel()
-//                selectAudioPlayerView.addSubview(itunesLabel)
-//                itunesLabel.translatesAutoresizingMaskIntoConstraints = false
-//                itunesLabel.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
-//                itunesLabel.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
-//                itunesLabel.leftAnchor.constraint(equalTo: pandoraLabel.rightAnchor, constant: 25.0).isActive = true
-//                itunesLabel.topAnchor.constraint(equalTo: label.bottomAnchor).isActive = true
-//                itunesLabel.text = "iTunes"
-//                itunesLabel.textColor = .white
-//
-                
             }
             return footer
         }
+    }
+    
+     // width, height, image, left anchor, right anchor, centerYAnchor, centerXAnchor, backgroundColor, NSLayoutYAxisAnchor
+    func setupImageVIews(imageView: UIImageView, width: CGFloat, height: CGFloat, leftAnchorValue: CGFloat, rightAnchorValue: CGFloat, topAnchorValue: CGFloat, bottomAnchorValue: CGFloat, centerYAnchorValue: CGFloat, centerXAnchorValue: CGFloat, image: String ) {
+        
     }
     
     @objc func onTapGesture(_ gesture:UITapGestureRecognizer) {
@@ -631,13 +591,12 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             button.layer.replaceSublayer(button.layer.sublayers![0], with: layer)
             
         }
-        //  sharedPlayer.button_click(button: button)
-
-        
+          sharedPlayer.button_click(button: button)
     }
     
     @objc func settingsMenuClicked(sender: UIButton) {
         let settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
+        settingsController.delegate = self
         self.navigationController?.pushViewController(settingsController, animated: false)
     }
     
@@ -648,9 +607,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     @objc func selectAudioPlayerTap(_ gesture:UITapGestureRecognizer) {
         
         let settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
-
+        settingsController.delegate = self
         switch gesture.name {
-            case "spotify": settingsController.selectedAudioPlayer = "spotify"
+            case "spotify": settingsController.selectedAudioPlayer = "spotify"; self.spotifyImageViewPressed()
             case "pandora": settingsController.selectedAudioPlayer = "pandora"
             case "itunes" : settingsController.selectedAudioPlayer = "itunes"
             default       : print("error")            
@@ -677,9 +636,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     func updateCollectionViewFooter() {
         self.collectionView?.reloadSections(IndexSet(0 ..< 1))
-    }
-    
-    
+    }        
     
 } // End Class
 

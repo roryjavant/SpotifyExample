@@ -8,13 +8,17 @@
 
 import UIKit
 
-//protocol SettingsControllerDelegate: class {
-//    func updateAudioPlayerSetting()
-//}
+protocol SettingTableViewControllerDelegate : class {
+    func updateCollectionViewFooter()
+    init()
+    
+    
+}
 
 class SettingsTableViewController: UITableViewController {
 
     let settingsModel = SettingsModel()
+    var delegate : SettingTableViewControllerDelegate?
     
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var spotifySwitch: UISwitch!
@@ -22,16 +26,21 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var pandoraSwitch: UISwitch!
     
     var selectedAudioPlayer : String!
-
-
-    
-    init(nibName: String, bundle: Bundle) {        
+ 
+    init(nibName: String, bundle: Bundle, delegate: SettingTableViewControllerDelegate) {
         super.init(nibName: nibName, bundle: bundle)
+        
+        
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    required init?(coder aDecoder: NSCoder) {        
+       super.init(coder: aDecoder)
     }
+    
+    convenience init?(delegate: SettingTableViewControllerDelegate, coder aDecoder: NSCoder) {
+        self.init(coder: aDecoder)
+        
+        }
     
     override func viewWillAppear(_ animated: Bool) {
         switch selectedAudioPlayer {
@@ -41,7 +50,9 @@ class SettingsTableViewController: UITableViewController {
         default       : print("error")
         }
 //        settingsModel.setUsersAudioPlayerSetting(player: selectedAudioPlayer)
-        settingsModel.fetchPlayerSetting()
+        settingsModel.deletePlayerSetting()
+       // settingsModel.setUsersAudioPlayerSetting(player: selectedAudioPlayer)
+        
     }
     
     override func viewDidLoad() {

@@ -1020,13 +1020,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.271242"
+            timestampString = "551022468.183243"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "ViewController"
-            landmarkType = "3">
+            startingLineNumber = "207"
+            endingLineNumber = "207"
+            landmarkName = "getUrlHandler(forOauth:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1436,7 +1436,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Layout/TableView/PlaylistTableViewController.swift"
-            timestampString = "550764640.696529"
+            timestampString = "550949865.046869"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "83"
@@ -1452,11 +1452,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Controls/SpotifyView.swift"
-            timestampString = "550764485.695608"
+            timestampString = "551022468.183725"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
             landmarkName = "audioStreaming(_:didStopPlayingTrack:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1468,11 +1468,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Controls/SpotifyView.swift"
-            timestampString = "550764485.69567"
+            timestampString = "551022468.184094"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
             landmarkName = "SpotifyView"
             landmarkType = "21">
          </BreakpointContent>
@@ -1484,11 +1484,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.2730629"
+            timestampString = "551022468.1843621"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
+            startingLineNumber = "398"
+            endingLineNumber = "398"
             landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1500,11 +1500,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Controls/SpotifyView.swift"
-            timestampString = "550764485.696259"
+            timestampString = "551022468.18442"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
             landmarkName = "startStreamingAudio()"
             landmarkType = "7">
             <Locations>
@@ -1548,11 +1548,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Controls/SpotifyView.swift"
-            timestampString = "550764485.696314"
+            timestampString = "551022468.184664"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "243"
+            endingLineNumber = "243"
             landmarkName = "setSliderValues()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1564,7 +1564,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/HomeController.swift"
-            timestampString = "550765353.623233"
+            timestampString = "550950186.622164"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
@@ -1580,11 +1580,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.273821"
+            timestampString = "551022468.1849329"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
+            startingLineNumber = "420"
+            endingLineNumber = "420"
             landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1596,11 +1596,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.274462"
+            timestampString = "551022468.184994"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "433"
-            endingLineNumber = "433"
+            startingLineNumber = "419"
+            endingLineNumber = "419"
             landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1612,11 +1612,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.275107"
+            timestampString = "551022468.185053"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
             landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1628,12 +1628,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.275741"
+            timestampString = "551022468.1851161"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
-            landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
+            landmarkName = "configureClipCell(clipCell:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1644,12 +1644,40 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.276425"
+            timestampString = "551022468.1851749"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
-            landmarkName = "collectionView(_:viewForSupplementaryElementOfKind:at:)"
+            startingLineNumber = "645"
+            endingLineNumber = "645">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Main/ViewController.swift"
+            timestampString = "551022468.185233"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "645"
+            endingLineNumber = "645">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Main/ViewController.swift"
+            timestampString = "551022468.185292"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "setupFlowLayout()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1660,92 +1688,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.277058"
+            timestampString = "551022468.185351"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "668"
-            endingLineNumber = "668"
-            landmarkName = "collectionView(_:layout:referenceSizeForFooterInSection:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.277678"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "669"
-            endingLineNumber = "669"
-            landmarkName = "collectionView(_:layout:referenceSizeForFooterInSection:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.278327"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.278873"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "viewDidAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.279376"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "viewDidAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.279935"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
-            landmarkName = "viewDidAppear(_:)"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
+            landmarkName = "addDefaultButtonLayer(button:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1756,13 +1704,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Settings/SettingsTableViewController.swift"
-            timestampString = "550846656.280625"
+            timestampString = "551022468.185425"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "updateSelectedAudioPlayer(player:)"
-            landmarkType = "7">
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "SettingsTableViewController"
+            landmarkType = "3">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -1804,11 +1752,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Settings/SettingsTableViewController.swift"
-            timestampString = "550846656.28073"
+            timestampString = "551022468.185482"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "updateSelectedAudioPlayer(player:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1820,11 +1768,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Settings/SettingsTableViewController.swift"
-            timestampString = "550846656.28081"
+            timestampString = "551022468.185533"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "updateSelectedAudioPlayer(player:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1836,11 +1784,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Settings/SettingsTableViewController.swift"
-            timestampString = "550846656.280906"
+            timestampString = "551022468.1855839"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "viewWillAppear(_:)"
             landmarkType = "7">
             <Locations>
@@ -1884,13 +1832,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Main/ViewController.swift"
-            timestampString = "550846656.28101"
+            timestampString = "551022468.185636"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "652"
-            endingLineNumber = "652"
-            landmarkName = "selectAudioPlayerTap(_:)"
-            landmarkType = "7">
+            startingLineNumber = "640"
+            endingLineNumber = "640"
+            landmarkName = "ViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1900,7 +1848,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SpotifyExample/Settings/SettingsModel.swift"
-            timestampString = "550846656.281809"
+            timestampString = "551022468.185698"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
@@ -1912,16 +1860,160 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Settings/SettingsModel.swift"
+            timestampString = "551022468.185751"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "fetchPlayerSetting()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SpotifyExample/Settings/SettingsTableViewController.swift"
-            timestampString = "550846656.283603"
+            filePath = "SpotifyExample/Settings/SettingsModel.swift"
+            timestampString = "551022468.185802"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "44"
             endingLineNumber = "44"
-            landmarkName = "viewWillAppear(_:)"
+            landmarkName = "userDefaultsTest()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Settings/SettingsModel.swift"
+            timestampString = "551022468.1858521"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "userDefaultsTest()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Settings/SettingsModel.swift"
+            timestampString = "551022468.185902"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "userDefaultsTest()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Settings/SettingsModel.swift"
+            timestampString = "551022468.185953"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "playerSettingIsSet()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Settings/SettingsModel.swift"
+            timestampString = "551022468.186002"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "playerSettingIsSet()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Settings/SettingsModel.swift"
+            timestampString = "551022468.186053"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "setUsersAudioPlayerSetting(player:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Settings/SettingsModel.swift"
+            timestampString = "551022468.186103"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "setUsersAudioPlayerSetting(player:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Settings/SettingsModel.swift"
+            timestampString = "551022468.1861531"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "setUsersAudioPlayerSetting(player:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SpotifyExample/Settings/SettingsModel.swift"
+            timestampString = "551022468.186204"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "playerSettingIsSet()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

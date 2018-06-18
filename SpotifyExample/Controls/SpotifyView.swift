@@ -48,9 +48,26 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
 
     
     func setupSubViews() {
-        
+//        let spotifyImage = UIImage(named: "spotifyIcon")
+//        spotifyImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
+//        
+//        let spotifyImageView = UIImageView()
+//        footer.addSubview(spotifyImageView)
+//        spotifyImageView.translatesAutoresizingMaskIntoConstraints = false
+//        spotifyImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//        spotifyImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        spotifyImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
+//        spotifyImageView.leftAnchor.constraint(equalTo: selectAudioPlayerView.leftAnchor, constant: 45.0).isActive = true
+//        spotifyImageView.image = spotifyImage
+
+//        let gesture = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
+//        gesture.numberOfTapsRequired = 1
+//        gesture.name = "spotify"
+
+
+        self.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
         playBackSlider = UISlider()
-        playBackSlider.widthAnchor.constraint(equalToConstant: 350.0).isActive = true
+        playBackSlider.widthAnchor.constraint(equalToConstant: 200.0).isActive = true
         playBackSlider.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         playBackSlider.isEnabled = true
         playBackSlider.isUserInteractionEnabled = true
@@ -60,10 +77,10 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
         playBackSlider.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(playBackSlider)
         playBackSlider.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        playBackSlider.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        playBackSlider.topAnchor.constraint(equalTo: self.topAnchor, constant: 15.0).isActive = true
         
         addSubview(subViewSpotifyControls)
-        subViewSpotifyControls.topAnchor.constraint(equalTo: playBackSlider.bottomAnchor).isActive = true
+        //subViewSpotifyControls.topAnchor.constraint(equalTo: playBackSlider.bottomAnchor).isActive = true
         subViewSpotifyControls.backgroundColor = UIColor(red: CGFloat(40.0/255.0), green: CGFloat(40.0/255.0), blue: CGFloat(40.0/255.0), alpha: 1.0)
         subViewSpotifyControls.widthAnchor.constraint(equalTo: self.widthAnchor, constant: 0.0).isActive = true
         subViewSpotifyControls.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
@@ -154,6 +171,9 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
         songPositionText.topAnchor.constraint(equalTo: artistText.bottomAnchor, constant: 10.0).isActive = true
 
     }
+    
+//     @objc func selectAudioPlayerTap(_ gesture:UITapGestureRecognizer) {
+//    }
     
     func updateSongPositionText(position: Double) {
         let totalSeconds = Int(position)
