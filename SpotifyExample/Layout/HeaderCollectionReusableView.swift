@@ -21,14 +21,14 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     let settingsIconAssetName = "gear3"
     let settingsIcon : UIImage!
     
-    required init?(coder aDecoder: NSCoder) {
+    override required init(frame: CGRect) {
         backIcon = UIImage(named: backIconAssetName)
         backButton.setBackgroundImage(backIcon, for: .normal)
         
         settingsIcon = UIImage(named: settingsIconAssetName)
         settingsButton.setImage(settingsIcon, for: .normal)
         
-        super.init(coder: aDecoder)
+        super.init(frame: frame)
         
         setupBackButton()
         addBackButton()
@@ -45,6 +45,12 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         setupSettingsButton()
         addSettingsButton()
         addSettingsButtonConstraints()
+        
+        addSeparatorLine()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func setupBackButton() {
@@ -84,7 +90,6 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         partnerLabel.text = "Leroy Davis"
         partnerLabel.textColor = Colors().partnerLabel
         partnerLabel.font = UIFont.boldSystemFont(ofSize: 24.0)
-        
     }
     
     func addPartnerLabel() {
@@ -92,11 +97,8 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     }
     
     func addPartnerLabelConstraints() {
-        partnerLabel.widthAnchor.constraint(equalToConstant: 60.0).isActive  = true
-        partnerLabel.heightAnchor.constraint(equalToConstant: 25.0).isActive = true
         partnerLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0.0).isActive = true
         partnerLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0.0).isActive = true
-    
     }
     
     func setupPartnerWebsiteLabel() {
@@ -111,8 +113,6 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     }
     
     func addPartnerWebsiteLabelConstraints() {
-        websiteLabel.widthAnchor.constraint(equalToConstant: 60.0).isActive  = true
-        websiteLabel.heightAnchor.constraint(equalToConstant: 25.0).isActive = true
         websiteLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0.0).isActive    = true
         websiteLabel.topAnchor.constraint(equalTo: partnerLabel.bottomAnchor, constant: 5.0).isActive = true
     }
@@ -149,9 +149,14 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         settingsButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -25.0).isActive    = true
     }
     
+    func addSeparatorLine() {
+        let separator = UIView(frame: CGRect(x: 0.0, y: self.frame.size.height - 8.0, width: self.frame.size.width, height: 1.0))
+        separator.backgroundColor = .black
+        self.addSubview(separator)
+    }
+    
     func setBackgroundColor(color: UIColor) {
         self.backgroundColor = color
     }
-
 
 }

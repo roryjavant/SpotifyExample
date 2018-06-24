@@ -20,7 +20,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let cellId = "cellId"
  
     let headerId = "headerId"
-    var header = UICollectionReusableView()
+    var header : HeaderCollectionReusableView!
     
     let footerId = "footerId"
     var headerHeight : Float = 0.0
@@ -57,6 +57,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         // Initial setup for Flow Layout
         setupFlowLayout()
+        
+        // Set Header Frame
+        header = HeaderCollectionReusableView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 125.0))
         
         // Initial setup for collectionView
         setupCollectionView()
@@ -98,7 +101,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
         // Register cell, header, and footer for the HomeController
         collectionView.register(GridCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
+        collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
         collectionView.isScrollEnabled = false
     }
@@ -313,12 +316,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionHeader {
-            header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
-            setHeaderBackgroundColor()
-            addHeaderBackIcon()
-            addHeaderWebsiteLabel(partner: addHeaderPartnerLabel(header: header))
-            addHeaderSettingsIcon(header: header)
-            addSepartorLine(to: header)
+            header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! HeaderCollectionReusableView
             return header
         } else {
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath)
@@ -553,76 +551,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
           sharedPlayer.button_click(button: button)
     }
     
-    func addHeaderBackIcon() {
-        let backIcon3 = UIImage(named: "backIcon2")
-        let backIconImageView = UIButton()
-        backIconImageView.translatesAutoresizingMaskIntoConstraints = false
-        backIconImageView.widthAnchor.constraint(equalToConstant: 35.0).isActive = true
-        backIconImageView.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
-        backIconImageView.imageView?.contentMode = UIViewContentMode.scaleAspectFit
-        backIconImageView.setBackgroundImage(backIcon3, for: .normal)
-        backIconImageView.imageView?.intrinsicContentSize.equalTo(backIconImageView.frame.size)
-        backIconImageView.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-        header.addSubview(backIconImageView)
-        backIconImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 10.0).isActive = true
-        backIconImageView.leftAnchor.constraint(equalTo: header.leftAnchor, constant: 25.0).isActive = true
-        backIconImageView.addTarget(self, action: #selector(backButtonClicked(sender:)), for: .touchUpInside)
-    }
-    
-    func addHeaderPartnerLabel(header: UICollectionReusableView) -> UILabel {
-        let partner = UILabel()
-        partner.translatesAutoresizingMaskIntoConstraints = false
-        partner.text = "Leroy Davis"
-        partner.textColor = UIColor(red: CGFloat(223.0/255.0), green: CGFloat(163.0/255.0), blue: CGFloat(45.0/255.0), alpha: CGFloat(1.0) )
-        partner.font = UIFont.boldSystemFont(ofSize: 24.0)
-        partner.widthAnchor.constraint(equalToConstant: 60.0)
-        partner.heightAnchor.constraint(equalToConstant: 25.0)
-        header.addSubview(partner)
-        partner.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
-        partner.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
-        return partner
-    }
-    
-    func addHeaderWebsiteLabel(partner: UILabel) {
-        let website = UILabel()
-        website.translatesAutoresizingMaskIntoConstraints = false
-        website.text = "NastyLeroyDavis.com"
-        website.textColor = UIColor(red: CGFloat(180.0/255.0), green: CGFloat(158.0/255.0), blue: CGFloat(84.0/255.0), alpha: CGFloat(1.5) ) //166 158 34
-        website.font = UIFont.boldSystemFont(ofSize: 14.0)
-        website.widthAnchor.constraint(equalToConstant: 60.0)
-        website.heightAnchor.constraint(equalToConstant: 25.0)
-        header.addSubview(website)
-        website.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
-        website.topAnchor.constraint(equalTo: partner.bottomAnchor, constant: 5.0).isActive = true
-    }
-    
-    func addHeaderSettingsIcon(header: UICollectionReusableView) {
-        let gear = UIImage(named: "gear3")
-        gear?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
-        let settings = UIButton()
-        settings.translatesAutoresizingMaskIntoConstraints = false
-        settings.imageView?.contentMode = UIViewContentMode.scaleAspectFit
-        settings.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
-        settings.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        settings.imageView?.intrinsicContentSize.equalTo(settings.frame.size)
-        settings.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
-        settings.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-        settings.setBackgroundImage(gear, for: .normal)
-        settings.addTarget(self, action: #selector(settingsMenuClicked(sender:)), for: .touchUpInside)
-        header.addSubview(settings)
-        settings.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 10.0).isActive = true
-        settings.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -25.0).isActive = true
-    }
-    
-    func setHeaderBackgroundColor() {
-        header.backgroundColor = Colors().background
-    }
-    
-    func addSepartorLine(to header: UICollectionReusableView) {
-        let separator = UIView(frame: CGRect(x: 0.0, y: header.frame.size.height - 8.0, width: self.view.frame.size.width, height: 1.0))
-        separator.backgroundColor = .black
-        header.addSubview(separator)
-    }
+
     
     func setFooterBackgroundColor(footer: UICollectionReusableView) {
         footer.backgroundColor = Colors().footerBackground
