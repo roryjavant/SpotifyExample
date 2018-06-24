@@ -18,7 +18,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     // MARK: HomeController Properties
     let cellsPerRow = 3
     let cellId = "cellId"
+ 
     let headerId = "headerId"
+    var header = UICollectionReusableView()
+    
     let footerId = "footerId"
     var headerHeight : Float = 0.0
     var cellSectionHeight : Float = 0.0
@@ -310,10 +313,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
-            setHeaderBackgroundColor(header: header)
-            addHeaderBackIcon(header: header)
-            addHeaderWebsiteLabel(header: header, partner: addHeaderPartnerLabel(header: header))
+            header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
+            setHeaderBackgroundColor()
+            addHeaderBackIcon()
+            addHeaderWebsiteLabel(partner: addHeaderPartnerLabel(header: header))
             addHeaderSettingsIcon(header: header)
             addSepartorLine(to: header)
             return header
@@ -550,7 +553,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
           sharedPlayer.button_click(button: button)
     }
     
-    func addHeaderBackIcon(header: UICollectionReusableView) {
+    func addHeaderBackIcon() {
         let backIcon3 = UIImage(named: "backIcon2")
         let backIconImageView = UIButton()
         backIconImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -580,7 +583,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return partner
     }
     
-    func addHeaderWebsiteLabel(header: UICollectionReusableView, partner: UILabel) {
+    func addHeaderWebsiteLabel(partner: UILabel) {
         let website = UILabel()
         website.translatesAutoresizingMaskIntoConstraints = false
         website.text = "NastyLeroyDavis.com"
@@ -611,7 +614,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         settings.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -25.0).isActive = true
     }
     
-    func setHeaderBackgroundColor(header: UICollectionReusableView) {
+    func setHeaderBackgroundColor() {
         header.backgroundColor = Colors().background
     }
     

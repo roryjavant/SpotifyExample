@@ -17,6 +17,7 @@
 		986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A03342077B45900D49273 /* PlaylistTableViewCell.swift */; };
 		986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A03362077B50200D49273 /* PlaylistTableViewController.swift */; };
 		9884505C20DE9F8100FEDE96 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9884505B20DE9F8100FEDE96 /* Colors.swift */; };
+		9884505E20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9884505D20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift */; };
 		9889B4A620A74EC90032293E /* PandoraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9889B4A520A74EC90032293E /* PandoraModel.swift */; };
 		98B22A1B20A358B000DE2F7B /* Sound 3 in Resources */ = {isa = PBXBuildFile; fileRef = 98B22A1A20A358B000DE2F7B /* Sound 3 */; };
 		98B22A1D20A358BD00DE2F7B /* Sound in Resources */ = {isa = PBXBuildFile; fileRef = 98B22A1C20A358BD00DE2F7B /* Sound */; };
@@ -51,6 +52,7 @@
 		986A03342077B45900D49273 /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		986A03362077B50200D49273 /* PlaylistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewController.swift; sourceTree = "<group>"; };
 		9884505B20DE9F8100FEDE96 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		9884505D20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		9889B4A520A74EC90032293E /* PandoraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PandoraModel.swift; sourceTree = "<group>"; };
 		98B22A1A20A358B000DE2F7B /* Sound 3 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Sound 3"; sourceTree = "<group>"; };
 		98B22A1C20A358BD00DE2F7B /* Sound */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sound; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				987FCB7820A354E8003CAA87 /* TableView */,
 				98B9794B2059DDB200E4F41B /* GridCell.swift */,
 				98B9794D2059DE3500E4F41B /* ColumnFlowLayout.swift */,
+				9884505D20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				98E60BB820559805005F849B /* ViewController.swift in Sources */,
 				98FE49C820D406D800E3BBA6 /* SettingsModel.xcdatamodeld in Sources */,
 				98E60BB620559805005F849B /* AppDelegate.swift in Sources */,
+				9884505E20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift in Sources */,
 				98B56C89205719A7005900F8 /* Extensions.swift in Sources */,
 				9817DBB7209B38B3002678F0 /* API.swift in Sources */,
 				9817DBB9209B390F002678F0 /* ClipPlayer.swift in Sources */,
