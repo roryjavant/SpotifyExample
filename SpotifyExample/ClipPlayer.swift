@@ -13,7 +13,7 @@ class ClipPlayer {
     
     // Singleton
     static let sharedPlayer = ClipPlayer()
-    var intGymPartner : Int!
+    var selectedPartner : Int!
     var currentClip : Int!
     
     var soundArray = [URL]()
@@ -23,7 +23,7 @@ class ClipPlayer {
         // Get audio file paths in Sound folder.
         var strDirectory : String = ""
         
-        switch intGymPartner {
+        switch selectedPartner {
         case 1: strDirectory = "Sound"
         case 2: strDirectory = "Sound 2"
         case 3: strDirectory = "Sound 3"
@@ -63,7 +63,13 @@ class ClipPlayer {
         } else {
             audioPlayer = try! AVAudioPlayer(contentsOf: soundArray[button.tag])
             audioPlayer?.play()
+            
         }
         currentClip = button.tag
+    }
+    
+    @objc func volumeSliderChanged(slider: UISlider) {
+        let clipAudio = slider.value
+        self.audioPlayer?.setVolume(clipAudio, fadeDuration: TimeInterval(0.1))
     }
 }

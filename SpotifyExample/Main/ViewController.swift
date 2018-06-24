@@ -11,28 +11,7 @@ import UIKit
 import OAuthSwift
 import AVFoundation
 
-struct Colors {
-    let gradient1 = UIColor(red: 19.0/255.0, green: 19.0/255.0, blue: 31.0/255.0, alpha: 1.0)
-    let gradient2 = UIColor(red: 32.0/255.0, green: 32.0/255.0, blue: 55/255.0, alpha: 1.0)
-    let gradient3 = UIColor(red: 46.0/255.0, green: 46.0/255.0, blue: 79.0/255.0, alpha: 1.0)
-    let gradient4 = UIColor(red: 60.0/255.0, green: 60.0/255.0, blue: 103.0/255.0, alpha: 1.0)
-    let gradient5 = UIColor(red: 74.0/255.0, green: 74.0/255.0, blue: 128.0/255.0, alpha: 1.0)
-}
 
-struct DimensionAnchor {
-    let dimensionAnchor : NSLayoutDimension
-    let anchorValue : CGFloat
-}
-
-struct AxisAnchor {
-    let axisAnchour : NSLayoutXAxisAnchor
-    let anchorValue : CGFloat
-}
-
-//enum AnchorType {
-//    case DimensionAnchor(dimensionAnchor: NSLayoutDimension, anchorValue: CGFloat)
-//    case AxisAnchor(axisAnchor: NSLayoutXAxisAnchor, anchorValue: CGFloat)
-//}
 
 class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SettingTableViewControllerDelegate {
     
@@ -47,26 +26,26 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var gridCell = GridCell()
     var lastCellAdded : UICollectionViewCell?
     
-    var playButton: UIButton!
     var loginButton: UIButton!
     var audioPlayer: AVAudioPlayer?
     var clipPlayer : ClipPlayer!
+    let sharedPlayer = ClipPlayer.sharedPlayer
     
-    var soundArray = [URL]()
-    var intGymPartner : Int!
-    var intClipNum : Int! = 0
+    var sounds = [URL]()
+    var selectedPartner : Int!
     
     var spotifyView : SpotifyView!
     var playlistController : PlaylistTableViewController!
+    var settingsController : SettingsTableViewController!
     
-    var selectedPlaylistImage : SPTImage!
-    var selectedPlaylistImageUrl : String = ""
+    var playlistImage : SPTImage!
+    var playlistImageUrl : String = ""
     
     let api = API.sharedAPI
-    let sharedPlayer = ClipPlayer.sharedPlayer
+    
     let sharedPandora = PandoraApi.sharedPandora
     
-    var buttonArray = [UIButton]()
+    var buttons = [UIButton]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,7 +71,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.displayPlaylistController), name: NSNotification.Name(rawValue: "displayPlayer"), object: nil)
         
         // Initialize clipPlayer
-        sharedPlayer.intGymPartner = intGymPartner
+        sharedPlayer.selectedPartner = selectedPartner
         sharedPlayer.getBundle()
        
     }
@@ -171,7 +150,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        for button in buttonArray {
+        for button in buttons {
             addDefaultButtonLayer(button: button)
         }
     }
@@ -240,26 +219,62 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         clipCellButton.titleLabel?.isHidden = false
         clipCellButton.isSelected = false
         
-        // Push button to buttonArray
-        buttonArray.append(clipCellButton)
+        // Push button to buttons
+        buttons.append(clipCellButton)
         
         // Set Button Font
         clipCellButton.titleLabel?.font = UIFont.systemFont(ofSize: 12.0)
         
         // Set Button Label Text Depending On Selected Gym Partner
-        switch intGymPartner {
+        switch selectedPartner {
             case 1:  clipCellButton.setTitle("One More Rep!", for: .normal)
             case 2:  clipCellButton.setTitle("Michele Lewin", for: .normal)
             case 3:  clipCellButton.setTitle("Leroy Davis", for: .normal)
             default: clipCellButton.titleLabel?.text = ""
         }
         
+        switch clipCellButton.tag {
+        case 0:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 1:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 2:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 3:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 4:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 5:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 6:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 7:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 8:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 9:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 10:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        case 11:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        default:
+            clipCellButton.setTitle("One More Rep!", for: .normal)
+        }
         // Add Target Method to clipCellButton
         
         
         // Add Button to Cell
         clipCell.contentView.addSubview(clipCellButton)
         clipCell.bringSubview(toFront: clipCellButton)
+    }
+    
+    private func resetButtonShadow(button: UIButton) {
+        button.layer.cornerRadius = 3.0
+        button.layer.shadowColor = UIColor.white.cgColor
+        button.layer.shadowOpacity = 1
+        button.layer.shadowOffset  = CGSize(width: 3.0, height: 3.0)
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -292,219 +307,134 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
 
     }
     
-    // Create the section element (header or footer) for the collection view.
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionHeader {
-            
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath)
-            header.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
-            
-            // Add Back Navigation
-            let backIcon3 = UIImage(named: "backIcon2")
-            
-            let backIconImageView = UIButton()
-            
-            backIconImageView.translatesAutoresizingMaskIntoConstraints = false
-            backIconImageView.widthAnchor.constraint(equalToConstant: 35.0).isActive = true
-            backIconImageView.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
-            backIconImageView.imageView?.contentMode = UIViewContentMode.scaleAspectFit
-            backIconImageView.setBackgroundImage(backIcon3, for: .normal)
-            backIconImageView.imageView?.intrinsicContentSize.equalTo(backIconImageView.frame.size)
-            backIconImageView.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-
-            header.addSubview(backIconImageView)
-            backIconImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 10.0).isActive = true
-            backIconImageView.leftAnchor.constraint(equalTo: header.leftAnchor, constant: 25.0).isActive = true
-            backIconImageView.addTarget(self, action: #selector(backButtonClicked(sender:)), for: .touchUpInside)
-            
-            // Add Gym Partner Name Label
-            let gpNameLabel = UILabel()
-            gpNameLabel.translatesAutoresizingMaskIntoConstraints = false
-            gpNameLabel.text = "Leroy Davis"
-            gpNameLabel.textColor = UIColor(red: CGFloat(223.0/255.0), green: CGFloat(163.0/255.0), blue: CGFloat(45.0/255.0), alpha: CGFloat(1.0) )
-            gpNameLabel.font = UIFont.boldSystemFont(ofSize: 24.0)
-            gpNameLabel.widthAnchor.constraint(equalToConstant: 60.0)
-            gpNameLabel.heightAnchor.constraint(equalToConstant: 25.0)
-            header.addSubview(gpNameLabel)
-            
-            gpNameLabel.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
-            gpNameLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
-            
-            // Add Gym Partner Website Label
-            let gpWebsiteLabel = UILabel()
-            gpWebsiteLabel.translatesAutoresizingMaskIntoConstraints = false
-            gpWebsiteLabel.text = "NastyLeroyDavis.com"
-            gpWebsiteLabel.textColor = UIColor(red: CGFloat(180.0/255.0), green: CGFloat(158.0/255.0), blue: CGFloat(84.0/255.0), alpha: CGFloat(1.5) ) //166 158 34
-            gpWebsiteLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
-            gpWebsiteLabel.widthAnchor.constraint(equalToConstant: 60.0)
-            gpWebsiteLabel.heightAnchor.constraint(equalToConstant: 25.0)
-            header.addSubview(gpWebsiteLabel)
-            
-            gpWebsiteLabel.topAnchor.constraint(equalTo: gpNameLabel.bottomAnchor, constant: 5.0).isActive = true
-            gpWebsiteLabel.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
-            
-            // Add Settings Gear Icon
-            let settingsGearImage = UIImage(named: "gear3")
-            settingsGearImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
-            
-            
-            // Add Settings Gear Button
-            let settingsButton = UIButton()
-            settingsButton.translatesAutoresizingMaskIntoConstraints = false
-            settingsButton.imageView?.contentMode = UIViewContentMode.scaleAspectFit
-            settingsButton.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
-            settingsButton.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-            settingsButton.imageView?.intrinsicContentSize.equalTo(settingsButton.frame.size)
-            settingsButton.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
-            settingsButton.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-            settingsButton.setBackgroundImage(settingsGearImage, for: .normal)
-            settingsButton.addTarget(self, action: #selector(settingsMenuClicked(sender:)), for: .touchUpInside)
-            header.addSubview(settingsButton)
-            
-            settingsButton.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 10.0).isActive = true
-            settingsButton.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -25.0).isActive = true
- 
-            // Add separator line below header
-            let lineSubView = UIView(frame: CGRect(x: 0.0, y: header.frame.size.height - 8.0, width: self.view.frame.size.width, height: 1.0))
-            lineSubView.backgroundColor = .black
-            header.addSubview(lineSubView)
-        
+            setHeaderBackgroundColor(header: header)
+            addHeaderBackIcon(header: header)
+            addHeaderWebsiteLabel(header: header, partner: addHeaderPartnerLabel(header: header))
+            addHeaderSettingsIcon(header: header)
+            addSepartorLine(to: header)
             return header
-            
         } else {
-            
-            // Create the footer.
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath)
-            
-            // Set footer background color.
-            footer.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
-            
-            // Chains StackView
-            let chainsStackView = UIStackView(arrangedSubviews: createButtons(named: "1", "2", "3", "4"))
-            chainsStackView.backgroundColor = UIColor(red: CGFloat(40.0/255.0), green: CGFloat(40.0/255.0), blue: CGFloat(40.0/255.0), alpha: 1.0)
-            chainsStackView.translatesAutoresizingMaskIntoConstraints = false
-            chainsStackView.axis = .horizontal
-            chainsStackView.spacing = 2
-            chainsStackView.distribution = .fillEqually
-            chainsStackView.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-            chainsStackView.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
-            footer.addSubview(chainsStackView)
-            chainsStackView.centerXAnchor.constraint(equalTo: footer.centerXAnchor).isActive = true
-            chainsStackView.topAnchor.constraint(equalTo: footer.topAnchor, constant: 5.0).isActive = true
-            chainsStackView.alignment = .center
-            
-            if api.selectedPlaylist != "" {
+            setFooterBackgroundColor(footer: footer)
+            let chains = addChains(to: footer)
+                        
+            if api.isPlaylistSelected {
                 if spotifyView == nil {
-                    let playbackSlider = UISlider(frame: CGRect(x: 0, y: 0.0, width: footer.frame.size.width, height: footer.frame.size.height))
-                    playbackSlider.isUserInteractionEnabled = true
-                    playbackSlider.isEnabled = true
-                    
-                    spotifyView = SpotifyView(selectedPlaylistImageUrl: api.selectedPlaylistImageUrl, frame: .zero)
-                    playlistController.audioDelegate = spotifyView
-                    spotifyView.clipsToBounds = true
-                    spotifyView.translatesAutoresizingMaskIntoConstraints = false
-                    spotifyView.layer.borderWidth = 0.2
-                    spotifyView.layer.borderColor = UIColor.black.cgColor
-                    spotifyView.layoutIfNeeded()
-                    spotifyView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0))
-                    spotifyView.selectedPlaylistImage = api.selectedPlaylistImage
-                    
-                    // Add NotificationCenter post to tell SpotifyView player to start playing selected playlist.
-                   // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startPlayer"), object: nil)
-                    
-                    spotifyView.setupSubViews()
+                        spotifyView = setupSpotify()
                 }
-                playlistController.audioDelegate = spotifyView
+                setAudioDelegate(for: playlistController)
                 footer.addSubview(spotifyView)
-                spotifyView.topAnchor.constraint(equalTo: chainsStackView.bottomAnchor).isActive = true
-                spotifyView.bottomAnchor.constraint(equalTo: footer.bottomAnchor).isActive = true
-                spotifyView.widthAnchor.constraint(equalTo: footer.widthAnchor).isActive = true
-//                spotifyView.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
-                spotifyView.heightAnchor.constraint(equalTo: footer.heightAnchor, constant: -50.0).isActive = true
+                addFooterConstraints(to: spotifyView, footer: footer)
+                addChainsConstraints(to: spotifyView, chains: chains)
 
             } else {
-                let selectAudioPlayerView = UIView()
-                footer.addSubview(selectAudioPlayerView)
-                selectAudioPlayerView.translatesAutoresizingMaskIntoConstraints = false
-                selectAudioPlayerView.widthAnchor.constraint(equalTo: footer.widthAnchor).isActive = true
-                selectAudioPlayerView.heightAnchor.constraint(equalToConstant: 145.0).isActive = true
-                selectAudioPlayerView.topAnchor.constraint(equalTo: chainsStackView.bottomAnchor).isActive = true
-                selectAudioPlayerView.bottomAnchor.constraint(equalTo: footer.bottomAnchor).isActive = true
-                selectAudioPlayerView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
-                
-                
-                let label = UILabel()
-                selectAudioPlayerView.addSubview(label)
-                label.translatesAutoresizingMaskIntoConstraints = false
-                label.widthAnchor.constraint(equalTo: selectAudioPlayerView.widthAnchor).isActive = true
-                label.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-                label.centerXAnchor.constraint(equalTo: selectAudioPlayerView.centerXAnchor).isActive = true
-                label.centerYAnchor.constraint(equalTo: selectAudioPlayerView.centerYAnchor, constant: -30.0).isActive = true
-                label.text = "Select Your Audio Player"
-                label.textAlignment = .center
-                label.textColor = .white
+                if settingsController == nil {
+                    settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
+                    settingsController.delegate = self
+                    
+                    // Remove Defaults (This is for testing)
+                   settingsController.settingsModel.removeUserDefaults()
+                    
+                    let selectedPlayer = settingsController.settingsModel.getAudioPlayerSettings()
+                    if selectedPlayer == "" {
+                        
+                        let selectAudioPlayerView = UIView()
+                        footer.addSubview(selectAudioPlayerView)
+                        selectAudioPlayerView.translatesAutoresizingMaskIntoConstraints = false
+                        selectAudioPlayerView.widthAnchor.constraint(equalTo: footer.widthAnchor).isActive = true
+                        selectAudioPlayerView.heightAnchor.constraint(equalToConstant: 145.0).isActive = true
+                        selectAudioPlayerView.topAnchor.constraint(equalTo: chains.bottomAnchor).isActive = true
+                        selectAudioPlayerView.bottomAnchor.constraint(equalTo: footer.bottomAnchor).isActive = true
+                        selectAudioPlayerView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
+                        
+                        
+                        let label = UILabel()
+                        selectAudioPlayerView.addSubview(label)
+                        label.translatesAutoresizingMaskIntoConstraints = false
+                        label.widthAnchor.constraint(equalTo: selectAudioPlayerView.widthAnchor).isActive = true
+                        label.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+                        label.centerXAnchor.constraint(equalTo: selectAudioPlayerView.centerXAnchor).isActive = true
+                        label.centerYAnchor.constraint(equalTo: selectAudioPlayerView.centerYAnchor, constant: -30.0).isActive = true
+                        label.text = "Select Your Audio Player"
+                        label.textAlignment = .center
+                        label.textColor = .white
 
-                let spotifyImage = UIImage(named: "spotifyIcon")
-                spotifyImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
+                        let spotifyImage = UIImage(named: "spotifyIcon")
+                        spotifyImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
+                        
+                        let spotifyImageView = UIImageView()
+                        footer.addSubview(spotifyImageView)
+                        spotifyImageView.translatesAutoresizingMaskIntoConstraints = false
+                        spotifyImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+                        spotifyImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+                        spotifyImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
+                        spotifyImageView.leftAnchor.constraint(equalTo: selectAudioPlayerView.leftAnchor, constant: 45.0).isActive = true
+                        spotifyImageView.image = spotifyImage
+                        
+                        let pandoraImage = UIImage(named: "pandoraIcon")
+                        spotifyImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
+                    
+                        let pandoraImageView = UIImageView()
+                        footer.addSubview(pandoraImageView)
+                        
+                        pandoraImageView.contentMode = UIViewContentMode.scaleAspectFill
+                        pandoraImageView.translatesAutoresizingMaskIntoConstraints = false
+                        pandoraImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+                        pandoraImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+                        pandoraImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
+                        pandoraImageView.leftAnchor.constraint(equalTo: spotifyImageView.rightAnchor, constant: 85.0).isActive = true
+                        pandoraImageView.image = pandoraImage
                 
-                let spotifyImageView = UIImageView()
-                footer.addSubview(spotifyImageView)
-                spotifyImageView.translatesAutoresizingMaskIntoConstraints = false
-                spotifyImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-                spotifyImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-                spotifyImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
-                spotifyImageView.leftAnchor.constraint(equalTo: selectAudioPlayerView.leftAnchor, constant: 45.0).isActive = true
-                spotifyImageView.image = spotifyImage
-                
-                let pandoraImage = UIImage(named: "pandoraIcon")
-                spotifyImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
-                
-                let pandoraImageView = UIImageView()
-                footer.addSubview(pandoraImageView)
-                
-                pandoraImageView.contentMode = UIViewContentMode.scaleAspectFill
-                pandoraImageView.translatesAutoresizingMaskIntoConstraints = false
-                pandoraImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-                pandoraImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-                pandoraImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
-                pandoraImageView.leftAnchor.constraint(equalTo: spotifyImageView.rightAnchor, constant: 85.0).isActive = true
-                pandoraImageView.image = pandoraImage
-                
-                let iTunesImage = UIImage(named: "iTunesIcon")
-                iTunesImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
-                
-                let iTunesImageView = UIImageView()
-                footer.addSubview(iTunesImageView)
-                
-                iTunesImageView.contentMode = UIViewContentMode.scaleAspectFill
-                iTunesImageView.translatesAutoresizingMaskIntoConstraints = false
-                iTunesImageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
-                iTunesImageView.heightAnchor.constraint(equalToConstant: 60).isActive = true
-                iTunesImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
-                iTunesImageView.leftAnchor.constraint(equalTo: pandoraImageView.rightAnchor, constant: 105.0).isActive = true
-                iTunesImageView.image = iTunesImage
-                
-                let gesture = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
-                gesture.numberOfTapsRequired = 1
-                gesture.name = "spotify"
-                
-                let gesture2 = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
-                gesture2.numberOfTapsRequired = 1
-                gesture2.name = "pandora"
-                
-                let gesture3 = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
-                gesture3.name = "itunes"
-                gesture3.numberOfTapsRequired = 1
-                
-                spotifyImageView.isUserInteractionEnabled = true
-                pandoraImageView.isUserInteractionEnabled = true
-                iTunesImageView.isUserInteractionEnabled = true
-                
-                spotifyImageView.addGestureRecognizer(gesture)
-                pandoraImageView.addGestureRecognizer(gesture2)
-                iTunesImageView.addGestureRecognizer(gesture3)
-                
+                        let iTunesImage = UIImage(named: "iTunesIcon")
+                        iTunesImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
+                        
+                        let iTunesImageView = UIImageView()
+                        footer.addSubview(iTunesImageView)
+                        
+                        iTunesImageView.contentMode = UIViewContentMode.scaleAspectFill
+                        iTunesImageView.translatesAutoresizingMaskIntoConstraints = false
+                        iTunesImageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+                        iTunesImageView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+                        iTunesImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
+                        iTunesImageView.leftAnchor.constraint(equalTo: pandoraImageView.rightAnchor, constant: 105.0).isActive = true
+                        iTunesImageView.image = iTunesImage
+                    
+                        let gesture = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
+                        gesture.numberOfTapsRequired = 1
+                        gesture.name = "spotify"
+                    
+                        let gesture2 = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
+                        gesture2.numberOfTapsRequired = 1
+                        gesture2.name = "pandora"
+                        
+                        let gesture3 = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
+                        gesture3.name = "itunes"
+                        gesture3.numberOfTapsRequired = 1
+                        
+                        spotifyImageView.isUserInteractionEnabled = true
+                        pandoraImageView.isUserInteractionEnabled = true
+                        iTunesImageView.isUserInteractionEnabled = true
+                        
+                        spotifyImageView.addGestureRecognizer(gesture)
+                        pandoraImageView.addGestureRecognizer(gesture2)
+                        iTunesImageView.addGestureRecognizer(gesture3)
+                        
+                    } else {
+                        let clipSlider = UISlider()
+                        clipSlider.isUserInteractionEnabled = true
+                        clipSlider.translatesAutoresizingMaskIntoConstraints = false
+                        clipSlider.widthAnchor.constraint(equalToConstant: 200.0).isActive = true
+                        clipSlider.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+                        clipSlider.addTarget(clipPlayer, action: #selector(clipPlayer.volumeSliderChanged(slider:)), for: UIControlEvents.valueChanged)
+                        footer.addSubview(clipSlider)
+                        clipSlider.topAnchor.constraint(equalTo: chains.bottomAnchor, constant: 0.0).isActive = true
+                        clipSlider.centerXAnchor.constraint(equalTo: footer.centerXAnchor, constant: 0.0).isActive = true
+                    }
+                }
             }
             return footer
         }
@@ -542,6 +472,31 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     @objc func clipButtonPressed(button: UIButton) {
+        for clipButton in buttons {
+            if button != clipButton {
+            //    resetButtonShadow(button: clipButton)
+                clipButton.isSelected = false
+                
+                let colors = Colors()
+                
+                let layer = CAGradientLayer()
+                layer.frame = button.bounds
+                layer.borderWidth = 1
+                
+                layer.shadowColor = UIColor.white.cgColor
+                layer.shadowOpacity = 1
+                layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+                layer.shadowRadius = 3
+                layer.colors = [colors.gradient1.cgColor, colors.gradient2.cgColor, colors.gradient3.cgColor, colors.gradient4.cgColor, colors.gradient5.cgColor]
+                layer.locations = [0.0, 0.7]
+                layer.cornerRadius = 8
+                layer.startPoint = CGPoint(x: 0.0, y: 0.0)
+                layer.endPoint = CGPoint(x: 1.0, y: 1.0)
+                
+                clipButton.layer.replaceSublayer(clipButton.layer.sublayers![0], with: layer)
+            }
+        }
+        
         if !button.isSelected {
             button.isSelected = true
             let colors = Colors()
@@ -570,14 +525,15 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             
             
             button.layer.replaceSublayer(button.layer.sublayers![0], with: layer)
-        } else {
+        }
+            else {
             button.isSelected = false
             let colors = Colors()
-            
+
             let layer = CAGradientLayer()
             layer.frame = button.bounds
             layer.borderWidth = 1
-            
+
             layer.shadowColor = UIColor.white.cgColor
             layer.shadowOpacity = 1
             layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
@@ -587,16 +543,137 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             layer.cornerRadius = 8
             layer.startPoint = CGPoint(x: 0.0, y: 0.0)
             layer.endPoint = CGPoint(x: 1.0, y: 1.0)
-            
+
             button.layer.replaceSublayer(button.layer.sublayers![0], with: layer)
-            
+
         }
           sharedPlayer.button_click(button: button)
     }
     
+    func addHeaderBackIcon(header: UICollectionReusableView) {
+        let backIcon3 = UIImage(named: "backIcon2")
+        let backIconImageView = UIButton()
+        backIconImageView.translatesAutoresizingMaskIntoConstraints = false
+        backIconImageView.widthAnchor.constraint(equalToConstant: 35.0).isActive = true
+        backIconImageView.heightAnchor.constraint(equalToConstant: 35.0).isActive = true
+        backIconImageView.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        backIconImageView.setBackgroundImage(backIcon3, for: .normal)
+        backIconImageView.imageView?.intrinsicContentSize.equalTo(backIconImageView.frame.size)
+        backIconImageView.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
+        header.addSubview(backIconImageView)
+        backIconImageView.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 10.0).isActive = true
+        backIconImageView.leftAnchor.constraint(equalTo: header.leftAnchor, constant: 25.0).isActive = true
+        backIconImageView.addTarget(self, action: #selector(backButtonClicked(sender:)), for: .touchUpInside)
+    }
+    
+    func addHeaderPartnerLabel(header: UICollectionReusableView) -> UILabel {
+        let partner = UILabel()
+        partner.translatesAutoresizingMaskIntoConstraints = false
+        partner.text = "Leroy Davis"
+        partner.textColor = UIColor(red: CGFloat(223.0/255.0), green: CGFloat(163.0/255.0), blue: CGFloat(45.0/255.0), alpha: CGFloat(1.0) )
+        partner.font = UIFont.boldSystemFont(ofSize: 24.0)
+        partner.widthAnchor.constraint(equalToConstant: 60.0)
+        partner.heightAnchor.constraint(equalToConstant: 25.0)
+        header.addSubview(partner)
+        partner.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 0.0).isActive = true
+        partner.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
+        return partner
+    }
+    
+    func addHeaderWebsiteLabel(header: UICollectionReusableView, partner: UILabel) {
+        let website = UILabel()
+        website.translatesAutoresizingMaskIntoConstraints = false
+        website.text = "NastyLeroyDavis.com"
+        website.textColor = UIColor(red: CGFloat(180.0/255.0), green: CGFloat(158.0/255.0), blue: CGFloat(84.0/255.0), alpha: CGFloat(1.5) ) //166 158 34
+        website.font = UIFont.boldSystemFont(ofSize: 14.0)
+        website.widthAnchor.constraint(equalToConstant: 60.0)
+        website.heightAnchor.constraint(equalToConstant: 25.0)
+        header.addSubview(website)
+        website.centerXAnchor.constraint(equalTo: header.centerXAnchor, constant: 0.0).isActive = true
+        website.topAnchor.constraint(equalTo: partner.bottomAnchor, constant: 5.0).isActive = true
+    }
+    
+    func addHeaderSettingsIcon(header: UICollectionReusableView) {
+        let gear = UIImage(named: "gear3")
+        gear?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
+        let settings = UIButton()
+        settings.translatesAutoresizingMaskIntoConstraints = false
+        settings.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+        settings.widthAnchor.constraint(equalToConstant: 40.0).isActive = true
+        settings.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        settings.imageView?.intrinsicContentSize.equalTo(settings.frame.size)
+        settings.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
+        settings.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
+        settings.setBackgroundImage(gear, for: .normal)
+        settings.addTarget(self, action: #selector(settingsMenuClicked(sender:)), for: .touchUpInside)
+        header.addSubview(settings)
+        settings.centerYAnchor.constraint(equalTo: header.centerYAnchor, constant: 10.0).isActive = true
+        settings.rightAnchor.constraint(equalTo: header.rightAnchor, constant: -25.0).isActive = true
+    }
+    
+    func setHeaderBackgroundColor(header: UICollectionReusableView) {
+        header.backgroundColor = Colors().background
+    }
+    
+    func addSepartorLine(to header: UICollectionReusableView) {
+        let separator = UIView(frame: CGRect(x: 0.0, y: header.frame.size.height - 8.0, width: self.view.frame.size.width, height: 1.0))
+        separator.backgroundColor = .black
+        header.addSubview(separator)
+    }
+    
+    func setFooterBackgroundColor(footer: UICollectionReusableView) {
+        footer.backgroundColor = Colors().footerBackground
+    }
+    
+    func addChains(to footer: UICollectionReusableView) -> UIStackView {
+        let chains = UIStackView(arrangedSubviews: createButtons(named: "1", "2", "3", "4"))
+        chains.backgroundColor = UIColor(red: CGFloat(40.0/255.0), green: CGFloat(40.0/255.0), blue: CGFloat(40.0/255.0), alpha: 1.0)
+        chains.translatesAutoresizingMaskIntoConstraints = false
+        chains.axis = .horizontal
+        chains.spacing = 2
+        chains.distribution = .fillEqually
+        chains.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
+        chains.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
+        footer.addSubview(chains)
+        chains.centerXAnchor.constraint(equalTo: footer.centerXAnchor).isActive = true
+        chains.topAnchor.constraint(equalTo: footer.topAnchor, constant: 5.0).isActive = true
+        chains.alignment = .center
+        return chains
+    }
+    
+    func setupSpotify() -> SpotifyView {
+        let spotify = SpotifyView(selectedPlaylistImageUrl: api.selectedPlaylistImageUrl, frame: .zero)
+        playlistController.audioDelegate = spotifyView
+        spotify.clipsToBounds = true
+        spotify.translatesAutoresizingMaskIntoConstraints = false
+        spotify.layer.borderWidth = 0.2
+        spotify.layer.borderColor = UIColor.black.cgColor
+        spotify.layoutIfNeeded()
+        spotify.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0))
+        spotify.selectedPlaylistImage = api.selectedPlaylistImage
+        spotifyView.setupSubViews()
+        return spotify
+    }
+    
+    func setAudioDelegate(for playlistController: PlaylistTableViewController) {
+        playlistController.audioDelegate = spotifyView
+    }
+    
+    func addFooterConstraints(to spotify: SpotifyView,  footer: UICollectionReusableView) {
+        spotifyView.bottomAnchor.constraint(equalTo: footer.bottomAnchor).isActive = true
+        spotifyView.widthAnchor.constraint(equalTo: footer.widthAnchor).isActive = true
+        spotifyView.heightAnchor.constraint(equalTo: footer.heightAnchor, constant: -50.0).isActive = true
+    }
+    
+    func addChainsConstraints(to: SpotifyView, chains: UIStackView) {
+        spotifyView.topAnchor.constraint(equalTo: chains.bottomAnchor).isActive = true
+    }
+    
     @objc func settingsMenuClicked(sender: UIButton) {
-        let settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
+        if settingsController == nil {
+        settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
         settingsController.delegate = self
+        }
         self.navigationController?.pushViewController(settingsController, animated: false)
     }
     
@@ -605,11 +682,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     @objc func selectAudioPlayerTap(_ gesture:UITapGestureRecognizer) {
-        
-        let settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
-        settingsController.delegate = self
         switch gesture.name {
-            case "spotify": settingsController.selectedAudioPlayer = "spotify"; self.spotifyImageViewPressed()
+            case "spotify": settingsController.selectedAudioPlayer = "spotify"; self.spotifyImageViewPressed(); settingsController.settingsModel.setAudioPlayer(audioPlayer: gesture.name!)
             case "pandora": settingsController.selectedAudioPlayer = "pandora"
             case "itunes" : settingsController.selectedAudioPlayer = "itunes"
             default       : print("error")            

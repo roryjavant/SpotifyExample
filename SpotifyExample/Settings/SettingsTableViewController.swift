@@ -50,7 +50,7 @@ class SettingsTableViewController: UITableViewController {
         default       : print("error")
         }
 //        settingsModel.setUsersAudioPlayerSetting(player: selectedAudioPlayer)
-        settingsModel.deletePlayerSetting()
+      //  settingsModel.deletePlayerSetting()
        // settingsModel.setUsersAudioPlayerSetting(player: selectedAudioPlayer)
         
     }

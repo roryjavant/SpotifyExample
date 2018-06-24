@@ -457,7 +457,7 @@ extension UIImageView {
         self.state = State(state: state)
         
     }
-    enum State {
+    enum State : String {
         case playing, paused, notSet
         init(state: State) {
             self = state

@@ -71,6 +71,7 @@ class PlaylistTableViewController: UITableViewController {
     @objc func playStatusButtonPressed(sender: UIButton) {
         for button in playStatusButtonArr {
             if button.tag == sender.tag {
+                api.isPlaylistSelected = true
                 api.selectedPlaylist = api.userPlaylists[button.tag].name
                 api.selectedPlaylistId = api.userPlaylists[button.tag].playableUri
                 api.selectedPlaylistCount = api.userPlaylists[button.tag].trackCount

@@ -43,9 +43,9 @@ class HomeController: UIViewController {
         let viewController = ViewController(collectionViewLayout: UICollectionViewFlowLayout())
         let tappedImageView = gesture.view!
         switch tappedImageView.tag {
-            case 0: viewController.intGymPartner = 1
-            case 1: viewController.intGymPartner = 2
-            case 2: viewController.intGymPartner = 3
+            case 0: viewController.selectedPartner = 1
+            case 1: viewController.selectedPartner = 2
+            case 2: viewController.selectedPartner = 3
             default: print("ayyy")
         }
     self.navigationController?.pushViewController(viewController, animated: true)
@@ -62,9 +62,9 @@ class HomeController: UIViewController {
     @IBAction func btnPressed(_ sender: UIButton) {
         let viewController = ViewController(collectionViewLayout: UICollectionViewFlowLayout())
         switch sender.tag {
-        case 1: viewController.intGymPartner = 1
-        case 2: viewController.intGymPartner = 2
-        case 3: viewController.intGymPartner = 3
+        case 1: viewController.selectedPartner = 1
+        case 2: viewController.selectedPartner = 2
+        case 3: viewController.selectedPartner = 3
         default: print(sender.tag)
         }        
         self.navigationController?.pushViewController(viewController, animated: true)

@@ -22,6 +22,7 @@ static let sharedAPI = API()
     var userPlaylists : [SPTPartialPlaylist]!
     
     var player : SPTAudioStreamingController?
+    var isPlaylistSelected = false
     
     var userPlaylistsCount : UInt = 0
     var selectedPlaylistCount : UInt = 0
