@@ -50,6 +50,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         addLoginButton()
         
         // Initial setup for Flow Layout
@@ -642,17 +643,17 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     func setupSpotify() -> SpotifyView {
-        let spotify = SpotifyView(selectedPlaylistImageUrl: api.selectedPlaylistImageUrl, frame: .zero)
+        spotifyView = SpotifyView(selectedPlaylistImageUrl: api.selectedPlaylistImageUrl, frame: .zero)
         playlistController.audioDelegate = spotifyView
-        spotify.clipsToBounds = true
-        spotify.translatesAutoresizingMaskIntoConstraints = false
-        spotify.layer.borderWidth = 0.2
-        spotify.layer.borderColor = UIColor.black.cgColor
-        spotify.layoutIfNeeded()
-        spotify.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0))
-        spotify.selectedPlaylistImage = api.selectedPlaylistImage
+        spotifyView.clipsToBounds = true
+        spotifyView.translatesAutoresizingMaskIntoConstraints = false
+        spotifyView.layer.borderWidth = 0.2
+        spotifyView.layer.borderColor = UIColor.black.cgColor
+        spotifyView.layoutIfNeeded()
+        spotifyView.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0))
+        spotifyView.selectedPlaylistImage = api.selectedPlaylistImage
         spotifyView.setupSubViews()
-        return spotify
+        return spotifyView
     }
     
     func setAudioDelegate(for playlistController: PlaylistTableViewController) {
