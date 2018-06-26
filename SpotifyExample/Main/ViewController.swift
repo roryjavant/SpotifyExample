@@ -23,6 +23,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var header : HeaderCollectionReusableView!
     
     let footerId = "footerId"
+    var footer : FooterCollectionReusableView!
+    
     var headerHeight : Float = 0.0
     var cellSectionHeight : Float = 0.0
     
@@ -49,6 +51,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let sharedPandora = PandoraApi.sharedPandora
     
     var buttons = [UIButton]()
+    
+    let chains = Chains()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,13 +87,17 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     fileprivate func addLoginButton() {
-//        // Add Navigation Item to navigate to user's playlist (needs implementation)
-//        loginButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
-//        loginButton.setTitle("Login", for: .normal)
-//        loginButton.addTarget(self, action: #selector(ViewController.loginButtonPressed(sender:)), for: UIControlEvents.touchUpInside)
-//        loginButton.setTitleColor(.black, for: .normal)
-//        let barButton = UIBarButtonItem.init(customView: loginButton)
-//        navigationItem.rightBarButtonItem = barButton
+        // Add Navigation Item to navigate to user's playlist (needs implementation)
+        loginButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
+        loginButton.setTitle("Login", for: .normal)
+        loginButton.addTarget(self, action: #selector(ViewController.loginButtonPressed(sender:)), for: UIControlEvents.touchUpInside)
+        loginButton.setTitleColor(.black, for: .normal)
+        let barButton = UIBarButtonItem.init(customView: loginButton)
+        navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc func loginButtonPressed(sender: UIButton) {
+        spotifyImageViewPressed()
     }
     
     fileprivate func setupCollectionView() {
@@ -102,7 +110,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         // Register cell, header, and footer for the HomeController
         collectionView.register(GridCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-        collectionView.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
+        collectionView.register(FooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
         collectionView.isScrollEnabled = false
     }
     
@@ -126,7 +134,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewWillAppear(_ animated: Bool) {
         // Hide Top Navigation Bar
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.isToolbarHidden = true
     }
     
@@ -318,125 +326,14 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         if kind == UICollectionElementKindSectionHeader {
             header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! HeaderCollectionReusableView
             return header
-        } else {
-            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath)
-            setFooterBackgroundColor(footer: footer)
-            let chains = addChains(to: footer)
-                        
-            if api.isPlaylistSelected {
-                if spotifyView == nil {
-                        spotifyView = setupSpotify()
-                }
-                setAudioDelegate(for: playlistController)
-                footer.addSubview(spotifyView)
-                addFooterConstraints(to: spotifyView, footer: footer)
-                addChainsConstraints(to: spotifyView, chains: chains)
-
-            } else {
-                if settingsController == nil {
-                    settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
-                    settingsController.delegate = self
-                    
-                    // Remove Defaults (This is for testing)
-                   settingsController.settingsModel.removeUserDefaults()
-                    
-                    let selectedPlayer = settingsController.settingsModel.getAudioPlayerSettings()
-                    if selectedPlayer == "" {
-                        
-                        let selectAudioPlayerView = UIView()
-                        footer.addSubview(selectAudioPlayerView)
-                        selectAudioPlayerView.translatesAutoresizingMaskIntoConstraints = false
-                        selectAudioPlayerView.widthAnchor.constraint(equalTo: footer.widthAnchor).isActive = true
-                        selectAudioPlayerView.heightAnchor.constraint(equalToConstant: 145.0).isActive = true
-                        selectAudioPlayerView.topAnchor.constraint(equalTo: chains.bottomAnchor).isActive = true
-                        selectAudioPlayerView.bottomAnchor.constraint(equalTo: footer.bottomAnchor).isActive = true
-                        selectAudioPlayerView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
-                        
-                        
-                        let label = UILabel()
-                        selectAudioPlayerView.addSubview(label)
-                        label.translatesAutoresizingMaskIntoConstraints = false
-                        label.widthAnchor.constraint(equalTo: selectAudioPlayerView.widthAnchor).isActive = true
-                        label.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-                        label.centerXAnchor.constraint(equalTo: selectAudioPlayerView.centerXAnchor).isActive = true
-                        label.centerYAnchor.constraint(equalTo: selectAudioPlayerView.centerYAnchor, constant: -30.0).isActive = true
-                        label.text = "Select Your Audio Player"
-                        label.textAlignment = .center
-                        label.textColor = .white
-
-                        let spotifyImage = UIImage(named: "spotifyIcon")
-                        spotifyImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
-                        
-                        let spotifyImageView = UIImageView()
-                        footer.addSubview(spotifyImageView)
-                        spotifyImageView.translatesAutoresizingMaskIntoConstraints = false
-                        spotifyImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-                        spotifyImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-                        spotifyImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
-                        spotifyImageView.leftAnchor.constraint(equalTo: selectAudioPlayerView.leftAnchor, constant: 45.0).isActive = true
-                        spotifyImageView.image = spotifyImage
-                        
-                        let pandoraImage = UIImage(named: "pandoraIcon")
-                        spotifyImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
-                    
-                        let pandoraImageView = UIImageView()
-                        footer.addSubview(pandoraImageView)
-                        
-                        pandoraImageView.contentMode = UIViewContentMode.scaleAspectFill
-                        pandoraImageView.translatesAutoresizingMaskIntoConstraints = false
-                        pandoraImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-                        pandoraImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-                        pandoraImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
-                        pandoraImageView.leftAnchor.constraint(equalTo: spotifyImageView.rightAnchor, constant: 85.0).isActive = true
-                        pandoraImageView.image = pandoraImage
-                
-                        let iTunesImage = UIImage(named: "iTunesIcon")
-                        iTunesImage?.stretchableImage(withLeftCapWidth: 50, topCapHeight: 50)
-                        
-                        let iTunesImageView = UIImageView()
-                        footer.addSubview(iTunesImageView)
-                        
-                        iTunesImageView.contentMode = UIViewContentMode.scaleAspectFill
-                        iTunesImageView.translatesAutoresizingMaskIntoConstraints = false
-                        iTunesImageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
-                        iTunesImageView.heightAnchor.constraint(equalToConstant: 60).isActive = true
-                        iTunesImageView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10.0).isActive = true
-                        iTunesImageView.leftAnchor.constraint(equalTo: pandoraImageView.rightAnchor, constant: 105.0).isActive = true
-                        iTunesImageView.image = iTunesImage
-                    
-                        let gesture = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
-                        gesture.numberOfTapsRequired = 1
-                        gesture.name = "spotify"
-                    
-                        let gesture2 = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
-                        gesture2.numberOfTapsRequired = 1
-                        gesture2.name = "pandora"
-                        
-                        let gesture3 = UITapGestureRecognizer(target: self, action: #selector(selectAudioPlayerTap(_:)))
-                        gesture3.name = "itunes"
-                        gesture3.numberOfTapsRequired = 1
-                        
-                        spotifyImageView.isUserInteractionEnabled = true
-                        pandoraImageView.isUserInteractionEnabled = true
-                        iTunesImageView.isUserInteractionEnabled = true
-                        
-                        spotifyImageView.addGestureRecognizer(gesture)
-                        pandoraImageView.addGestureRecognizer(gesture2)
-                        iTunesImageView.addGestureRecognizer(gesture3)
-                        
-                    } else {
-                        let clipSlider = UISlider()
-                        clipSlider.isUserInteractionEnabled = true
-                        clipSlider.translatesAutoresizingMaskIntoConstraints = false
-                        clipSlider.widthAnchor.constraint(equalToConstant: 200.0).isActive = true
-                        clipSlider.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
-                        clipSlider.addTarget(clipPlayer, action: #selector(clipPlayer.volumeSliderChanged(slider:)), for: UIControlEvents.valueChanged)
-                        footer.addSubview(clipSlider)
-                        clipSlider.topAnchor.constraint(equalTo: chains.bottomAnchor, constant: 0.0).isActive = true
-                        clipSlider.centerXAnchor.constraint(equalTo: footer.centerXAnchor, constant: 0.0).isActive = true
-                    }
-                }
+        }
+        else {
+            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath) as! FooterCollectionReusableView
+            
+            if playlistController != nil {
+                setAudioDelegate()
             }
+            
             return footer
         }
     }
@@ -449,25 +346,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     @objc func onTapGesture(_ gesture:UITapGestureRecognizer) {
         
     }
-    
-    private func createButtons(named: String...) -> [UIButton] {
-        return named.map { name in
-            let button = UIButton()
-            button.heightAnchor.constraint(equalToConstant: 30.0)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.setTitle(name, for: .normal)
-            button.backgroundColor = .gray
-            button.setTitleColor(.white, for: .normal)
-            button.layer.cornerRadius = 3.0
-            button.layer.shadowColor = UIColor.white.cgColor
-            button.layer.shadowOpacity = 1
-            button.layer.shadowOffset  = CGSize(width: 3.0, height: 3.0)
-            button.isUserInteractionEnabled = true
-            
-            return button
-        }
-    }
-    
+
     @objc func chainButtonClicked(sender: UIButton) {
         
     }
@@ -553,53 +432,11 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
 
     
-    func setFooterBackgroundColor(footer: UICollectionReusableView) {
-        footer.backgroundColor = Colors().footerBackground
+    func setAudioDelegate() {
+
     }
-    
-    func addChains(to footer: UICollectionReusableView) -> UIStackView {
-        let chains = UIStackView(arrangedSubviews: createButtons(named: "1", "2", "3", "4"))
-        chains.backgroundColor = UIColor(red: CGFloat(40.0/255.0), green: CGFloat(40.0/255.0), blue: CGFloat(40.0/255.0), alpha: 1.0)
-        chains.translatesAutoresizingMaskIntoConstraints = false
-        chains.axis = .horizontal
-        chains.spacing = 2
-        chains.distribution = .fillEqually
-        chains.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        chains.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
-        footer.addSubview(chains)
-        chains.centerXAnchor.constraint(equalTo: footer.centerXAnchor).isActive = true
-        chains.topAnchor.constraint(equalTo: footer.topAnchor, constant: 5.0).isActive = true
-        chains.alignment = .center
-        return chains
-    }
-    
-    func setupSpotify() -> SpotifyView {
-        let spotify = SpotifyView(selectedPlaylistImageUrl: api.selectedPlaylistImageUrl, frame: .zero)
-        playlistController.audioDelegate = spotifyView
-        spotify.clipsToBounds = true
-        spotify.translatesAutoresizingMaskIntoConstraints = false
-        spotify.layer.borderWidth = 0.2
-        spotify.layer.borderColor = UIColor.black.cgColor
-        spotify.layoutIfNeeded()
-        spotify.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0))
-        spotify.selectedPlaylistImage = api.selectedPlaylistImage
-        spotifyView.setupSubViews()
-        return spotify
-    }
-    
-    func setAudioDelegate(for playlistController: PlaylistTableViewController) {
-        playlistController.audioDelegate = spotifyView
-    }
-    
-    func addFooterConstraints(to spotify: SpotifyView,  footer: UICollectionReusableView) {
-        spotifyView.bottomAnchor.constraint(equalTo: footer.bottomAnchor).isActive = true
-        spotifyView.widthAnchor.constraint(equalTo: footer.widthAnchor).isActive = true
-        spotifyView.heightAnchor.constraint(equalTo: footer.heightAnchor, constant: -50.0).isActive = true
-    }
-    
-    func addChainsConstraints(to: SpotifyView, chains: UIStackView) {
-        spotifyView.topAnchor.constraint(equalTo: chains.bottomAnchor).isActive = true
-    }
+
+
     
     @objc func settingsMenuClicked(sender: UIButton) {
         if settingsController == nil {
