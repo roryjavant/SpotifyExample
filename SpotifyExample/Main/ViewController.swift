@@ -111,9 +111,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        for button in buttons {
-            //addDefaultButtonLayer(button: button)
-//        }
+
     }
     
     
@@ -147,38 +145,15 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 12
     }
-
-    
-    fileprivate func configureClipButton(clipCellButton: inout UIButton, clipCell: inout UICollectionViewCell, indexPath: IndexPath) {
-        //clipCellButton.translatesAutoresizingMaskIntoConstraints = false
-        //clipCellButton.heightAnchor.constraint(equalToConstant: clipCell.frame.height).isActive = true
-        //clipCellButton.widthAnchor.constraint(equalToConstant: clipCell.frame.width).isActive = true
-        //clipCellButton.tag = indexPath.item //
-        //clipCellButton.addTarget(self, action: #selector(clipButtonPressed(button:)), for: .touchUpInside) //
-        //buttons.append(clipCellButton) //
-    }
-    
-    private func resetButtonShadow(button: UIButton) {
-        button.layer.cornerRadius = 3.0
-        button.layer.shadowColor = UIColor.white.cgColor
-        button.layer.shadowOpacity = 1
-        button.layer.shadowOffset  = CGSize(width: 3.0, height: 3.0)
-        
-    }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let clipCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! GridCell
         lastCellAdded = clipCell
-      
         let clipButton = ClipButton(frame: clipCell.frame)
         clipCell.contentView.addSubview(clipButton)
         clipButton.widthAnchor.constraint(equalTo: clipCell.widthAnchor, constant: 0.0).isActive = true
         clipButton.heightAnchor.constraint(equalTo: clipCell.heightAnchor, constant: 0.0).isActive = true
-        
         clipCell.bringSubview(toFront: clipButton)
-        
-        
-        //configureClipButton(clipCellButton: &clipCellButton, clipCell: &clipCell, indexPath: indexPath)
         return clipCell
     }
    
@@ -204,89 +179,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     @objc func onTapGesture(_ gesture:UITapGestureRecognizer) {
         
-    }
-
-    @objc func chainButtonClicked(sender: UIButton) {
-        
-    }
-    
-    @objc func clipButtonPressed(button: UIButton) {
-        for clipButton in buttons {
-            if button != clipButton {
-            //    resetButtonShadow(button: clipButton)
-                clipButton.isSelected = false
-                
-                let colors = Colors()
-                
-                let layer = CAGradientLayer()
-                layer.frame = button.bounds
-                layer.borderWidth = 1
-                
-                layer.shadowColor = UIColor.white.cgColor
-                layer.shadowOpacity = 1
-                layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-                layer.shadowRadius = 3
-                layer.colors = [colors.gradient1.cgColor, colors.gradient2.cgColor, colors.gradient3.cgColor, colors.gradient4.cgColor, colors.gradient5.cgColor]
-                layer.locations = [0.0, 0.7]
-                layer.cornerRadius = 8
-                layer.startPoint = CGPoint(x: 0.0, y: 0.0)
-                layer.endPoint = CGPoint(x: 1.0, y: 1.0)
-                
-                clipButton.layer.replaceSublayer(clipButton.layer.sublayers![0], with: layer)
-            }
-        }
-        
-        if !button.isSelected {
-            button.isSelected = true
-            let colors = Colors()
-            
-            let layer = CAGradientLayer()
-            layer.frame = button.bounds
-            layer.borderColor = UIColor.yellow.cgColor
-            layer.borderWidth = 1.8
-            
-            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14.0)
-            
-            layer.shadowColor = UIColor.white.cgColor
-            layer.shadowOpacity = 1
-            
-            //self.contentView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.contentView.bounds].CGPath
-            layer.shadowOffset = CGSize(width: 3, height: 3)
-            layer.shadowRadius = 6
-            let rect = CGRect(x: 0.0, y: 0.0, width: button.bounds.width - 5.0 , height: button.bounds.height - 5.0)
-            layer.shadowPath = UIBezierPath(rect: rect).cgPath
-            
-            layer.colors = [colors.gradient1.cgColor, colors.gradient2.cgColor, colors.gradient3.cgColor, colors.gradient4.cgColor, colors.gradient5.cgColor]
-            layer.locations = [0.0, 0.2, 0.4, 0.6, 0.8]
-            layer.cornerRadius = 10
-            layer.startPoint = CGPoint(x: 1.0, y: 1.0)
-            layer.endPoint = CGPoint(x: 0.0, y: 0.0)
-            
-            
-            button.layer.replaceSublayer(button.layer.sublayers![0], with: layer)
-        }
-            else {
-            button.isSelected = false
-            let colors = Colors()
-
-            let layer = CAGradientLayer()
-            layer.frame = button.bounds
-            layer.borderWidth = 1
-
-            layer.shadowColor = UIColor.white.cgColor
-            layer.shadowOpacity = 1
-            layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-            layer.shadowRadius = 3
-            layer.colors = [colors.gradient1.cgColor, colors.gradient2.cgColor, colors.gradient3.cgColor, colors.gradient4.cgColor, colors.gradient5.cgColor]
-            layer.locations = [0.0, 0.7]
-            layer.cornerRadius = 8
-            layer.startPoint = CGPoint(x: 0.0, y: 0.0)
-            layer.endPoint = CGPoint(x: 1.0, y: 1.0)
-
-            button.layer.replaceSublayer(button.layer.sublayers![0], with: layer)
-
-        }
-          sharedPlayer.button_click(button: button)
     }
     
     @objc func settingsMenuClicked(sender: UIButton) {
@@ -330,6 +222,4 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.collectionView?.reloadSections(IndexSet(0 ..< 1))
     }
 }
-
-
 
