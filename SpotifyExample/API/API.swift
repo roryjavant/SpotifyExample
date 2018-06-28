@@ -39,6 +39,8 @@ static let sharedAPI = API()
     var currentTrackImageUrl : String = ""
     var currentTrackImage : SPTImage!
     
+    var isSpotifyPlayerInitalized = false
+    
     
     func addNotificationCenterObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(API.updateAfterFirstLogin), name: NSNotification.Name(rawValue: "loginSuccessful"), object: nil)
@@ -74,7 +76,7 @@ static let sharedAPI = API()
                     print(err)
                 }
             }
-        }
+        }        
     }
     
     func initializePlayer(authSession: SPTSession) {

@@ -15,7 +15,6 @@ import AVFoundation
 
 class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SettingTableViewControllerDelegate {
     
-    // MARK: HomeController Properties
     let cellsPerRow = 3
     let cellId = "cellId"
  
@@ -56,38 +55,18 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         addLoginButton()
-        
-        // Initial setup for Flow Layout
         setupFlowLayout()
-        
-        // Set Header Frame
         header = HeaderCollectionReusableView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 125.0))
-        
-        // Initial setup for collectionView
         setupCollectionView()
-        
-        // Call Initial Spotify Setup
         api.setupSpotify()
-        
-        // Pandora API test
-        //  sharedPandora.setupJsonPandora()
-        
-        // Call init on api to set add observer to NotificationCenter.default
         api.addNotificationCenterObserver()
-        
-        // Add Notification Observer to notify self when to display the playlistTableViewController
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.displayPlaylistController), name: NSNotification.Name(rawValue: "displayPlayer"), object: nil)
-        
-        // Initialize clipPlayer
         sharedPlayer.selectedPartner = selectedPartner
         sharedPlayer.getBundle()
-       
     }
     
     fileprivate func addLoginButton() {
-        // Add Navigation Item to navigate to user's playlist (needs implementation)
         loginButton = UIButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
         loginButton.setTitle("Login", for: .normal)
         loginButton.addTarget(self, action: #selector(ViewController.loginButtonPressed(sender:)), for: UIControlEvents.touchUpInside)
@@ -103,19 +82,14 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     fileprivate func setupCollectionView() {
         guard let collectionView = collectionView  else { return }
         collectionView.contentInsetAdjustmentBehavior = .always
-        
-        // Set collectionView background color
         collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
-        
-        // Register cell, header, and footer for the HomeController
         collectionView.register(GridCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         collectionView.register(FooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
         collectionView.isScrollEnabled = false
     }
     
-    fileprivate func setupFlowLayout() {
-        // Set the collectionView layout to our custom layout 'columnLayout' class.
+    fileprivate func setupFlowLayout() {        
         guard let collectionView = collectionView else { return }
         let layout = collectionViewLayout as! UICollectionViewFlowLayout
         layout.minimumInteritemSpacing = gridCell.margin + 5
@@ -130,43 +104,16 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
        
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
-        // Hide Top Navigation Bar
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.isToolbarHidden = true
     }
     
-    fileprivate func addDefaultButtonLayer(button: UIButton) {
-        // Init Layer and Layer Rect
-        let layer = CAGradientLayer()
-        layer.frame = button.bounds
-        
-        // Set Layer's Gradient Colors
-        let colors = Colors()
-        layer.colors = [colors.gradient1.cgColor, colors.gradient2.cgColor, colors.gradient3.cgColor, colors.gradient4.cgColor, colors.gradient5.cgColor]
-        layer.locations = [0.0, 0.7]
-        
-        // Set Shadow Properties
-        layer.shadowColor = UIColor.white.cgColor
-        layer.shadowOpacity = 1
-        layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        layer.shadowRadius = 3
-        layer.cornerRadius = 8
-        
-        // Set Start/End point for gradient
-        layer.startPoint = CGPoint(x: 0.0, y: 0.0)
-        layer.endPoint = CGPoint(x: 1.0, y: 1.0)
-        
-        // Add Layer to Button
-        button.layer.insertSublayer(layer, at: 0)
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
-        for button in buttons {
-            addDefaultButtonLayer(button: button)
-        }
+//        for button in buttons {
+            //addDefaultButtonLayer(button: button)
+//        }
     }
     
     
@@ -179,7 +126,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
    
     @objc func spotifyImageViewPressed() {
-        // Navigate to AppDelegate after login button pressed
         UIApplication.shared.open(api.loginUrl!, options: [:], completionHandler: {
             (success) in
             print("Open")
@@ -188,7 +134,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
 
     @objc func spotify_click() {
-        // Brings user to their playlist's (Spotify Controller)
         playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
         playlistController.numOfCells = api.userPlaylists.count
         playlistController.delegate = self
@@ -199,88 +144,18 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return SafariURLHandler(viewController: self, oauthSwift: oauth)
     }
 
-    
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // Set The Number of Cells For CollectionView
         return 12
     }
 
     
     fileprivate func configureClipButton(clipCellButton: inout UIButton, clipCell: inout UICollectionViewCell, indexPath: IndexPath) {
-        // Create The Cell For The Index Passed In By The Collection View And Return It.
-        
-        // Add contraints to new button.
-        clipCellButton.translatesAutoresizingMaskIntoConstraints = false
-        clipCellButton.heightAnchor.constraint(equalToConstant: clipCell.frame.height).isActive = true
-        clipCellButton.widthAnchor.constraint(equalToConstant: clipCell.frame.width).isActive = true
-        
-        // Round Corners
-        clipCellButton.layer.cornerRadius = 8
-        
-        // Change background color.
-        //button.backgroundColor = UIColor(red: CGFloat(34.0/255.0), green: CGFloat(34.0/255.0), blue: CGFloat(34.0/255.0), alpha: CGFloat(1.0) )
-        
-        // Setup the button action.
-        clipCellButton.tag = indexPath.item
-        clipCellButton.addTarget(self, action: #selector(clipButtonPressed(button:)), for: .touchUpInside)
-        clipCellButton.isEnabled = true
-        
-        // Set Title Color
-        clipCellButton.setTitleColor(UIColor.white, for: .normal)
-        
-        // Set Button Properties
-        clipCellButton.titleLabel?.isHidden = false
-        clipCellButton.isSelected = false
-        
-        // Push button to buttons
-        buttons.append(clipCellButton)
-        
-        // Set Button Font
-        clipCellButton.titleLabel?.font = UIFont.systemFont(ofSize: 12.0)
-        
-        // Set Button Label Text Depending On Selected Gym Partner
-        switch selectedPartner {
-            case 1:  clipCellButton.setTitle("One More Rep!", for: .normal)
-            case 2:  clipCellButton.setTitle("Michele Lewin", for: .normal)
-            case 3:  clipCellButton.setTitle("Leroy Davis", for: .normal)
-            default: clipCellButton.titleLabel?.text = ""
-        }
-        
-        switch clipCellButton.tag {
-        case 0:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 1:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 2:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 3:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 4:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 5:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 6:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 7:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 8:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 9:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 10:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        case 11:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        default:
-            clipCellButton.setTitle("One More Rep!", for: .normal)
-        }
-        // Add Target Method to clipCellButton
-        
-        
-        // Add Button to Cell
-        clipCell.contentView.addSubview(clipCellButton)
-        clipCell.bringSubview(toFront: clipCellButton)
+        //clipCellButton.translatesAutoresizingMaskIntoConstraints = false
+        //clipCellButton.heightAnchor.constraint(equalToConstant: clipCell.frame.height).isActive = true
+        //clipCellButton.widthAnchor.constraint(equalToConstant: clipCell.frame.width).isActive = true
+        //clipCellButton.tag = indexPath.item //
+        //clipCellButton.addTarget(self, action: #selector(clipButtonPressed(button:)), for: .touchUpInside) //
+        //buttons.append(clipCellButton) //
     }
     
     private func resetButtonShadow(button: UIButton) {
@@ -292,53 +167,37 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var clipCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
-        
-        // Hold Reference to The Last Cell Added (Used In Footer Section to Help Calculate Footer Bounds Based On The Bottom Cell (Last Cell Added)
+        let clipCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! GridCell
         lastCellAdded = clipCell
-        
-        // Configure The Audio Clip Cell
-        configureClipCell(clipCell: &clipCell)
       
+        let clipButton = ClipButton(frame: clipCell.frame)
+        clipCell.contentView.addSubview(clipButton)
+        clipButton.widthAnchor.constraint(equalTo: clipCell.widthAnchor, constant: 0.0).isActive = true
+        clipButton.heightAnchor.constraint(equalTo: clipCell.heightAnchor, constant: 0.0).isActive = true
         
-        // Create ClipButton And Configure t
-        var clipCellButton: UIButton =  UIButton()
-        configureClipButton(clipCellButton: &clipCellButton, clipCell: &clipCell, indexPath: indexPath)
+        clipCell.bringSubview(toFront: clipButton)
         
+        
+        //configureClipButton(clipCellButton: &clipCellButton, clipCell: &clipCell, indexPath: indexPath)
         return clipCell
     }
    
-    func configureClipCell(clipCell: inout UICollectionViewCell)  {
-        // Round cell corners
-        clipCell.layer.masksToBounds = true
-        clipCell.layer.cornerRadius = 8
-        
-        // Set Cell Boarder
-        let yellow = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(213.0/255.0), blue: CGFloat(70.0/255.0), alpha: CGFloat(1.0))
-        clipCell.layer.borderColor = yellow.cgColor
-        clipCell.layer.borderWidth = 1.0
-        clipCell.clipsToBounds = false
-
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        
         if kind == UICollectionElementKindSectionHeader {
             header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! HeaderCollectionReusableView
             return header
         }
         else {
-            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath) as! FooterCollectionReusableView
-            
-            if playlistController != nil {
-                setAudioDelegate()
+            if let footer = footer {
+                footer.setupSpotify()
+                return footer
+            } else {
+                footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath) as! FooterCollectionReusableView
+                return footer
             }
-            
-            return footer
         }
     }
     
-     // width, height, image, left anchor, right anchor, centerYAnchor, centerXAnchor, backgroundColor, NSLayoutYAxisAnchor
     func setupImageVIews(imageView: UIImageView, width: CGFloat, height: CGFloat, leftAnchorValue: CGFloat, rightAnchorValue: CGFloat, topAnchorValue: CGFloat, bottomAnchorValue: CGFloat, centerYAnchorValue: CGFloat, centerXAnchorValue: CGFloat, image: String ) {
         
     }
@@ -430,14 +289,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
           sharedPlayer.button_click(button: button)
     }
     
-
-    
-    func setAudioDelegate() {
-
-    }
-
-
-    
     @objc func settingsMenuClicked(sender: UIButton) {
         if settingsController == nil {
         settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
@@ -461,12 +312,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.navigationController?.pushViewController(settingsController, animated: false)
     }
     
-    // Set the size for the header element.
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 125)
     }
     
-   //  Set the size for the footer element.
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         var height : CGFloat = 100.0
         if let cell = lastCellAdded {
@@ -479,9 +328,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     func updateCollectionViewFooter() {
         self.collectionView?.reloadSections(IndexSet(0 ..< 1))
-    }        
-    
-} // End Class
+    }
+}
 
 
 

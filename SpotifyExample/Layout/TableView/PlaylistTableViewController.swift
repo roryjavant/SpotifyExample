@@ -98,7 +98,7 @@ class PlaylistTableViewController: UITableViewController {
         
         api.selectedPlaylistUrlString = parsePlaylistUrl(urlString: api.selectedPlaylistId.absoluteString)
         delegate?.updateCollectionViewFooter()
-        audioDelegate?.startStreamingAudio()
+       // audioDelegate?.startStreamingAudio()
         navigationController?.popViewController(animated: true)
     }
     

@@ -20,9 +20,20 @@ class GridCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setCellProperties()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setCellProperties() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.layer.masksToBounds = false
+        self.layer.cornerRadius = 8
+        let yellow = UIColor(red: CGFloat(254.0/255.0), green: CGFloat(213.0/255.0), blue: CGFloat(70.0/255.0), alpha: CGFloat(1.0))
+        self.layer.borderColor = yellow.cgColor
+        self.layer.borderWidth = 1.0
+        self.clipsToBounds = false
     }
 }

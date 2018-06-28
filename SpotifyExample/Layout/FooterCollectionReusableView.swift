@@ -14,14 +14,12 @@ class FooterCollectionReusableView: UICollectionReusableView {
     
     let spotifyApi = API.sharedAPI
     var spotifyPlayer : SpotifyView!
-    var spotifyPlayerIsInitialized = false
-    
+    var isSpotifyPlayerInitialized = false
+        
     override required init(frame: CGRect) {
         super.init(frame: frame)
         
         setup()
-        
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -46,14 +44,19 @@ class FooterCollectionReusableView: UICollectionReusableView {
     }
     
    func setupSpotify() {
-        if spotifyPlayerIsInitialized {
+        if isSpotifyPlayerInitialized {
             addSpotifyPlayer()
         } else {
             initializeSpotifyPlayer()
-            spotifyPlayerIsInitialized = true
+            isSpotifyPlayerInitialized = true
         }
         
         spotifyPlayer.setupSubViews()
+    
+        if spotifyApi.isPlaylistSelected {
+            addSpotifyPlayerImage()
+            startSpotifyAudio()
+        }
     }
     
     private func addSpotifyPlayer() {
@@ -88,5 +91,13 @@ class FooterCollectionReusableView: UICollectionReusableView {
         spotifyPlayer.layer.borderWidth = 0.2
         spotifyPlayer.layer.borderColor = UIColor.black.cgColor
         spotifyPlayer.layoutIfNeeded()
+    }
+    
+    func startSpotifyAudio() {
+          spotifyPlayer.startStreamingAudio()
+    }
+    
+    func addSpotifyPlayerImage() {
+        spotifyPlayer.selectedPlaylistImageUrl = spotifyApi.currentTrackImageUrl
     }
 }
