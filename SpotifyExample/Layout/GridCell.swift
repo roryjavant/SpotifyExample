@@ -10,24 +10,20 @@ import UIKit
 
 class GridCell: UICollectionViewCell {
     
-    let margin: CGFloat = 10
-    let cellsPerRow = 3
-    let cellId = "cellId"
-    let headerId = "headerId"
-    let footerId = "footerId"
-    var headerHeight : Float = 0.0
-    var cellSectionHeight : Float = 0.0
+    let margin: CGFloat = 10    
+    var clipButton : ClipButton!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setCellProperties()
+        addClipButton()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCellProperties() {
+    private func setCellProperties() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.layer.masksToBounds = false
         self.layer.cornerRadius = 8
@@ -35,5 +31,13 @@ class GridCell: UICollectionViewCell {
         self.layer.borderColor = yellow.cgColor
         self.layer.borderWidth = 1.0
         self.clipsToBounds = false
+    }
+    
+    private func addClipButton() {
+        clipButton = ClipButton(frame: self.frame)
+        self.contentView.addSubview(clipButton)
+        clipButton.widthAnchor.constraint(equalTo: self.widthAnchor, constant: 0.0).isActive = true
+        clipButton.heightAnchor.constraint(equalTo: self.heightAnchor, constant: 0.0).isActive = true
+        self.bringSubview(toFront: clipButton)
     }
 }

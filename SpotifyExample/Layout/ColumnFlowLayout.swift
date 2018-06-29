@@ -8,32 +8,19 @@
 
 import UIKit
 
-class ColumnFlowLayout : UICollectionViewFlowLayout {
+class ColumnFlowLayout : UICollectionViewFlowLayout, UICollectionViewDelegate {
     
-    let cellsPerRow: Int
+    let cellsPerRow = 3
+    var marginsAndInsets : CGFloat!
     
-    
-    
-//    override var itemSize: CGSize {
-//        get {
-//            guard let collectionView = collectionView else { return super.itemSize }
-//            let marginsAndInsets = sectionInset.left + sectionInset.right + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
-//            let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
-//            return CGSize(width: itemWidth, height: itemWidth)
-//        }
-//        set {
-//            super.itemSize = newValue
-//        }
-//    }
-    
-    init(cellsPerRow: Int, minimumInteritemSpace: CGFloat = 0, minimumLineSpacing: CGFloat = 0, sectionInset: UIEdgeInsets = .zero) {
-        self.cellsPerRow = cellsPerRow
+    override init() {
         super.init()
-        
-        self.minimumInteritemSpacing = minimumInteritemSpacing
-        self.minimumLineSpacing = minimumLineSpacing
-        self.sectionInset = sectionInset
-        
+        minimumInteritemSpacing = 15.0
+        minimumLineSpacing = 20.0
+        sectionInset = UIEdgeInsets(top: 10.0, left: 15.0, bottom: 10.0, right: 15.0)
+        accessibilityFrame.origin.x = 0.0
+        accessibilityFrame.origin.y = 0.0
+        marginsAndInsets = sectionInset.left + sectionInset.right + minimumLineSpacing * CGFloat(cellsPerRow - 1)
     }
     
     required init?(coder aDecoder: NSCoder) {

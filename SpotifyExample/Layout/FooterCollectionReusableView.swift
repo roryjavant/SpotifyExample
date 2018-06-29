@@ -17,8 +17,7 @@ class FooterCollectionReusableView: UICollectionReusableView {
     var isSpotifyPlayerInitialized = false
         
     override required init(frame: CGRect) {
-        super.init(frame: frame)
-        
+        super.init(frame: frame)        
         setup()
     }
     
