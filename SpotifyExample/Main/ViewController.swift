@@ -19,7 +19,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     let headerId = "headerId"
     var header : HeaderCollectionReusableView!
     let footerId = "footerId"
-    var footer : FooterCollectionReusableView!
+    var footer : ITunesFooterCollectionReusableView!
     var playerSelectionFooter : PlayerSelectionFooterCollectionReusableView!
     let playerSelectionFooterId = "playerSelectionId"
     var gridCell = GridCell()
@@ -61,7 +61,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
         collectionView.register(GridCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-        collectionView.register(FooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
+        collectionView.register(ITunesFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
         collectionView.register(PlayerSelectionFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: playerSelectionFooterId)
         collectionView.isScrollEnabled = false
     }
@@ -95,16 +95,16 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     playerSelectionFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: playerSelectionFooterId, for: indexPath) as! PlayerSelectionFooterCollectionReusableView
                 return playerSelectionFooter
             } else {
-            if let footer = footer {
-                footer.setupSpotify()
-                return footer
-            } else {
-                footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath) as! FooterCollectionReusableView
+//            if let footer = footer {
+//                footer.setupSpotify()
+//                return footer
+//            } else {
+                footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath) as! ITunesFooterCollectionReusableView
                 return footer
                 }
             }
         }
-    }
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 125)
