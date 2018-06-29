@@ -20,6 +20,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var header : HeaderCollectionReusableView!
     let footerId = "footerId"
     var footer : FooterCollectionReusableView!
+    var playerSelectionFooter : PlayerSelectionFooterCollectionReusableView!
+    let playerSelectionFooterId = "playerSelectionId"
     var gridCell = GridCell()
     var lastCellAdded : UICollectionViewCell?
     var audioPlayer: AVAudioPlayer?
@@ -30,6 +32,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var settingsController : SettingsTableViewController!
     let api = API.sharedAPI
     let sharedPandora = PandoraApi.sharedPandora
+    let layout = ColumnFlowLayout()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +45,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.displayPlaylistController), name: NSNotification.Name(rawValue: "displayPlayer"), object: nil)
         sharedPlayer.selectedPartner = selectedPartner
         sharedPlayer.getBundle()
+        settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
+        settingsController.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +62,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView.register(GridCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
         collectionView.register(FooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
+        collectionView.register(PlayerSelectionFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: playerSelectionFooterId)
         collectionView.isScrollEnabled = false
     }
     
@@ -85,12 +91,17 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             return header
         }
         else {
+            if settingsController.settingsModel.userHasChosenPlayer() {
+                    playerSelectionFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: playerSelectionFooterId, for: indexPath) as! PlayerSelectionFooterCollectionReusableView
+                return playerSelectionFooter
+            } else {
             if let footer = footer {
                 footer.setupSpotify()
                 return footer
             } else {
                 footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath) as! FooterCollectionReusableView
                 return footer
+                }
             }
         }
     }

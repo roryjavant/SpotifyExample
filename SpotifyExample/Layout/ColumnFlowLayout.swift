@@ -14,6 +14,7 @@ class ColumnFlowLayout : UICollectionViewFlowLayout, UICollectionViewDelegate {
     var marginsAndInsets : CGFloat!
     
     override init() {
+
         super.init()
         minimumInteritemSpacing = 15.0
         minimumLineSpacing = 20.0

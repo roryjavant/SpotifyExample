@@ -18,6 +18,7 @@
 		986A03352077B45900D49273 /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A03342077B45900D49273 /* PlaylistTableViewCell.swift */; };
 		986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986A03362077B50200D49273 /* PlaylistTableViewController.swift */; };
 		986EF86E20E6A6BF002919D4 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986EF86D20E6A6BF002919D4 /* LoginButton.swift */; };
+		986EF87020E6BD50002919D4 /* PlayerSelectionFooterCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986EF86F20E6BD50002919D4 /* PlayerSelectionFooterCollectionReusableView.swift */; };
 		9884505C20DE9F8100FEDE96 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9884505B20DE9F8100FEDE96 /* Colors.swift */; };
 		9884505E20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9884505D20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift */; };
 		9884506020E011EC00FEDE96 /* FooterCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9884505F20E011EC00FEDE96 /* FooterCollectionReusableView.swift */; };
@@ -59,6 +60,7 @@
 		986A03342077B45900D49273 /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		986A03362077B50200D49273 /* PlaylistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewController.swift; sourceTree = "<group>"; };
 		986EF86D20E6A6BF002919D4 /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
+		986EF86F20E6BD50002919D4 /* PlayerSelectionFooterCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSelectionFooterCollectionReusableView.swift; sourceTree = "<group>"; };
 		9884505B20DE9F8100FEDE96 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		9884505D20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		9884505F20E011EC00FEDE96 /* FooterCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				98B9794D2059DE3500E4F41B /* ColumnFlowLayout.swift */,
 				9884505D20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift */,
 				9884505F20E011EC00FEDE96 /* FooterCollectionReusableView.swift */,
+				986EF86F20E6BD50002919D4 /* PlayerSelectionFooterCollectionReusableView.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				98F0A3E720A39040000D051F /* PandoraApi.swift in Sources */,
 				986A03372077B50200D49273 /* PlaylistTableViewController.swift in Sources */,
 				98C0045B20E3EDE1002947B8 /* ClipButton.swift in Sources */,
+				986EF87020E6BD50002919D4 /* PlayerSelectionFooterCollectionReusableView.swift in Sources */,
 				9884506220E0126C00FEDE96 /* Chains.swift in Sources */,
 				98FE149C20D1AE8B000DEC4A /* SettingsTableViewController.swift in Sources */,
 				98B9794E2059DE3500E4F41B /* ColumnFlowLayout.swift in Sources */,
