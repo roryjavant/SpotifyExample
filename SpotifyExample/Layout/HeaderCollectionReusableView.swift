@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol HeaderDelegate : class {
+    func navigateToSettings()
+}
+
 class HeaderCollectionReusableView: UICollectionReusableView {
     
     let backButton = UIButton()
@@ -20,6 +24,8 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     let settingsButton = UIButton()
     let settingsIconAssetName = "gear3"
     let settingsIcon : UIImage!
+    
+    var delegate : HeaderDelegate!
     
     override required init(frame: CGRect) {
         backIcon = UIImage(named: backIconAssetName)
@@ -135,7 +141,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     }
     
     @objc func settingsButtonClick(sender: UIButton) {
-    
+        delegate.navigateToSettings()
     }
     
     func addSettingsButton() {

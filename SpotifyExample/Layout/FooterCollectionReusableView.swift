@@ -10,7 +10,7 @@ import UIKit
 
 class FooterCollectionReusableView: UICollectionReusableView {
     
-    let chains = Chains()
+    let chains = Chains.sharedChains
     
     let spotifyApi = API.sharedAPI
     var spotifyPlayer : SpotifyView!

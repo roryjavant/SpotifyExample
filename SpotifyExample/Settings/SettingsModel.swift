@@ -9,9 +9,14 @@
 import Foundation
 import CoreData
 
+enum SelectedPlayer {
+    case pandora, spotify, itunes
+}
+
 class SettingsModel {
- 
+    
     var player = ""
+    var playerIsChosen = false
     
     init() {
         
@@ -45,6 +50,12 @@ class SettingsModel {
     }
     
     func userHasChosenPlayer() -> Bool {
-        return false
+        let settingsDict = UserDefaults.standard.dictionary(forKey: "userSettings") as! [String: String]
+        if (UserDefaults.standard.dictionary(forKey: "userSettings") == nil || settingsDict["audioPlayer"] == "notSelected") {
+            playerIsChosen = false
+        } else {
+            playerIsChosen = true
+        }
+        return playerIsChosen
     }
 }

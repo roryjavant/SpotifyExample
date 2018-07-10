@@ -10,6 +10,7 @@ import UIKit
 
 class Chains: UIStackView {
 
+    static let sharedChains = Chains()
     var chains : [UIButton]!
     
     override required init(frame: CGRect) {

@@ -10,13 +10,11 @@ import UIKit
 
 protocol SettingTableViewControllerDelegate : class {
     func updateCollectionViewFooter()
-    init()
-    
-    
 }
 
 class SettingsTableViewController: UITableViewController {
 
+    let sharedViewController = ViewController.sharedViewController
     let settingsModel = SettingsModel()
     var delegate : SettingTableViewControllerDelegate?
     
@@ -25,12 +23,14 @@ class SettingsTableViewController: UITableViewController {
     @IBOutlet weak var itunesSwitch:  UISwitch!
     @IBOutlet weak var pandoraSwitch: UISwitch!
     
+    let spotifyTag = 0
+    let pandoraTag = 1
+    let itunesTag  = 2
+    
     var selectedAudioPlayer : String!
  
     init(nibName: String, bundle: Bundle, delegate: SettingTableViewControllerDelegate) {
         super.init(nibName: nibName, bundle: bundle)
-        
-        
     }
     
     required init?(coder aDecoder: NSCoder) {        
@@ -39,30 +39,34 @@ class SettingsTableViewController: UITableViewController {
     
     convenience init?(delegate: SettingTableViewControllerDelegate, coder aDecoder: NSCoder) {
         self.init(coder: aDecoder)
-        
-        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
+        selectedAudioPlayer = settingsModel.getAudioPlayerSettings()
         switch selectedAudioPlayer {
-        case "spotify": spotifySwitch.isOn = true; itunesSwitch.isOn  = false; pandoraSwitch.isOn = false
-        case "pandora": pandoraSwitch.isOn = true; itunesSwitch.isOn  = false; spotifySwitch.isOn = false
-        case "itunes" : itunesSwitch.isOn  = true; pandoraSwitch.isOn = false; spotifySwitch.isOn = false
-        default       : print("error")
+        case "spotify": spotifySwitch.isOn =  true; itunesSwitch.isOn  = false; pandoraSwitch.isOn = false
+        case "pandora": pandoraSwitch.isOn =  true; itunesSwitch.isOn  = false; spotifySwitch.isOn = false
+        case "itunes" : itunesSwitch.isOn  =  true; pandoraSwitch.isOn = false; spotifySwitch.isOn = false
+        default       : itunesSwitch.isOn  = false; pandoraSwitch.isOn = false; spotifySwitch.isOn = false
         }
-//        settingsModel.setUsersAudioPlayerSetting(player: selectedAudioPlayer)
-      //  settingsModel.deletePlayerSetting()
-       // settingsModel.setUsersAudioPlayerSetting(player: selectedAudioPlayer)
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
+    private func getAudioSetting() -> String {
+        if settingsModel.userHasChosenPlayer() {
+            selectedAudioPlayer = settingsModel.getAudioPlayerSettings()
+            return selectedAudioPlayer
+        } else {
+            return ""
+        }
+    }
+    
     @IBAction func backButtonPressed(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: false)
     }
-
 
     func updateSelectedAudioPlayer(player: String) {
         switch player {
@@ -71,6 +75,51 @@ class SettingsTableViewController: UITableViewController {
         case "itunes" : itunesSwitch.isOn  = true; pandoraSwitch.isOn = false; spotifySwitch.isOn = false
         default       : print("error")
         }
+    }
+    
+    @IBAction func switchPress(_ sender: UISwitch) {
+        var pushedSwitch = ""
+        switch sender.tag {
+            case 0: pushedSwitch = "spotify"
+            case 1: pushedSwitch = "pandora"
+            case 2: pushedSwitch = "itunes"
+            default: print("error")
+        }
+        
+        if sender.isOn {
+            disableSwitches()
+            sender.isOn = false
+            enableSwitches()
+            settingsModel.setAudioPlayer(audioPlayer: "notSelected")
+        } else {
+            disableSwitches()
+            resetSwitches()
+            sender.isOn = true
+            enableSwitches()            
+            settingsModel.setAudioPlayer(audioPlayer: pushedSwitch)
+        }
+    }
+    
+    private func disableSwitches() {
+        spotifySwitch.isEnabled = false
+        pandoraSwitch.isEnabled = false
+        itunesSwitch.isEnabled  = false
+    }
+    
+    private func enableSwitches() {
+        spotifySwitch.isEnabled = true
+        pandoraSwitch.isEnabled = true
+        itunesSwitch.isEnabled  = true
+    }
+    
+    private func resetSwitches() {
+        spotifySwitch.isOn = false
+        pandoraSwitch.isOn = false
+        itunesSwitch.isOn = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        sharedViewController.updateCollectionViewFooter()
     }
     
 }

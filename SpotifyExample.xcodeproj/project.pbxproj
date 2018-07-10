@@ -23,6 +23,9 @@
 		986EF87420E6DBB9002919D4 /* PandoraFooterCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986EF87320E6DBB9002919D4 /* PandoraFooterCollectionReusableView.swift */; };
 		986EF87620E6DFD2002919D4 /* ITunesFooterCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986EF87520E6DFD2002919D4 /* ITunesFooterCollectionReusableView.swift */; };
 		986EF87820E6E013002919D4 /* ITunesPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986EF87720E6E013002919D4 /* ITunesPlayer.swift */; };
+		986EF87A20EBAEF9002919D4 /* SpotifyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986EF87920EBAEF9002919D4 /* SpotifyImageView.swift */; };
+		986EF87C20EBBA5C002919D4 /* PandoraImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986EF87B20EBBA5C002919D4 /* PandoraImageView.swift */; };
+		986EF87E20EBBBC3002919D4 /* ITunesImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986EF87D20EBBBC3002919D4 /* ITunesImageView.swift */; };
 		9884505C20DE9F8100FEDE96 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9884505B20DE9F8100FEDE96 /* Colors.swift */; };
 		9884505E20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9884505D20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift */; };
 		9884506020E011EC00FEDE96 /* FooterCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9884505F20E011EC00FEDE96 /* FooterCollectionReusableView.swift */; };
@@ -69,6 +72,9 @@
 		986EF87320E6DBB9002919D4 /* PandoraFooterCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PandoraFooterCollectionReusableView.swift; sourceTree = "<group>"; };
 		986EF87520E6DFD2002919D4 /* ITunesFooterCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITunesFooterCollectionReusableView.swift; sourceTree = "<group>"; };
 		986EF87720E6E013002919D4 /* ITunesPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITunesPlayer.swift; sourceTree = "<group>"; };
+		986EF87920EBAEF9002919D4 /* SpotifyImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyImageView.swift; sourceTree = "<group>"; };
+		986EF87B20EBBA5C002919D4 /* PandoraImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PandoraImageView.swift; sourceTree = "<group>"; };
+		986EF87D20EBBBC3002919D4 /* ITunesImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ITunesImageView.swift; sourceTree = "<group>"; };
 		9884505B20DE9F8100FEDE96 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		9884505D20DFE9CA00FEDE96 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		9884505F20E011EC00FEDE96 /* FooterCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -200,6 +206,9 @@
 				986EF86F20E6BD50002919D4 /* PlayerSelectionFooterCollectionReusableView.swift */,
 				986EF87320E6DBB9002919D4 /* PandoraFooterCollectionReusableView.swift */,
 				986EF87520E6DFD2002919D4 /* ITunesFooterCollectionReusableView.swift */,
+				986EF87920EBAEF9002919D4 /* SpotifyImageView.swift */,
+				986EF87B20EBBA5C002919D4 /* PandoraImageView.swift */,
+				986EF87D20EBBBC3002919D4 /* ITunesImageView.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -413,6 +422,8 @@
 				98B9794C2059DDB200E4F41B /* GridCell.swift in Sources */,
 				98FE49CA20D4072200E3BBA6 /* SettingsModel.swift in Sources */,
 				986060E92069827700EBBACB /* HomeController.swift in Sources */,
+				986EF87C20EBBA5C002919D4 /* PandoraImageView.swift in Sources */,
+				986EF87E20EBBBC3002919D4 /* ITunesImageView.swift in Sources */,
 				98CCFA2720D5489C009D4266 /* AudioPlayerSetting.swift in Sources */,
 				98E60BB820559805005F849B /* ViewController.swift in Sources */,
 				986EF87420E6DBB9002919D4 /* PandoraFooterCollectionReusableView.swift in Sources */,
@@ -435,6 +446,7 @@
 				9884506220E0126C00FEDE96 /* Chains.swift in Sources */,
 				98FE149C20D1AE8B000DEC4A /* SettingsTableViewController.swift in Sources */,
 				98B9794E2059DE3500E4F41B /* ColumnFlowLayout.swift in Sources */,
+				986EF87A20EBAEF9002919D4 /* SpotifyImageView.swift in Sources */,
 				982E36F72056FB8D00C85513 /* AccessTokenManager.swift in Sources */,
 				982E36F52056F55B00C85513 /* SpotifyView.swift in Sources */,
 			);

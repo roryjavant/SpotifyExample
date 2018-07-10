@@ -13,16 +13,24 @@ import AVFoundation
 
 
 
-class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate, SettingTableViewControllerDelegate {
+class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, SettingTableViewControllerDelegate, HeaderDelegate {
     
-    let cellId = "cellId"
-    let headerId = "headerId"
+    static let sharedViewController = ViewController(collectionViewLayout: ColumnFlowLayout())
+    
     var header : HeaderCollectionReusableView!
+    let headerId = "headerId"
+    var reusableFooter : UICollectionReusableView!
+    var reusableFooterId = "reusableFooterId"
+    var footer : FooterCollectionReusableView!
     let footerId = "footerId"
-    var footer : ITunesFooterCollectionReusableView!
-    var playerSelectionFooter : PlayerSelectionFooterCollectionReusableView!
-    let playerSelectionFooterId = "playerSelectionId"
+    var selectionFooter : PlayerSelectionFooterCollectionReusableView!
+    let selectionFooterId = "selectionFooterId"
+    var itunesFooter : ITunesFooterCollectionReusableView!
+    let itunesFooterId = "itunesFooterId"
+    var pandoraFooter : PandoraFooterCollectionReusableView!
+    let pandoraFooterId = "pandoraFooterId"
     var gridCell = GridCell()
+    let cellId = "cellId"
     var lastCellAdded : UICollectionViewCell?
     var audioPlayer: AVAudioPlayer?
     let sharedPlayer = ClipPlayer.sharedPlayer
@@ -30,16 +38,18 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var spotifyView : SpotifyView!
     var playlistController : PlaylistTableViewController!
     var settingsController : SettingsTableViewController!
+    let settings = SettingsModel()
     let api = API.sharedAPI
     let sharedPandora = PandoraApi.sharedPandora
     let layout = ColumnFlowLayout()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //settings.removeUserDefaults()
         addLoginButton()
+        setupCollectionView()
         setupFlowLayout()
         header = HeaderCollectionReusableView(frame: CGRect(x: 0.0, y: 0.0, width: self.view.frame.size.width, height: 125.0))
-        setupCollectionView()
         api.setupSpotify()
         api.addNotificationCenterObserver()
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.displayPlaylistController), name: NSNotification.Name(rawValue: "displayPlayer"), object: nil)
@@ -55,26 +65,34 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.navigationController?.isToolbarHidden = true
     }
     
+    override func loadViewIfNeeded() {
+        setupCollectionView()
+        setupFlowLayout()
+    }
+
     fileprivate func setupCollectionView() {
         guard let collectionView = collectionView  else { return }
+        collectionView.delegate = self
+        collectionView.dataSource = self
         collectionView.contentInsetAdjustmentBehavior = .always
         collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
         collectionView.register(GridCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-        collectionView.register(ITunesFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerId)
-        collectionView.register(PlayerSelectionFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: playerSelectionFooterId)
+        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: reusableFooterId)
+        collectionView.register(ITunesFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: itunesFooterId)
+        collectionView.register(PandoraFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: pandoraFooterId)
         collectionView.isScrollEnabled = false
     }
     
     fileprivate func setupFlowLayout() {        
-        guard let collectionView = collectionView else { return }
+        guard let  collectionView = collectionView else { return }
         let layout = ColumnFlowLayout()
         layout.marginsAndInsets = layout.marginsAndInsets + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right
         let itemWidth = (((collectionView.bounds.size.width) - layout.marginsAndInsets) / CGFloat(layout.cellsPerRow)).rounded(.down)
                 layout.itemSize =  CGSize(width: itemWidth, height: itemWidth - (itemWidth * 0.4))
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
-    
+
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 12
     }
@@ -88,23 +106,23 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionElementKindSectionHeader {
             header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! HeaderCollectionReusableView
+            header.delegate = self
             return header
         }
         else {
-            if settingsController.settingsModel.userHasChosenPlayer() {
-                    playerSelectionFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: playerSelectionFooterId, for: indexPath) as! PlayerSelectionFooterCollectionReusableView
-                return playerSelectionFooter
-            } else {
-//            if let footer = footer {
-//                footer.setupSpotify()
-//                return footer
-//            } else {
-                footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerId, for: indexPath) as! ITunesFooterCollectionReusableView
-                return footer
+            
+            if settings.userHasChosenPlayer() {
+                let chosenPlayer = settings.getAudioPlayerSettings()
+                switch chosenPlayer {
+                case "spotify" : footer         = reusableFooter as! FooterCollectionReusableView
+                case "pandora" : reusableFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: pandoraFooterId, for: indexPath) as! PandoraFooterCollectionReusableView
+                case "itunes"  : reusableFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: itunesFooterId, for: indexPath)  as! ITunesFooterCollectionReusableView
+                default        : reusableFooter = reusableFooter as! PlayerSelectionFooterCollectionReusableView
                 }
             }
+             return reusableFooter
         }
-//    }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 125)
@@ -134,7 +152,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.navigationController?.pushViewController(self.playlistController, animated: false)
     }
    
-    
     @objc func spotify_click() {
         playlistController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlaylistController") as! PlaylistTableViewController
         playlistController.numOfCells = api.userPlaylists.count
@@ -142,10 +159,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.navigationController?.pushViewController(playlistController, animated: false)
     }
     
-    @objc func settingsMenuClicked(sender: UIButton) {
+     func navigateToSettings() {
         if settingsController == nil {
-        settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
-        settingsController.delegate = self
+            settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
         }
         self.navigationController?.pushViewController(settingsController, animated: false)
     }
@@ -154,18 +170,8 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.navigationController?.popViewController(animated: false)
     }
     
-    @objc func selectAudioPlayerTap(_ gesture:UITapGestureRecognizer) {
-//        switch gesture.name {
-//            case "spotify": settingsController.selectedAudioPlayer = "spotify"; self.spotifyImageViewPressed(); settingsController.settingsModel.setAudioPlayer(audioPlayer: gesture.name!)
-//            case "pandora": settingsController.selectedAudioPlayer = "pandora"
-//            case "itunes" : settingsController.selectedAudioPlayer = "itunes"
-//            default       : print("error")
-//            }
-//
-        self.navigationController?.pushViewController(settingsController, animated: false)
-    }
-    
     func updateCollectionViewFooter() {
-        self.collectionView?.reloadSections(IndexSet(0 ..< 1))
+        collectionView?.collectionViewLayout.invalidateLayout()
+        collectionView?.reloadSections(IndexSet(0..<1))
     }
 }
