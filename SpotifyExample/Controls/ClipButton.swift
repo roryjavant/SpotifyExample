@@ -22,6 +22,8 @@ class ClipButton: UIButton {
     private func setup() {
         setProperties()
         addGradientShadow()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.setCellPropertiesForChainsActivation), name: NSNotification.Name(rawValue: "chainActivated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.setCellPropertiesForChainsDeactivation), name: NSNotification.Name(rawValue: "chainDeactivated"), object: nil)
     }
     
     private func setProperties() {
@@ -56,6 +58,16 @@ class ClipButton: UIButton {
     
     @objc func  clipButtonPressed(button: UIButton) {
         
+    }
+    
+    @objc private func setCellPropertiesForChainsActivation() {
+        self.layer.borderColor = UIColor.green.cgColor
+        self.layer.borderWidth = 1.5
+    }
+    
+    @objc private func setCellPropertiesForChainsDeactivation() {        
+        self.layer.borderColor = UIColor.blue.cgColor
+        self.layer.borderWidth = 1.0
     }
     
 }

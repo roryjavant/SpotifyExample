@@ -152,6 +152,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     func updateCollectionViewFooter() {
+        gridCell.setCellPropertiesForChainsActivation()
         collectionView?.collectionViewLayout.invalidateLayout()
         collectionView?.reloadSections(IndexSet(0..<1))
     }

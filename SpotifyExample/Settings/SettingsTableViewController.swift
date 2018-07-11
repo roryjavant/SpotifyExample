@@ -120,6 +120,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         delegate?.updateCollectionViewFooter(player: settingsModel.getAudioPlayerSettings())
+        sharedViewController.updateCollectionViewFooter()
     }
     
 }

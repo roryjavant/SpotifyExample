@@ -12,6 +12,7 @@ class GridCell: UICollectionViewCell {
     
     let margin: CGFloat = 10    
     var clipButton : ClipButton!
+    var isChainActivated = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,5 +40,11 @@ class GridCell: UICollectionViewCell {
         clipButton.widthAnchor.constraint(equalTo: self.widthAnchor, constant: 0.0).isActive = true
         clipButton.heightAnchor.constraint(equalTo: self.heightAnchor, constant: 0.0).isActive = true
         self.bringSubview(toFront: clipButton)
+    }
+    
+    func setCellPropertiesForChainsActivation() {
+        self.layer.borderColor = UIColor.green.cgColor
+        self.layer.borderWidth = 1.5
+        self.backgroundColor = .white
     }
 }
