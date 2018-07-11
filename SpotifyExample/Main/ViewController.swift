@@ -13,22 +13,14 @@ import AVFoundation
 
 
 
-class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, SettingTableViewControllerDelegate, HeaderDelegate {
+class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, HeaderDelegate {
     
     static let sharedViewController = ViewController(collectionViewLayout: ColumnFlowLayout())
     
     var header : HeaderCollectionReusableView!
     let headerId = "headerId"
-    var reusableFooter : UICollectionReusableView!
-    var reusableFooterId = "reusableFooterId"
-    var footer : FooterCollectionReusableView!
-    let footerId = "footerId"
-    var selectionFooter : PlayerSelectionFooterCollectionReusableView!
-    let selectionFooterId = "selectionFooterId"
-    var itunesFooter : ITunesFooterCollectionReusableView!
-    let itunesFooterId = "itunesFooterId"
-    var pandoraFooter : PandoraFooterCollectionReusableView!
-    let pandoraFooterId = "pandoraFooterId"
+    var reusableFooter : FooterReusableView!
+    var reusableFooterId = "footerId"
     var gridCell = GridCell()
     let cellId = "cellId"
     var lastCellAdded : UICollectionViewCell?
@@ -56,7 +48,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         sharedPlayer.selectedPartner = selectedPartner
         sharedPlayer.getBundle()
         settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
-        settingsController.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,9 +69,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView.backgroundColor = UIColor(red: CGFloat(19.0/255.0), green: CGFloat(19.0/255.0), blue: CGFloat(31.0/255.0), alpha: CGFloat(1.0) )
         collectionView.register(GridCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(HeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerId)
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: reusableFooterId)
-        collectionView.register(ITunesFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: itunesFooterId)
-        collectionView.register(PandoraFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: pandoraFooterId)
+        collectionView.register(FooterReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: reusableFooterId)        
         collectionView.isScrollEnabled = false
     }
     
@@ -110,17 +99,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             return header
         }
         else {
-            
-            if settings.userHasChosenPlayer() {
-                let chosenPlayer = settings.getAudioPlayerSettings()
-                switch chosenPlayer {
-                case "spotify" : footer         = reusableFooter as! FooterCollectionReusableView
-                case "pandora" : reusableFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: pandoraFooterId, for: indexPath) as! PandoraFooterCollectionReusableView
-                case "itunes"  : reusableFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: itunesFooterId, for: indexPath)  as! ITunesFooterCollectionReusableView
-                default        : reusableFooter = reusableFooter as! PlayerSelectionFooterCollectionReusableView
-                }
-            }
-             return reusableFooter
+            reusableFooter = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reusableFooterId, for: indexPath) as! FooterReusableView
+            settingsController.delegate = reusableFooter
+            return reusableFooter
         }
     }
     

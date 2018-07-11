@@ -1,5 +1,5 @@
 //
-//  PandoraPlayer.swift
+//  ITunesPlayer.swift
 //  SpotifyExample
 //
 //  Created by Rory Avant on 6/29/18.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class PandoraPlayer: UIView {
+class ITunesPlayerView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -23,7 +23,7 @@ class PandoraPlayer: UIView {
         self.backgroundColor = .blue
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Pandora"
+        label.text = "iTunes"
         label.textColor = .white
         label.widthAnchor.constraint(equalToConstant: 150.0).isActive = true
         label.heightAnchor.constraint(equalToConstant: 30.0).isActive = true

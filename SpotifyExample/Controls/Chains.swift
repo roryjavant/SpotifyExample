@@ -15,7 +15,6 @@ class Chains: UIStackView {
     
     override required init(frame: CGRect) {
         super.init(frame: frame)
-        
         setChainsProperties()
         createChainsButtons()
         addChainsButtons()

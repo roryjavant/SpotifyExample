@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SettingTableViewControllerDelegate : class {
-    func updateCollectionViewFooter()
+    func updateCollectionViewFooter(player: String)
 }
 
 class SettingsTableViewController: UITableViewController {
@@ -119,7 +119,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        sharedViewController.updateCollectionViewFooter()
+        delegate?.updateCollectionViewFooter(player: settingsModel.getAudioPlayerSettings())
     }
     
 }

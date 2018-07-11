@@ -1,23 +1,21 @@
 //
-//  FooterCollectionReusableView.swift
+//  SpotifyPlayerView.swift
 //  SpotifyExample
 //
-//  Created by Rory Avant on 6/24/18.
+//  Created by Rory Avant on 7/10/18.
 //  Copyright © 2018 Rory Avant. All rights reserved.
 //
 
 import UIKit
 
-class FooterCollectionReusableView: UICollectionReusableView {
-    
-    let chains = Chains.sharedChains
-    
+class SpotifyPlayerView : UIView {
+
     let spotifyApi = API.sharedAPI
     var spotifyPlayer : SpotifyView!
     var isSpotifyPlayerInitialized = false
-        
+    
     override required init(frame: CGRect) {
-        super.init(frame: frame)        
+        super.init(frame: frame)
         setup()
     }
     
@@ -25,24 +23,13 @@ class FooterCollectionReusableView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
-        addChains()
+    func setup() {
         if spotifyApi.userDidLogin {
             setupSpotify()
         }
     }
     
-    private func addChains() {
-        self.addSubview(chains)
-        addChainsConstraints()
-    }
-    
-   private func addChainsConstraints() {
-    chains.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive        = true
-    chains.topAnchor.constraint(equalTo: self.topAnchor, constant: 5.0).isActive = true
-    }
-    
-   func setupSpotify() {
+    private func setupSpotify() {
         if isSpotifyPlayerInitialized {
             addSpotifyPlayer()
         } else {
@@ -51,7 +38,7 @@ class FooterCollectionReusableView: UICollectionReusableView {
         }
         
         spotifyPlayer.setupSubViews()
-    
+        
         if spotifyApi.isPlaylistSelected {
             addSpotifyPlayerImage()
             startSpotifyAudio()
@@ -63,11 +50,11 @@ class FooterCollectionReusableView: UICollectionReusableView {
         addSpotifyConstraints()
     }
     
-    private func addSpotifyConstraints() {
+    func addSpotifyConstraints() {
+        spotifyPlayer.translatesAutoresizingMaskIntoConstraints = false
         spotifyPlayer.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         spotifyPlayer.widthAnchor.constraint(equalTo: self.widthAnchor).isActive   = true
-        spotifyPlayer.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -50.0).isActive = true
-        spotifyPlayer.topAnchor.constraint(equalTo: chains.bottomAnchor, constant: 0.0).isActive    = true
+        spotifyPlayer.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -50.0).isActive = true        
     }
     
     private func initializeSpotifyPlayer() {
@@ -83,7 +70,7 @@ class FooterCollectionReusableView: UICollectionReusableView {
     }
     
     private func setSpotifyPlayerBackgroundColor() {
-     spotifyPlayer.backgroundColor = Colors().spotifyPlayerBackground
+        spotifyPlayer.backgroundColor = Colors().spotifyPlayerBackground
     }
     
     private func setSpotifyPlayerLayerProperties() {
@@ -93,7 +80,7 @@ class FooterCollectionReusableView: UICollectionReusableView {
     }
     
     func startSpotifyAudio() {
-          spotifyPlayer.startStreamingAudio()
+        spotifyPlayer.startStreamingAudio()
     }
     
     func addSpotifyPlayerImage() {

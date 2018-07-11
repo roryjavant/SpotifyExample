@@ -290,6 +290,10 @@ class SpotifyView : UIView, PlaylistTableViewControllerAudioStreamingDelegate {
         }
     }
     
+    func stopAudio() {
+        SPTAudioStreamingController.sharedInstance().setIsPlaying(false, callback: nil)
+    }
+    
     @objc func volumeSliderChanged(slider: UISlider) {
         let clipAudio = pow(1/2*(1 + playBackSlider.value), 0.5)
         let spotifyAudio = pow(1/2*(1 - playBackSlider.value), 0.5)
