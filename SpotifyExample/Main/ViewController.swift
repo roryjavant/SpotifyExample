@@ -48,6 +48,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         sharedPlayer.selectedPartner = selectedPartner
         sharedPlayer.getBundle()
         settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
+        let model = ChainsModel.sharedModel
+        model.save()
+        model.retrieve()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
