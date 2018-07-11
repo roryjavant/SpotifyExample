@@ -72,13 +72,9 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     }
     
     func addBackButtonTarget() {
-        backButton.addTarget(self, action: #selector(backButtonClick(sender:)), for: .touchUpInside)
+        backButton.addTarget(ViewController.sharedViewController, action: #selector(ViewController.sharedViewController.backButtonClicked(sender:)), for: .touchUpInside)
     }
-    
-    @objc func backButtonClick(sender: UIButton) {
-        
-    }
-    
+
     func addBackButton() {
         self.addSubview(backButton)
     }

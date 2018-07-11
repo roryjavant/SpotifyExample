@@ -13,8 +13,7 @@ import AVFoundation
 
 
 
-class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, PlayListTableViewControllerDelegate, HeaderDelegate {
-    
+class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIViewControllerRestoration, PlayListTableViewControllerDelegate, HeaderDelegate {
     static let sharedViewController = ViewController(collectionViewLayout: ColumnFlowLayout())
     
     var header : HeaderCollectionReusableView!
@@ -48,15 +47,13 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         sharedPlayer.selectedPartner = selectedPartner
         sharedPlayer.getBundle()
         settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
-        let model = ChainsModel.sharedModel
-        model.save()
-        model.retrieve()
-        
+        self.restorationIdentifier = "ViewController"
+        self.restorationClass = ViewController.self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = true
         self.navigationController?.isToolbarHidden = true
     }
     
@@ -122,6 +119,11 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         }
         return CGSize(width: view.frame.width, height: height)
     }
+    
+    static func viewController(withRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
+        return sharedViewController
+    }
+    
 
     fileprivate func addLoginButton() {
         let loginButton = LoginButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
@@ -152,7 +154,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     @objc func backButtonClicked(sender: UIButton) {
-        self.navigationController?.popViewController(animated: false)
+        self.navigationController?.popToRootViewController(animated: true)        
     }
     
     func updateCollectionViewFooter() {

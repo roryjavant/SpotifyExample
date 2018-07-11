@@ -13,7 +13,7 @@
         <!--Home Controller-->
         <scene sceneID="tXI-nz-H8k">
             <objects>
-                <viewController storyboardIdentifier="homeController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tp3-fU-B3d" customClass="HomeController" customModule="SpotifyExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="homeController" storyboardIdentifier="homeController" id="tp3-fU-B3d" customClass="HomeController" customModule="SpotifyExample" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFit" id="MUM-xZ-nnf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -617,7 +617,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Like us on Facebook" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BG3-hI-Cg0">
-                                                    <rect key="frame" x="20" y="11" width="156" height="21"/>
+                                                    <rect key="frame" x="8" y="8" width="156" height="27"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
