@@ -9,6 +9,8 @@
 import UIKit
 
 class ClipButton: UIButton {
+    
+    let clipPlayer = ClipPlayer.sharedPlayer
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,7 +59,7 @@ class ClipButton: UIButton {
     }
     
     @objc func  clipButtonPressed(button: UIButton) {
-        
+        clipPlayer.button_click(button: button)
     }
     
     @objc private func setCellPropertiesForChainsActivation() {

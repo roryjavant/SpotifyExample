@@ -9,13 +9,13 @@
 import UIKit
 
 class Chains: UIStackView {
-
-    static let sharedChains = Chains()
+    
     let colors = Colors()
     var chains : [UIButton]!
     
     override required init(frame: CGRect) {
         super.init(frame: frame)
+        self.translatesAutoresizingMaskIntoConstraints = false
         setChainsProperties()
         createChainsButtons()
         addChainsButtons()
@@ -24,12 +24,18 @@ class Chains: UIStackView {
     }
     
     required init(coder: NSCoder) {
+        super.init(coder: coder)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        setChainsProperties()
+        createChainsButtons()
+        addChainsButtons()
+        addChainsConstraints()
+        addButtonTargets()
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setChainsProperties() {
         self.backgroundColor = Colors().chainsBackground
-        self.translatesAutoresizingMaskIntoConstraints = false
         self.axis = .horizontal
         self.spacing = 2
         self.distribution = .fillEqually
@@ -51,6 +57,7 @@ class Chains: UIStackView {
     }
     
     private func setButtonProperties(button: UIButton, text: String) {
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(text, for: .normal)
         button.backgroundColor = .gray
         button.setTitleColor(.white, for: .normal)
@@ -69,13 +76,12 @@ class Chains: UIStackView {
     private func addChainsButtons() {
         for chainButton in chains {
             self.addArrangedSubview(chainButton)
+            chainButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
         }
     }
     
     private func addChainsConstraints() {
-        self.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        self.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
-
+        
     }
     
     private func addButtonTargets() {

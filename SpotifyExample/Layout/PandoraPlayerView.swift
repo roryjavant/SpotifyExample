@@ -30,6 +30,8 @@ class PandoraPlayerView: UIView {
     }
     
     private func setup() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
         setupContainer()
         addSeekBackwardButtonToContainer()
         addPlaybackSliderToContainer()
@@ -61,6 +63,7 @@ class PandoraPlayerView: UIView {
         playerContainer.heightAnchor.constraint(equalToConstant: playerContainerHeight).isActive = true
         playerContainer.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         playerContainer.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        playerContainer.topAnchor.constraint(equalTo: self.topAnchor, constant: 0.0).isActive = true
     }
     
     private func addSeekBackwardButtonToContainer() {

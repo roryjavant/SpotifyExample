@@ -24,6 +24,7 @@ class SpotifyPlayerView : UIView {
     }
     
     func setup() {
+        self.heightAnchor.constraint(equalToConstant: 175.0).isActive = true
         if spotifyApi.userDidLogin {
             setupSpotify()
         }
@@ -54,7 +55,7 @@ class SpotifyPlayerView : UIView {
         spotifyPlayer.translatesAutoresizingMaskIntoConstraints = false
         spotifyPlayer.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         spotifyPlayer.widthAnchor.constraint(equalTo: self.widthAnchor).isActive   = true
-        spotifyPlayer.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -50.0).isActive = true        
+        spotifyPlayer.heightAnchor.constraint(equalTo: self.heightAnchor, constant: 0.0).isActive = true        
     }
     
     private func initializeSpotifyPlayer() {

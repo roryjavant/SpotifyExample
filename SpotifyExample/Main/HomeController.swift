@@ -15,6 +15,7 @@ class HomeController: UIViewController {
     @IBOutlet weak var LeroyImg: UIImageView!
     
     var viewController : UIViewController!
+    static let sharedHomeController = HomeController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +49,7 @@ class HomeController: UIViewController {
             case 2: viewController.selectedPartner = 3
             default: print("ayyy")
         }
-    self.navigationController?.pushViewController(viewController, animated: true)
+    self.navigationController?.pushViewController(viewController, animated: false)
     
         
     }

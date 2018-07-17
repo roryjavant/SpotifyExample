@@ -13,13 +13,15 @@ class ITunesPlayerView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        self.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    private func setup() {        
         self.backgroundColor = .blue
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

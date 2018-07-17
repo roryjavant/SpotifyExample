@@ -89,6 +89,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let clipCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! GridCell
+        clipCell.clipButton.tag = indexPath.item
         lastCellAdded = clipCell
         return clipCell
     }
@@ -126,9 +127,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
 
     fileprivate func addLoginButton() {
-        let loginButton = LoginButton(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 20.0))
-        let barButton = UIBarButtonItem.init(customView: loginButton)
-        navigationItem.rightBarButtonItem = barButton
+
     }
     
    @objc func displayPlaylistController() {
@@ -154,7 +153,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     @objc func backButtonClicked(sender: UIButton) {
-        self.navigationController?.popToRootViewController(animated: true)        
+        self.navigationController?.popToViewController(HomeController.sharedHomeController, animated: false)
     }
     
     func updateCollectionViewFooter() {

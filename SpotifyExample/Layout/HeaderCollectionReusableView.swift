@@ -66,6 +66,8 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     
     func setBackButtonProperties() {
         backButton.translatesAutoresizingMaskIntoConstraints = false
+        backButton.isUserInteractionEnabled = true
+        backButton.isEnabled = true
         backButton.imageView?.contentMode = UIViewContentMode.scaleAspectFit
         backButton.imageView?.intrinsicContentSize.equalTo(backButton.frame.size)
         backButton.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)        

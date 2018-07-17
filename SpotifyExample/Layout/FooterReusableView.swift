@@ -10,7 +10,7 @@ import UIKit
 
 class FooterReusableView: UICollectionReusableView, SettingTableViewControllerDelegate {
     let api = API.sharedAPI
-    let chains = Chains.sharedChains
+    var chains = Chains()
     var spotifyPlayer : SpotifyPlayerView!
     var pandoraPlayer = PandoraPlayerView()
     var itunesPlayer  = ITunesPlayerView()
@@ -25,13 +25,13 @@ class FooterReusableView: UICollectionReusableView, SettingTableViewControllerDe
         setup()
     }
     
-
     required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setup() {
-        self.translatesAutoresizingMaskIntoConstraints = false
         pandoraPlayer.translatesAutoresizingMaskIntoConstraints = false
         addChains()
         getSelectedPlayer()
@@ -45,9 +45,9 @@ class FooterReusableView: UICollectionReusableView, SettingTableViewControllerDe
     
     private func addChainsConstraints() {
         chains.translatesAutoresizingMaskIntoConstraints = false
-        chains.heightAnchor.constraint(equalToConstant: 40.0).isActive = true
-        chains.widthAnchor.constraint(equalToConstant: 250.0).isActive = true
-        chains.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        chains.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+        chains.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -85.0).isActive = true
+        chains.topAnchor.constraint(equalTo: self.topAnchor, constant: 15.0).isActive = true
         chains.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
     
@@ -57,40 +57,32 @@ class FooterReusableView: UICollectionReusableView, SettingTableViewControllerDe
     
     private func addSelectedPlayer() {
         switch selectedPlayer {
-        case "spotify": spotifyPlayer = SpotifyPlayerView();  selectedPlayerView = spotifyPlayer;            loginPlayerIfNeeded(player: "spotify"); self.addSubview(spotifyPlayer);   addPlayerConstraints(player: spotifyPlayer);
-        case "pandora": self.addSubview(pandoraPlayer);   addPlayerConstraints(player: pandoraPlayer);   selectedPlayerView = pandoraPlayer
-        case "itunes" : self.addSubview(itunesPlayer);    addPlayerConstraints(player: itunesPlayer);    selectedPlayerView = itunesPlayer
-        default       : self.addSubview(playerSelection); addPlayerConstraints(player: playerSelection); selectedPlayerView = playerSelection
+        case "spotify": spotifyPlayer = SpotifyPlayerView();  selectedPlayerView = spotifyPlayer;       loginPlayerIfNeeded(player: "spotify");   self.addSubview(spotifyPlayer);   addPlayerConstraints();
+        case "pandora": self.addSubview(pandoraPlayer);       selectedPlayerView = pandoraPlayer;       addPlayerConstraints();
+        case "itunes" : self.addSubview(itunesPlayer);        selectedPlayerView = itunesPlayer;        addPlayerConstraints();
+        default       : self.addSubview(playerSelection);     selectedPlayerView = playerSelection;     addPlayerConstraints();
         }
     }
     
     private func swapPlayer(newPlayer: UIView) {
-        var currPlayer = UIView()
-        switch selectedPlayer {
-            case "spotify": currPlayer = spotifyPlayer
-            case "pandora": currPlayer = pandoraPlayer
-            case "itunes" : currPlayer = itunesPlayer
+        var player = UIView()
+        switch newPlayer {
+            case is SpotifyPlayerView : player  = spotifyPlayer;
+            case is PandoraPlayerView : player  = pandoraPlayer
+            case is ITunesPlayerView  : player = itunesPlayer
             default: print("FooterReusableView.swapPlayer switch default")
         }
-        currPlayer.removeConstraints(currPlayer.constraints)
-        currPlayer.removeFromSuperview()
-        selectedPlayerView = newPlayer
-        self.addSubview(selectedPlayerView)
-        addPlayerConstraints(player: selectedPlayerView)
+        print(player)
+        selectedPlayerView.removeFromSuperview()
+        getSelectedPlayer()
+        addSelectedPlayer()
     }
     
-    private func addPlayerConstraints(player: UIView) {
-        player.translatesAutoresizingMaskIntoConstraints = false
-        player.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        player.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        player.widthAnchor.constraint(equalTo: self.widthAnchor).isActive   = true
-        player.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -50.0).isActive = true        
-        player.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-    }
-    
-    private func removeConstraints(from view: UIView) {
-        view.removeConstraints(self.constraints)
-        view.translatesAutoresizingMaskIntoConstraints = true
+    private func addPlayerConstraints() {
+        selectedPlayerView.translatesAutoresizingMaskIntoConstraints = false
+        selectedPlayerView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        selectedPlayerView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive   = true
+        selectedPlayerView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
     
     func updateCollectionViewFooter(player: String) {
