@@ -11,6 +11,7 @@ import UIKit
 class ClipButton: UIButton {
     
     let clipPlayer = ClipPlayer.sharedPlayer
+    static var clipButtons = [UIButton]()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,14 +19,16 @@ class ClipButton: UIButton {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        setup()        
     }
 
     private func setup() {
         setProperties()
-        addGradientShadow()
+        setInitialLayer()
         NotificationCenter.default.addObserver(self, selector: #selector(self.setCellPropertiesForChainsActivation), name: NSNotification.Name(rawValue: "chainActivated"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.setCellPropertiesForChainsDeactivation), name: NSNotification.Name(rawValue: "chainDeactivated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.resetButtons(button:)), name: NSNotification.Name(rawValue: "audioDidFinishPlaying"), object: nil)
     }
     
     private func setProperties() {
@@ -40,36 +43,90 @@ class ClipButton: UIButton {
         self.addTarget(self, action: #selector(clipButtonPressed(button:)), for: .touchUpInside)
     }
     
-    private func addGradientShadow() {
-        let gradient = CAGradientLayer()
-        gradient.frame = self.bounds
-        let colors = Colors()
-        gradient.masksToBounds = false
-        gradient.backgroundColor = UIColor.blue.cgColor
-        gradient.colors = [colors.gradient1.cgColor, colors.gradient2.cgColor, colors.gradient3.cgColor, colors.gradient4.cgColor, colors.gradient5.cgColor]
-        gradient.locations = [0.0, 0.7]
-        gradient.shadowColor = UIColor.white.cgColor
-        gradient.shadowOpacity = 1
-        gradient.shadowOffset = CGSize(width: 3.0, height: 3.0)
-        gradient.shadowRadius = 3
-        gradient.cornerRadius = 8
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-        gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
-        self.layer.insertSublayer(gradient, at: 0)
+    @objc func  clipButtonPressed(button: UIButton) {
+        if !chainIsActivated() {
+            resetButtons(button: button)
+            setLayerForButtonState(button: button)
+            startAudio(button: button)
+        }
+        else {
+            setLayerForSelected(button: button)
+        }
     }
     
-    @objc func  clipButtonPressed(button: UIButton) {
+    private func startAudio(button: UIButton) {
         clipPlayer.button_click(button: button)
     }
     
     @objc private func setCellPropertiesForChainsActivation() {
         self.layer.borderColor = UIColor.green.cgColor
         self.layer.borderWidth = 1.5
+        resetButtons(button: UIButton())
+        clipPlayer.stop()
     }
     
     @objc private func setCellPropertiesForChainsDeactivation() {        
         self.layer.borderColor = UIColor.blue.cgColor
         self.layer.borderWidth = 1.0
+        resetToInitialLayer()
+        clipPlayer.stop()
     }
     
+    private func setInitialLayer() {
+        let selectedLayer = SelectedLayer(button: self)
+        self.layer.insertSublayer(selectedLayer, at: 0)
+    }
+    
+    private func resetToInitialLayer() {
+        for button in ClipButton.clipButtons {
+             let layer = SelectedLayer(button: button)
+            button.layer.sublayers![0].removeFromSuperlayer()
+            button.layer.insertSublayer(layer, at: 0)
+        }
+    }
+    
+    private func setLayerForButtonState(button: UIButton) {
+        if self.isSelected {
+            self.isSelected = false
+            setLayerForUnselected(button: button)
+        }
+        else {
+            self.isSelected = true
+            setLayerForSelected(button: button)
+        }
+    }
+    
+    private func setLayerForSelected(button: UIButton) {
+        let layer = SelectedLayer(button: button)
+        self.layer.replaceSublayer(button.layer.sublayers![0], with: layer)
+        setSelectedTitleFont(button: button)
+    }
+    
+    private func setLayerForUnselected(button: UIButton) {
+        let layer = UnselectedLayer(button: button)
+        button.layer.sublayers![0].removeFromSuperlayer()
+        button.layer.insertSublayer(layer, at: 0)
+        setUnselectedTitleFont(button: button)
+    }
+    
+   @objc private func resetButtons(button: UIButton) {
+        for clipButton in ClipButton.clipButtons {
+            if clipButton != button {            
+                    clipButton.isSelected = false
+                    setLayerForUnselected(button: clipButton)
+            }
+        }
+    }
+    
+    private func setSelectedTitleFont(button: UIButton) {
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14.0)
+    }
+    
+    private func setUnselectedTitleFont(button: UIButton) {
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 12.0)
+    }
+    
+    private func chainIsActivated() -> Bool {
+        return ChainsModel.sharedModel.isChainsActivated
+    }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import AVFoundation
 
-class ClipPlayer {
+class ClipPlayer : NSObject, AVAudioPlayerDelegate {
     
     // Singleton
     static let sharedPlayer = ClipPlayer()
@@ -62,6 +62,7 @@ class ClipPlayer {
             }
         } else {
             audioPlayer = try! AVAudioPlayer(contentsOf: soundArray[button.tag])
+            audioPlayer?.delegate = self
             audioPlayer?.play()
             
         }
@@ -72,4 +73,15 @@ class ClipPlayer {
         let clipAudio = slider.value
         self.audioPlayer?.setVolume(clipAudio, fadeDuration: TimeInterval(0.1))
     }
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "audioDidFinishPlaying"), object: nil)
+    }
+    
+    func stop() {
+        if let player = audioPlayer {
+            player.stop()
+        }
+    }    
+    
 }

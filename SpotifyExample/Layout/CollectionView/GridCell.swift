@@ -40,6 +40,11 @@ class GridCell: UICollectionViewCell {
         clipButton.widthAnchor.constraint(equalTo: self.widthAnchor, constant: 0.0).isActive = true
         clipButton.heightAnchor.constraint(equalTo: self.heightAnchor, constant: 0.0).isActive = true
         self.bringSubview(toFront: clipButton)
+        addClipButtonToButtonArray()
+    }
+    
+    private func addClipButtonToButtonArray() {
+        ClipButton.clipButtons.append(clipButton)
     }
     
     func setCellPropertiesForChainsActivation() {

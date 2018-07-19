@@ -613,7 +613,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Like us on Facebook" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BG3-hI-Cg0">
-                                                    <rect key="frame" x="8" y="8" width="156" height="27"/>
+                                                    <rect key="frame" x="20" y="11" width="156" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -645,24 +645,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tNu-Ec-hC7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="687" y="-1167"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="EgY-81-S89">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tJ1-Mc-AyD" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="xGC-QQ-32t">
-                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Bsv-5z-IJq" kind="relationship" relationship="rootViewController" id="8oI-0A-X4D"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dQw-ds-m9D" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1537.68115942029" y="-1852.1739130434785"/>
         </scene>
     </scenes>
     <resources>

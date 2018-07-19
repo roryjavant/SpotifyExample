@@ -14,6 +14,7 @@ struct ChainsStruct {
     var clipTwo = ""
     var clipThree = ""
     var clipFour = ""
+    var selected = false
 }
 
 class ChainsModel {

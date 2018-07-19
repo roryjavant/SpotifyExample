@@ -49,12 +49,13 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         settingsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as! SettingsTableViewController
         self.restorationIdentifier = "ViewController"
         self.restorationClass = ViewController.self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
-        self.navigationController?.isToolbarHidden = true
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.toolbar.isHidden = true
     }
     
     override func loadViewIfNeeded() {
@@ -89,7 +90,7 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let clipCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! GridCell
-        clipCell.clipButton.tag = indexPath.item
+        clipCell.clipButton.tag = indexPath.item        
         lastCellAdded = clipCell
         return clipCell
     }
@@ -152,9 +153,9 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         self.navigationController?.pushViewController(settingsController, animated: false)
     }
     
-    @objc func backButtonClicked(sender: UIButton) {
-        self.navigationController?.popToViewController(HomeController.sharedHomeController, animated: false)
-    }
+    func navigateToHomePage() {
+        self.navigationController?.popViewController(animated: false)
+    }    
     
     func updateCollectionViewFooter() {
         gridCell.setCellPropertiesForChainsActivation()

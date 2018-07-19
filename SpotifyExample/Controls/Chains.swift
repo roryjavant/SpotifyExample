@@ -152,14 +152,6 @@ class Chains: UIStackView {
         }
     }
     
-    private func notifyGridCellOfChainActivation() {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "chainActivated"), object: nil)
-    }
-    
-    private func notifyGridCellOfChainDeactivation() {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "chainDeactivated"), object: nil)
-    }
-    
     private func checkIfAllChainsDeactivated() -> Bool {
         for chainButton in chains {
             if chainButton.isSelected == true {
@@ -168,4 +160,22 @@ class Chains: UIStackView {
         }
         return true
     }
+    
+    private func notifyGridCellOfChainActivation() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "chainActivated"), object: nil)
+        setChainActivated()
+    }
+    
+    private func notifyGridCellOfChainDeactivation() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "chainDeactivated"), object: nil)
+        setChainDeactivated()
+    }
+    
+    private func setChainActivated() {
+        ChainsModel.sharedModel.isChainsActivated = true
+    }
+    
+    private func setChainDeactivated() {
+        ChainsModel.sharedModel.isChainsActivated = false
+    }    
 }
